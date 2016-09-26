@@ -1,0 +1,11 @@
+target/
+.settings/
+.classpath
+.project
+.pmd
+.checkstyle
+**/frontend/node_modules/
+**/frontend/typings/
+**/app/*.js
+**/app/*.js.map
+.sass-cache/

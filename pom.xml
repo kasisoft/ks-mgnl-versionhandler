@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.kasisoft.mgnl</groupId>
+  <artifactId>com.kasisoft.mgnl.versionhandler</artifactId>
+  <version>0.1-SNAPSHOT</version>
+  
+  <name>com.kasisoft.mgnl.versionhandler</name>
+  <description>Kasisoft MGNL :: magnolia versionhandler</description>
+
+  <properties>
+  
+    <java.version>1.8</java.version>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.build.resourceEncoding>UTF-8</project.build.resourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+    <version-findbugs-annotations>2.0.1</version-findbugs-annotations>
+    <version-hamcrest>1.3</version-hamcrest>
+    <version-lombok>1.16.10</version-lombok>
+    <version-magnolia>5.4.9</version-magnolia>
+    <version-testng>6.9.4</version-testng>
+    
+    <plugin-version-maven-compiler>3.3</plugin-version-maven-compiler>
+    <plugin-version-maven-dependency-plugin>2.10</plugin-version-maven-dependency-plugin>
+    <plugin-version-maven-jar-plugin>3.0.0</plugin-version-maven-jar-plugin>
+    
+  </properties>
+ 
+  <dependencyManagement>
+    <dependencies>
+      
+      <dependency>
+        <groupId>org.projectlombok</groupId>
+        <artifactId>lombok</artifactId>
+        <version>${version-lombok}</version>
+        <scope>provided</scope>
+      </dependency>
+      
+      <dependency>
+        <groupId>info.magnolia.bundle</groupId>
+        <artifactId>magnolia-bundle-parent</artifactId>
+        <version>${version-magnolia}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+
+      <dependency>
+        <groupId>info.magnolia</groupId>
+        <artifactId>magnolia-core</artifactId>
+        <version>${version-magnolia}</version>
+        <classifier>tests</classifier>
+        <scope>test</scope>
+      </dependency>
+
+      <dependency>
+        <groupId>org.hamcrest</groupId>
+        <artifactId>hamcrest-all</artifactId>
+        <version>${version-hamcrest}</version>
+        <scope>test</scope>
+      </dependency>
+      
+      <dependency>
+        <groupId>org.testng</groupId>
+        <artifactId>testng</artifactId>
+        <version>${version-testng}</version>
+        <scope>test</scope>
+      </dependency>
+
+    </dependencies>
+  </dependencyManagement>
+  
+  <dependencies>
+  
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+      <scope>provided</scope>
+    </dependency>  
+    
+    <dependency>
+      <groupId>info.magnolia</groupId>
+      <artifactId>magnolia-core</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>info.magnolia</groupId>
+      <artifactId>magnolia-core</artifactId>
+      <classifier>tests</classifier>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>com.google.code.findbugs</groupId>
+      <artifactId>annotations</artifactId>
+      <version>${version-findbugs-annotations}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>javax.jcr</groupId>
+      <artifactId>jcr</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.yaml</groupId>
+      <artifactId>snakeyaml</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-lang3</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.hamcrest</groupId>
+      <artifactId>hamcrest-all</artifactId>
+      <scope>test</scope>
+    </dependency>
+    
+    <dependency>
+      <groupId>org.testng</groupId>
+      <artifactId>testng</artifactId>
+      <scope>test</scope>
+    </dependency>
+
+  </dependencies>
+  
+  <build>
+    
+    <pluginManagement>
+    
+      <plugins>
+      
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <version>${plugin-version-maven-compiler}</version>
+          <configuration>
+            <source>${java.version}</source>
+            <target>${java.version}</target>
+            <compilerVersion>${java.version}</compilerVersion>
+            <showWarnings>true</showWarnings>
+          </configuration>
+        </plugin>
+      
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-dependency-plugin</artifactId>
+          <version>${plugin-version-maven-dependency-plugin}</version>
+          <executions>
+            <execution>
+              <id>default-cli</id>
+              <goals>
+                <goal>analyze-only</goal>
+              </goals>
+              <configuration>
+                <failOnWarning>false</failOnWarning>
+                <ignoreNonCompile>true</ignoreNonCompile>
+              </configuration>
+            </execution>
+          </executions>
+        </plugin>
+      
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-jar-plugin</artifactId>
+          <version>${plugin-version-maven-jar-plugin}</version>
+          <executions>
+            <execution>
+              <goals>
+                <goal>test-jar</goal>
+              </goals>
+              <configuration>
+                <excludes>
+                  <exclude>**/*Test.class</exclude>
+                  <exclude>**/*.yaml</exclude>
+                </excludes>
+              </configuration>
+            </execution>
+          </executions>
+        </plugin>
+        
+      </plugins>
+      
+    </pluginManagement>
+
+    <plugins>
+    
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+      </plugin>
+    
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+      </plugin>
+    
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+      </plugin>
+    
+    </plugins>
+  
+  </build>
+  
+  <distributionManagement>
+    <repository>
+      <id>kasisoft-releases</id>
+      <name>kasisoft.com-releases</name>
+      <url>https://kasisoft.com/artifactory/libs-release-local</url>
+    </repository>
+    <snapshotRepository>
+      <id>kasisoft-snapshots</id>
+      <name>kasisoft.com-snapshots</name>
+      <url>https://kasisoft.com/artifactory/libs-snapshot-local</url>
+    </snapshotRepository>
+  </distributionManagement>
+  
+  <repositories>
+    <repository>
+      <id>magnolia.public</id>
+      <url>https://nexus.magnolia-cms.com/content/groups/public</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+    </repository>
+    <repository>
+      <id>vaadin-addons</id>
+      <url>https://maven.vaadin.com/vaadin-addons</url>
+    </repository>
+  </repositories>
+  
+</project>

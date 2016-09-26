@@ -1,0 +1,11 @@
+templateScript: gollum.ftl
+renderType: freemarker
+title: title
+areas:
+  content-sections:
+    renderType: freemarker
+    availableComponents:
+      content-items-list:
+        id: items1
+      textImage:
+        id: items2
