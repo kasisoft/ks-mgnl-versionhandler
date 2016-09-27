@@ -28,6 +28,7 @@ import lombok.*;
  * Be aware that each method prefixed with a lower case 's' opens a scope and thus requires to be closed
  * using an {@link #sEnd()}. The last sequence of {@link #sEnd()} doesn't need to be provided explicitly
  * as it's called automatically.
+ * Be aware that misuse of the tree construction might cause an error you have to deal with.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
@@ -35,11 +36,12 @@ import lombok.*;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public final class TreeBuilder {
 
-  private static final String PN_KEY = "key";
-  private static final String PN_ID = "id";
-  private static final String PN_NAME = "name";
-  private static final String FMT_ERROR_YAML = "the yaml source '%s' could not be loaded. Cause: %s";
-  private static final String FMT_MISSING_YAML = "the yaml source '%s' is not on the classpath.";
+  static final String PN_KEY    = "key";
+  static final String PN_ID     = "id";
+  static final String PN_NAME   = "name";
+  
+  static final String FMT_ERROR_YAML    = "the yaml source '%s' could not be loaded. cause: %s";
+  static final String FMT_MISSING_YAML  = "the yaml source '%s' is not on the classpath.";
 
   private enum ScopeToken {
     
@@ -49,43 +51,19 @@ public final class TreeBuilder {
     
   }
   
-  List<NodeDescriptor>          root;
-  Stack<List<NodeDescriptor>>   current;
-  Stack<ScopeToken>             scopes;
-  Stack<String>                 defaultNodetype;
-  Yaml                          yaml;
+  NodeDescriptor          root;
+  Stack<NodeDescriptor>   current;
+  Stack<ScopeToken>       scopes;
+  Stack<String>           defaultNodetype;
+  Yaml                    yaml;
 
   public TreeBuilder() {
     yaml            = new Yaml();
-    root            = new ArrayList<>();
     scopes          = new Stack<>();
     current         = new Stack<>();
     defaultNodetype = new Stack<>();
+    root            = newNodeDescriptor( "ROOT" );
     pushNodes( root );
-    sNode( "ROOT" );
-  }
-
-  private NodeDescriptor descriptor() {
-    List<NodeDescriptor> list = current.peek();
-    return list.get( list.size() - 1 );
-  }
-
-  private List<NodeDescriptor> subnodes( NodeDescriptor record ) {
-    List<NodeDescriptor> result = record.getSubnodes();
-    if( result.isEmpty() ) {
-      result = new ArrayList<>();
-      record.setSubnodes( result );
-    }
-    return result;
-  }
-
-  private Map<String, Object> properties( NodeDescriptor record ) {
-    Map<String, Object> result = record.getProperties();
-    if( result.isEmpty() ) {
-      result = new HashMap<>();
-      record.setProperties( result );
-    }
-    return result;
   }
 
   private String getDefaultNodeType() {
@@ -104,29 +82,28 @@ public final class TreeBuilder {
    * @return   this
    */
   @Nonnull
-  private TreeBuilder sNode( @Nonnull String name ) {
-    NodeDescriptor descriptor = new NodeDescriptor();
-    descriptor.setName( name );
-    descriptor.setProperties( Collections.<String, Object>emptyMap() );
-    descriptor.setSubnodes( Collections.<NodeDescriptor>emptyList() );
-    descriptor.setNodeType( getDefaultNodeType() );
-    current.peek().add( descriptor );
+  public TreeBuilder sNode( @Nonnull String name ) {
+    NodeDescriptor descriptor = newNodeDescriptor( name );
+    if( current().subnodes.isEmpty() ) {
+      current().subnodes = new ArrayList<>();
+    }
+    current().subnodes.add( descriptor );
+    current.push( descriptor );
+    scopes.push( ScopeToken.SubNodes );
     return this;
   }
 
-  /**
-   * Opens a node on a sublevel.
-   *  
-   * @param name   The name of the sublevel node.
-   * 
-   * @return   this
-   */
-  @Nonnull
-  public TreeBuilder sSubnode( @Nonnull String name ) {
-    NodeDescriptor       record   = descriptor();
-    List<NodeDescriptor> subnodes = subnodes( record );
-    pushNodes( subnodes );
-    return sNode( name );
+  private NodeDescriptor current() {
+    return current.peek();
+  }
+  
+  private NodeDescriptor newNodeDescriptor( String name ) {
+    NodeDescriptor result = new NodeDescriptor();
+    result.name           = name;
+    result.properties     = Collections.emptyMap();
+    result.subnodes       = Collections.emptyList();
+    result.nodeType       = getDefaultNodeType();
+    return result;
   }
 
   /**
@@ -138,7 +115,7 @@ public final class TreeBuilder {
    */
   @Nonnull
   public TreeBuilder sFolder( @Nonnull String name ) {
-    return sSubnode( name ).nodetype( NodeTypes.Content.NAME );
+    return sNode( name ).nodetype( NodeTypes.Content.NAME );
   }
 
   /**
@@ -150,7 +127,7 @@ public final class TreeBuilder {
    */
   @Nonnull
   public TreeBuilder sContentNode( @Nonnull String name ) {
-    return sSubnode( name ).nodetype( NodeTypes.ContentNode.NAME );
+    return sNode( name ).nodetype( NodeTypes.ContentNode.NAME );
   }
 
   /**
@@ -169,8 +146,8 @@ public final class TreeBuilder {
     return this;
   }
 
-  private void pushNodes( List<NodeDescriptor> descriptors ) {
-    current.push( descriptors );
+  private void pushNodes( NodeDescriptor descriptor ) {
+    current.push( descriptor );
     scopes.push( ScopeToken.SubNodes );
   }
 
@@ -198,9 +175,9 @@ public final class TreeBuilder {
    */
   @Nonnull
   public TreeBuilder yaml( @Nonnull String resource, String encoding ) {
-    NodeDescriptor record = descriptor();
-    record.setYamlSource   ( resource );
-    record.setYamlEncoding ( encoding );
+    NodeDescriptor record = current();
+    record.yamlSource     = resource;
+    record.yamlEncoding   = encoding;
     return this;
   }
   
@@ -225,8 +202,8 @@ public final class TreeBuilder {
    */
   @Nonnull
   public TreeBuilder nodetype( @Nonnull String nodetype ) {
-    NodeDescriptor record = descriptor();
-    record.setNodeType( nodetype );
+    NodeDescriptor record = current();
+    record.nodeType       = nodetype;
     return this;
   }
 
@@ -247,35 +224,37 @@ public final class TreeBuilder {
    */
   @Nonnull
   public TreeBuilder property( @Nonnull String name, @Nullable Object value ) {
-    NodeDescriptor      record     = descriptor();
-    Map<String, Object> properties = properties( record );
-    properties.put( name, value );
+    NodeDescriptor record = current();
+    if( record.properties.isEmpty() ) {
+      record.properties = new HashMap<>();
+    }
+    record.properties.put( name, value );
     return this;
   }
   
   private Map<String, Object> allProperties( NodeDescriptor descriptor ) {
     Map<String, Object> result = null;
-    if( descriptor.getYamlSource() != null ) {
-      URL url = Thread.currentThread().getContextClassLoader().getResource( descriptor.getYamlSource() );
+    if( descriptor.yamlSource != null ) {
+      URL url = Thread.currentThread().getContextClassLoader().getResource( descriptor.yamlSource );
       if( url == null ) {
-        String msg = String.format( FMT_MISSING_YAML, descriptor.getYamlSource() );
+        String msg = String.format( FMT_MISSING_YAML, descriptor.yamlSource );
         log.error( msg );
         throw errorHandler( new IllegalStateException( msg ) );
       } else {
-        String encoding = StringUtils.defaultIfBlank( descriptor.getYamlEncoding(), "UTF-8" );
+        String encoding = StringUtils.defaultIfBlank( descriptor.yamlEncoding, "UTF-8" );
         try( BufferedReader reader = new BufferedReader( new InputStreamReader( url.openStream(), Charset.forName( encoding ) ) ) ) {
           result = new HashMap<>( (Map<String, Object>) yaml.load( reader ) );
         } catch( Exception ex ) {
-          String msg = String.format( FMT_ERROR_YAML, descriptor.getYamlSource(), ex.getLocalizedMessage() );
+          String msg = String.format( FMT_ERROR_YAML, descriptor.yamlSource, ex.getLocalizedMessage() );
           log.error( msg, ex );
           throw errorHandler(ex);
         }
       }
     }
     if( result == null ) {
-      result = properties( descriptor );
+      result = descriptor.properties;
     } else {
-      result.putAll( properties( descriptor ) );
+      result.putAll( descriptor.properties );
     }
     return result;
   }
@@ -323,8 +302,7 @@ public final class TreeBuilder {
   public <R> R build( @Nonnull Producer<R> producer, boolean fail ) {
     try {
       R result = producer.getRootNode();
-      NodeDescriptor nd = root.get(0);
-      for( NodeDescriptor record : nd.subnodes ) {
+      for( NodeDescriptor record : root.subnodes ) {
         addNode( producer, result, record, fail );
       }
       return result;
@@ -335,22 +313,22 @@ public final class TreeBuilder {
 
   private <R> void addNode( Producer<R> producer, R parent, NodeDescriptor child, boolean fail ) {
     // create/get the node
-    String nodename  = child.getName();
+    String nodename  = child.name;
     if( nodename.indexOf('/') != -1 ) {
       String[] parts = nodename.split("/");
       for( int i = 0; i < parts.length - 1; i++ ) {
-        parent = producer.getChild( parent, parts[i], child.getNodeType(), fail );
+        parent = producer.getChild( parent, parts[i], child.nodeType, fail );
       }
-      nodename       = parts[ parts.length - 1 ];
+      nodename = parts[ parts.length - 1 ];
     }
-    R childNode = producer.getChild( parent, nodename, child.getNodeType(), fail );
+    R childNode = producer.getChild( parent, nodename, child.nodeType, fail );
     // set the properties
     Map<String, Object> allProperties = allProperties( child );
     for( Map.Entry<String, Object> entry : allProperties.entrySet() ) {
       setProperty( producer, childNode, entry.getKey(), entry.getValue(), fail );
     }
     // process child elements
-    List<NodeDescriptor> children = subnodes( child );
+    List<NodeDescriptor> children = child.subnodes;
     for( NodeDescriptor record : children ) {
       addNode( producer, childNode, record, fail );
     }
@@ -402,7 +380,7 @@ public final class TreeBuilder {
     }
   }
   
-  @Getter @Setter
+  @ToString
   private static class NodeDescriptor {
 
     String                 name;

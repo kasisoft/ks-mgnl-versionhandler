@@ -27,7 +27,7 @@ public class ProducerTest {
   public void simple() {
     
     TreeBuilder tb = new TreeBuilder()
-      .sSubnode( "root" )
+      .sNode( "root" )
         .sFolder( "base" )
           .sFolder( "simple" )
             .property( "name", "dodo" )
@@ -59,12 +59,12 @@ public class ProducerTest {
   public void complex() {
     
     TreeBuilder tb = new TreeBuilder()
-      .sSubnode( "root" )
+      .sFolder( "root" )
         .sFolder( "base" )
           .sFolder( "simple" )
             .property( "name", "dodo" )
           .sEnd()
-          .sSubnode( "oopsi" )
+          .sNode( "oopsi" )
             .property( "word", "list" )
             .property( "word", "boo" )
             .property( "second", "third" )
@@ -77,7 +77,7 @@ public class ProducerTest {
     
     Map<String, Object> expected = newMap(
       "root", newMap(
-        "nodetype", "mgnl:contentNode",
+        "nodetype", "mgnl:content",
         "base", newMap(
           "nodetype", "mgnl:content",
           "simple", newMap(
@@ -96,7 +96,53 @@ public class ProducerTest {
     assertThat( map, is( expected ) );
     
   }
-  
+
+  @Test
+  public void complexSimplified() {
+    
+    TreeBuilder tb = new TreeBuilder()
+      .sFolder( "root/base/wombat/what" )
+        .sFolder( "simple" )
+          .property( "name", "dodo" )
+        .sEnd()
+        .sNode( "oopsi" )
+          .property( "word", "list" )
+          .property( "word", "boo" )
+          .property( "second", "third" )
+        .sEnd()
+      ;
+    
+    Map<String, Object> map = tb.build( new MapProducer() );
+    assertNotNull( map );
+    
+    Map<String, Object> expected = newMap(
+      "root", newMap(
+        "nodetype", "mgnl:content",
+        "base", newMap(
+          "nodetype", "mgnl:content",
+          "wombat", newMap(
+            "nodetype", "mgnl:content",
+            "what", newMap(
+              "nodetype", "mgnl:content",
+              "simple", newMap(
+                "nodetype", "mgnl:content",
+                "name", "dodo"
+              ),
+              "oopsi", newMap(
+                "nodetype", "mgnl:contentNode",
+                "word", "boo",
+                "second", "third"
+              )
+            )
+          )
+        )
+      )
+    );
+    
+    assertThat( map, is( expected ) );
+    
+  }
+
   private String simpleSupplier() {
     return "simpleSupplier";
   }
@@ -105,12 +151,12 @@ public class ProducerTest {
   public void supplier() {
     
     TreeBuilder tb = new TreeBuilder()
-      .sSubnode( "root" )
+      .sNode( "root" )
         .sFolder( "base" )
           .sFolder( "simple" )
             .property( "name", "dodo" )
           .sEnd()
-          .sSubnode( "oopsi" )
+          .sNode( "oopsi" )
             .property( "word", "list" )
             .property( "word", "boo" )
             .property( "second", (Supplier) this::simpleSupplier )
@@ -147,12 +193,12 @@ public class ProducerTest {
   public void mapValue() {
     
     TreeBuilder tb = new TreeBuilder()
-      .sSubnode( "root" )
+      .sNode( "root" )
         .sFolder( "base" )
           .sFolder( "simple" )
             .property( "name", "dodo" )
           .sEnd()
-          .sSubnode( "oopsi" )
+          .sNode( "oopsi" )
             .property( "word", "list" )
             .property( "second", newMap( "a", "b" ) )
           .sEnd()
@@ -191,12 +237,12 @@ public class ProducerTest {
   public void yaml() {
     
     TreeBuilder tb = new TreeBuilder()
-      .sSubnode( "root" )
+      .sNode( "root" )
         .sFolder( "base" )
           .sFolder( "simple" )
             .property( "name", "dodo" )
           .sEnd()
-          .sSubnode( "oopsi" )
+          .sNode( "oopsi" )
             .property( "word", "list" )
             .property( "templateScript", "overridden" )
             .yaml( "example.yaml" )
