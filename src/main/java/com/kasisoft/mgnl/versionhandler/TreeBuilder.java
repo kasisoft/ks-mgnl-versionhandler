@@ -62,6 +62,7 @@ public final class TreeBuilder {
     current         = new Stack<>();
     defaultNodetype = new Stack<>();
     pushNodes( root );
+    sNode( "ROOT" );
   }
 
   private NodeDescriptor descriptor() {
@@ -103,7 +104,7 @@ public final class TreeBuilder {
    * @return   this
    */
   @Nonnull
-  public TreeBuilder sNode( @Nonnull String name ) {
+  private TreeBuilder sNode( @Nonnull String name ) {
     NodeDescriptor descriptor = new NodeDescriptor();
     descriptor.setName( name );
     descriptor.setProperties( Collections.<String, Object>emptyMap() );
@@ -322,7 +323,8 @@ public final class TreeBuilder {
   public <R> R build( @Nonnull Producer<R> producer, boolean fail ) {
     try {
       R result = producer.getRootNode();
-      for( NodeDescriptor record : root ) {
+      NodeDescriptor nd = root.get(0);
+      for( NodeDescriptor record : nd.subnodes ) {
         addNode( producer, result, record, fail );
       }
       return result;
@@ -333,7 +335,15 @@ public final class TreeBuilder {
 
   private <R> void addNode( Producer<R> producer, R parent, NodeDescriptor child, boolean fail ) {
     // create/get the node
-    R childNode = producer.getChild( parent, child.getName(), child.getNodeType(), fail );
+    String nodename  = child.getName();
+    if( nodename.indexOf('/') != -1 ) {
+      String[] parts = nodename.split("/");
+      for( int i = 0; i < parts.length - 1; i++ ) {
+        parent = producer.getChild( parent, parts[i], child.getNodeType(), fail );
+      }
+      nodename       = parts[ parts.length - 1 ];
+    }
+    R childNode = producer.getChild( parent, nodename, child.getNodeType(), fail );
     // set the properties
     Map<String, Object> allProperties = allProperties( child );
     for( Map.Entry<String, Object> entry : allProperties.entrySet() ) {

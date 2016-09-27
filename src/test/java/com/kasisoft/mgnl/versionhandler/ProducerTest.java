@@ -27,7 +27,7 @@ public class ProducerTest {
   public void simple() {
     
     TreeBuilder tb = new TreeBuilder()
-      .sNode( "root" )
+      .sSubnode( "root" )
         .sFolder( "base" )
           .sFolder( "simple" )
             .property( "name", "dodo" )
@@ -59,7 +59,7 @@ public class ProducerTest {
   public void complex() {
     
     TreeBuilder tb = new TreeBuilder()
-      .sNode( "root" )
+      .sSubnode( "root" )
         .sFolder( "base" )
           .sFolder( "simple" )
             .property( "name", "dodo" )
@@ -105,7 +105,7 @@ public class ProducerTest {
   public void supplier() {
     
     TreeBuilder tb = new TreeBuilder()
-      .sNode( "root" )
+      .sSubnode( "root" )
         .sFolder( "base" )
           .sFolder( "simple" )
             .property( "name", "dodo" )
@@ -147,7 +147,7 @@ public class ProducerTest {
   public void mapValue() {
     
     TreeBuilder tb = new TreeBuilder()
-      .sNode( "root" )
+      .sSubnode( "root" )
         .sFolder( "base" )
           .sFolder( "simple" )
             .property( "name", "dodo" )
@@ -191,7 +191,7 @@ public class ProducerTest {
   public void yaml() {
     
     TreeBuilder tb = new TreeBuilder()
-      .sNode( "root" )
+      .sSubnode( "root" )
         .sFolder( "base" )
           .sFolder( "simple" )
             .property( "name", "dodo" )
