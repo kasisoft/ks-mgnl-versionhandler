@@ -10,6 +10,38 @@
   <name>com.kasisoft.mgnl.versionhandler</name>
   <description>Kasisoft MGNL :: magnolia versionhandler</description>
 
+  <licenses>
+    <license>
+      <name>BSD</name>
+      <url>http://directory.fsf.org/wiki/License:BSD_3Clause</url>
+    </license>
+  </licenses>
+  
+  <organization>
+    <name>Kasisoft</name>
+    <url>https://kasisoft.com</url>
+  </organization>
+  
+  <scm>
+    <url>https://kasisoft.com/bitbucket/projects/MGNL/repos/com.kasisoft.mgnl.versionhandler</url>
+    <connection>scm:git:ssh://kasisoft.com:7999/mgnl/com.kasisoft.mgnl.versionhandler.git</connection>
+    <developerConnection>scm:git:ssh://kasisoft.com:7999/mgnl/com.kasisoft.mgnl.versionhandler.git</developerConnection>
+    <tag>HEAD</tag>
+  </scm>
+  
+  <ciManagement>
+    <system>Jenkins</system>
+    <url>https://kasisoft.com/ci/job/mgnl.versionhandler/</url>
+  </ciManagement>
+  
+  <developers>
+    <developer>
+      <id>costamojan</id>
+      <name>Daniel Kasmeroglu</name>
+      <email>daniel.kasmeroglu@kasisoft.net</email>
+    </developer>
+  </developers>
+    
   <properties>
   
     <java.version>1.8</java.version>
