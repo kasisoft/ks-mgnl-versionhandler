@@ -6,36 +6,22 @@ import static org.testng.Assert.*;
 
 import org.testng.annotations.*;
 
-import java.util.function.*;
-
 import java.util.*;
 
 /**
  * @author daniel.kasmeroglu@kasisoft.net
  */
-public class ProducerTest {
+public class MapProducerTest extends AbstractProducerTest<Map<String, Object>> {
 
-  private Map<String, Object> newMap( Object ... params ) {
-    Map<String, Object> result = new HashMap<>();
-    for( int i = 0; i < params.length; i += 2 ) {
-      result.put( (String) params[i], params[ i + 1 ] );
-    }
-    return result;
+  @Override
+  protected Producer<Map<String, Object>> newProducer() {
+    return new MapProducer();
   }
   
   @Test
   public void simple() {
     
-    TreeBuilder tb = new TreeBuilder()
-      .sNode( "root" )
-        .sFolder( "base" )
-          .sFolder( "simple" )
-            .property( "name", "dodo" )
-          .sEnd()
-        .sEnd()
-      ;
-    
-    Map<String, Object> map = tb.build( new MapProducer() );
+    Map<String, Object> map = simpleTree();
     assertNotNull( map );
     
     Map<String, Object> expected = newMap(
@@ -58,21 +44,7 @@ public class ProducerTest {
   @Test
   public void complex() {
     
-    TreeBuilder tb = new TreeBuilder()
-      .sFolder( "root" )
-        .sFolder( "base" )
-          .sFolder( "simple" )
-            .property( "name", "dodo" )
-          .sEnd()
-          .sNode( "oopsi" )
-            .property( "word", "list" )
-            .property( "word", "boo" )
-            .property( "second", "third" )
-          .sEnd()
-        .sEnd()
-      ;
-    
-    Map<String, Object> map = tb.build( new MapProducer() );
+    Map<String, Object> map = complexTree();
     assertNotNull( map );
     
     Map<String, Object> expected = newMap(
@@ -100,19 +72,7 @@ public class ProducerTest {
   @Test
   public void complexSimplified() {
     
-    TreeBuilder tb = new TreeBuilder()
-      .sFolder( "root/base/wombat/what" )
-        .sFolder( "simple" )
-          .property( "name", "dodo" )
-        .sEnd()
-        .sNode( "oopsi" )
-          .property( "word", "list" )
-          .property( "word", "boo" )
-          .property( "second", "third" )
-        .sEnd()
-      ;
-    
-    Map<String, Object> map = tb.build( new MapProducer() );
+    Map<String, Object> map = complexSimplifiedTree();
     assertNotNull( map );
     
     Map<String, Object> expected = newMap(
@@ -143,28 +103,10 @@ public class ProducerTest {
     
   }
 
-  private String simpleSupplier() {
-    return "simpleSupplier";
-  }
-
   @Test
   public void supplier() {
     
-    TreeBuilder tb = new TreeBuilder()
-      .sNode( "root" )
-        .sFolder( "base" )
-          .sFolder( "simple" )
-            .property( "name", "dodo" )
-          .sEnd()
-          .sNode( "oopsi" )
-            .property( "word", "list" )
-            .property( "word", "boo" )
-            .property( "second", (Supplier) this::simpleSupplier )
-          .sEnd()
-        .sEnd()
-      ;
-    
-    Map<String, Object> map = tb.build( new MapProducer() );
+    Map<String, Object> map = supplierTree();
     assertNotNull( map );
     
     Map<String, Object> expected = newMap(
@@ -192,20 +134,7 @@ public class ProducerTest {
   @Test
   public void mapValue() {
     
-    TreeBuilder tb = new TreeBuilder()
-      .sNode( "root" )
-        .sFolder( "base" )
-          .sFolder( "simple" )
-            .property( "name", "dodo" )
-          .sEnd()
-          .sNode( "oopsi" )
-            .property( "word", "list" )
-            .property( "second", newMap( "a", "b" ) )
-          .sEnd()
-        .sEnd()
-      ;
-    
-    Map<String, Object> map = tb.build( new MapProducer() );
+    Map<String, Object> map = mapValueTree();
     assertNotNull( map );
     
     Map<String, Object> expected = newMap(
@@ -236,21 +165,7 @@ public class ProducerTest {
   @Test
   public void yaml() {
     
-    TreeBuilder tb = new TreeBuilder()
-      .sNode( "root" )
-        .sFolder( "base" )
-          .sFolder( "simple" )
-            .property( "name", "dodo" )
-          .sEnd()
-          .sNode( "oopsi" )
-            .property( "word", "list" )
-            .property( "templateScript", "overridden" )
-            .yaml( "example.yaml" )
-          .sEnd()
-        .sEnd()
-      ;
-    
-    Map<String, Object> map = tb.build( new MapProducer() );
+    Map<String, Object> map = yamlTree();
     assertNotNull( map );
     
     Map<String, Object> expected = newMap(
@@ -298,21 +213,7 @@ public class ProducerTest {
   @Test
   public void json() {
     
-    TreeBuilder tb = new TreeBuilder()
-      .sNode( "root" )
-        .sFolder( "base" )
-          .sFolder( "simple" )
-            .property( "name", "dodo" )
-          .sEnd()
-          .sNode( "oopsi" )
-            .property( "word", "list" )
-            .property( "templateScript", "overridden" )
-            .json( "example.json" )
-          .sEnd()
-        .sEnd()
-      ;
-    
-    Map<String, Object> map = tb.build( new MapProducer() );
+    Map<String, Object> map = jsonTree();
     assertNotNull( map );
     
     Map<String, Object> expected = newMap(
