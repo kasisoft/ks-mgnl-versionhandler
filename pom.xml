@@ -230,6 +230,11 @@
               </configuration>
             </execution>
           </executions>
+          <configuration>
+            <archive>
+              <addMavenDescriptor>false</addMavenDescriptor>
+            </archive>
+          </configuration>
         </plugin>
         
         <plugin>
