@@ -4,6 +4,9 @@ import static com.kasisoft.mgnl.versionhandler.internal.Messages.*;
 
 import info.magnolia.jcr.util.*;
 
+import com.google.gson.*;
+import com.kasisoft.libs.common.constants.*;
+
 import org.apache.commons.lang3.*;
 import org.yaml.snakeyaml.*;
 
@@ -16,8 +19,6 @@ import java.util.*;
 import java.net.*;
 
 import java.io.*;
-
-import java.nio.charset.*;
 
 import lombok.extern.slf4j.*;
 
@@ -50,14 +51,24 @@ public final class TreeBuilder {
     
   }
   
+  private enum ImportType {
+    
+    Yaml,
+    Json,
+    ;
+    
+  }
+  
   NodeDescriptor          root;
   Stack<NodeDescriptor>   current;
   Stack<ScopeToken>       scopes;
   Stack<String>           defaultNodetype;
   Yaml                    yaml;
+  Gson                    gson;
 
   public TreeBuilder() {
     yaml            = new Yaml();
+    gson            = new GsonBuilder().create();
     scopes          = new Stack<>();
     current         = new Stack<>();
     defaultNodetype = new Stack<>();
@@ -173,10 +184,11 @@ public final class TreeBuilder {
    * @return   this
    */
   @Nonnull
-  public TreeBuilder yaml( @Nonnull String resource, String encoding ) {
-    NodeDescriptor record = current();
-    record.yamlSource     = resource;
-    record.yamlEncoding   = encoding;
+  public TreeBuilder yaml( @Nonnull String resource, Encoding encoding ) {
+    NodeDescriptor record   = current();
+    record.importSource     = resource;
+    record.importEncoding   = encoding;
+    record.importType       = ImportType.Yaml;
     return this;
   }
   
@@ -191,7 +203,36 @@ public final class TreeBuilder {
   public TreeBuilder yaml( @Nonnull String resource ) {
     return yaml( resource, null );
   }
+
+  /**
+   * Loads the json content into the current node.
+   * 
+   * @param resource   The resource on the classpath.
+   * @param encoding   The encoding to be used.
+   * 
+   * @return   this
+   */
+  @Nonnull
+  public TreeBuilder json( @Nonnull String resource, Encoding encoding ) {
+    NodeDescriptor record   = current();
+    record.importSource     = resource;
+    record.importEncoding   = encoding;
+    record.importType       = ImportType.Json;
+    return this;
+  }
   
+  /**
+   * Loads the json content into the current node.
+   * 
+   * @param resource   The resource on the classpath (assumed to be UTF-8 encoded).
+   * 
+   * @return   this
+   */
+  @Nonnull
+  public TreeBuilder json( @Nonnull String resource ) {
+    return json( resource, null );
+  }
+
   /**
    * Changes the nodetype for the current node.
    * 
@@ -233,29 +274,43 @@ public final class TreeBuilder {
   
   private Map<String, Object> allProperties( NodeDescriptor descriptor ) {
     Map<String, Object> result = null;
-    if( descriptor.yamlSource != null ) {
-      URL url = Thread.currentThread().getContextClassLoader().getResource( descriptor.yamlSource );
-      if( url == null ) {
-        String msg = error_missing_resource.format( descriptor.yamlSource );
-        log.error( msg );
-        throw errorHandler( new IllegalStateException( msg ) );
-      } else {
-        String encoding = StringUtils.defaultIfBlank( descriptor.yamlEncoding, "UTF-8" );
-        try( BufferedReader reader = new BufferedReader( new InputStreamReader( url.openStream(), Charset.forName( encoding ) ) ) ) {
-          result = new HashMap<>( (Map<String, Object>) yaml.load( reader ) );
-        } catch( Exception ex ) {
-          String msg = error_loading.format( descriptor.yamlSource, ex.getLocalizedMessage() );
-          log.error( msg, ex );
-          throw errorHandler(ex);
-        }
-      }
+    if( descriptor.importSource != null ) {
+      result = loadProperties( descriptor );
     }
-    if( result == null ) {
+    if( (result == null) || result.isEmpty() ) {
       result = descriptor.properties;
     } else {
       result.putAll( descriptor.properties );
     }
     return result;
+  }
+
+  private Map<String, Object> loadProperties( NodeDescriptor descriptor ) {
+    
+    URL url = Thread.currentThread().getContextClassLoader().getResource( descriptor.importSource );
+    if( url == null ) {
+      String msg = error_missing_resource.format( descriptor.importSource );
+      log.error( msg );
+      throw errorHandler( new IllegalStateException( msg ) );
+    }
+    
+    Map<String, Object> result = null; 
+    try( Reader reader = Encoding.openReader( url.openStream(), descriptor.importEncoding ) ){
+      result = loadProperties( reader, descriptor.importType );
+    } catch( Exception ex ) {
+      String msg = error_loading.format( descriptor.importSource, ex.getLocalizedMessage() );
+      log.error( msg, ex );
+      throw errorHandler(ex);
+    }
+    return result;
+  }
+  
+  private Map<String, Object> loadProperties( Reader source, ImportType importType ) {
+    if( importType == ImportType.Yaml ) {
+      return new HashMap<>( (Map<String, Object>) yaml.load( source ) );
+    } else {
+      return new HashMap<>( gson.fromJson( source, Map.class ) );
+    }
   }
 
   private String toName( Map<String, Object> map, Integer idx ) {
@@ -386,8 +441,9 @@ public final class TreeBuilder {
     String                 nodeType;
     Map<String, Object>    properties;
     List<NodeDescriptor>   subnodes;
-    String                 yamlSource;
-    String                 yamlEncoding;
+    ImportType             importType;
+    String                 importSource;
+    Encoding               importEncoding;
 
   } /* ENDCLASS */
 

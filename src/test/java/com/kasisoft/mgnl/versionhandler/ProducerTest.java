@@ -295,4 +295,66 @@ public class ProducerTest {
     
   }
 
+  @Test
+  public void json() {
+    
+    TreeBuilder tb = new TreeBuilder()
+      .sNode( "root" )
+        .sFolder( "base" )
+          .sFolder( "simple" )
+            .property( "name", "dodo" )
+          .sEnd()
+          .sNode( "oopsi" )
+            .property( "word", "list" )
+            .property( "templateScript", "overridden" )
+            .json( "example.json" )
+          .sEnd()
+        .sEnd()
+      ;
+    
+    Map<String, Object> map = tb.build( new MapProducer() );
+    assertNotNull( map );
+    
+    Map<String, Object> expected = newMap(
+      "root", newMap(
+        "nodetype", "mgnl:contentNode",
+        "base", newMap(
+          "nodetype", "mgnl:content",
+          "simple", newMap(
+            "nodetype", "mgnl:content",
+            "name", "dodo"
+          ),
+          "oopsi", newMap(
+            "nodetype", "mgnl:contentNode",
+            "word", "list",
+            "templateScript", "overridden",
+            "renderType", "freemarker",
+            "title", "title",
+            "areas", newMap(
+              "nodetype", "mgnl:contentNode",
+              "content-sections", newMap(
+                "nodetype", "mgnl:contentNode",
+                "renderType", "freemarker",
+                "availableComponents", newMap(
+                  "nodetype", "mgnl:contentNode",
+                  "content-items-list", newMap(
+                    "nodetype", "mgnl:contentNode",
+                    "id", "items1"
+                  ),
+                  "textImage", newMap(
+                    "nodetype", "mgnl:contentNode",
+                    "id", "items2"
+                  )
+                )
+              )
+            )
+          )
+        )
+      )
+    );
+    
+    assertThat( map, is( expected ) );
+    
+  }
+
 } /* ENDCLASS */
