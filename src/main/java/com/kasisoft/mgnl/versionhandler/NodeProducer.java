@@ -1,5 +1,7 @@
 package com.kasisoft.mgnl.versionhandler;
 
+import static com.kasisoft.mgnl.versionhandler.internal.Messages.*;
+
 import info.magnolia.jcr.util.*;
 
 import javax.jcr.*;
@@ -21,10 +23,8 @@ import lombok.*;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class NodeProducer implements Producer<Node> {
 
-  static final String MSG_INVALID_NODETYPE = "invalid node type. got '%s' instead of '%s'";
-  
-  Session                                     session;
-  Function<Exception, IllegalStateException>  handler;
+  Session                                      session;
+  Function<Exception, IllegalStateException>   handler;
   
   public NodeProducer( Session jcrSession ) {
     session = jcrSession;
@@ -54,7 +54,7 @@ public class NodeProducer implements Producer<Node> {
     if( parent.hasNode( name ) ) {
       result = parent.getNode( name );
       if( ! result.isNodeType( nodeType ) ) {
-        String invalidNodetype = String.format( MSG_INVALID_NODETYPE, result.getPrimaryNodeType().getName(), nodeType );
+        String invalidNodetype = error_invalid_nodetype.format( result.getPrimaryNodeType().getName(), nodeType );
         if( fail ) {
           handler.apply( new IllegalStateException( invalidNodetype ) );
         } else {

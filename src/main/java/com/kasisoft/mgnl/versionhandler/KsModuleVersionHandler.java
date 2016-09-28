@@ -1,5 +1,7 @@
 package com.kasisoft.mgnl.versionhandler;
 
+import static com.kasisoft.mgnl.versionhandler.internal.Messages.*;
+
 import info.magnolia.module.model.*;
 
 import info.magnolia.module.delta.*;
@@ -12,6 +14,7 @@ import org.apache.commons.lang3.*;
 
 import javax.annotation.*;
 import javax.jcr.*;
+import javax.jcr.Node;
 
 import java.util.stream.*;
 
@@ -36,22 +39,12 @@ import lombok.*;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class KsModuleVersionHandler implements ModuleVersionHandler {
   
-  static final String MSG_FAILED_TO_UPDATE        = "failed to update module '{}' from version {}. cause: {}";
-  static final String MSG_MISSING_RUNNING_NUMBER  = "found module '{}' but without update property '{}'. assuming installation.";
-  static final String MSG_MISSING_VERSION         = "failed to determine version of module [{}]. cause: {}";
-  static final String MSG_TESTING_VERSION         = "testing for the module version [{}]";
-
-  static final String FMT_FAILED_TO_REGISTER      = "cannot register running key %d for discriminator '%s' as it had already been registered";
-  static final String FMT_INSTALLING              = "installing to %s";
-  static final String FMT_UPATING                 = "updating to %s";
-  static final String FMT_UPDATING_TASK           = "updating %s / [%s:%d]";
-
-  static final String PN_VERSION                  = "version";
+  static final String PN_VERSION            = "version";
   
-  static final String FMT_UPDATESET               = "update_%s";
-  static final String FMT_MODULES                 = "/modules/%s";
+  static final String FMT_UPDATESET         = "update_%s";
+  static final String FMT_MODULES           = "/modules/%s";
 
-  static final String DEFAULT_DISCRIMINATOR       = "default";
+  static final String DEFAULT_DISCRIMINATOR = "default";
   
   Map<String, Map<Integer, Task>>   tasks = new HashMap<>();
   
@@ -81,7 +74,7 @@ public class KsModuleVersionHandler implements ModuleVersionHandler {
     }
     Integer key = Integer.valueOf( running );
     if( map.containsKey( key ) ) {
-      String msg = String.format( FMT_FAILED_TO_REGISTER, key, discriminator );
+      String msg = error_registration_failure.format( key, discriminator );
       log.error( msg );
       throw new IllegalStateException( msg );
     }
@@ -105,10 +98,10 @@ public class KsModuleVersionHandler implements ModuleVersionHandler {
     try { 
       return getDeltasImpl( ctx, from );
     } catch( IllegalStateException ex ) {
-      log.error( MSG_FAILED_TO_UPDATE, ctx.getCurrentModuleDefinition().getName(), from, ex );
+      log.error( error_failed_to_update.format( ctx.getCurrentModuleDefinition().getName(), from ), ex );
       throw ex;
     } catch( Exception ex ) {
-      log.error( MSG_FAILED_TO_UPDATE, ctx.getCurrentModuleDefinition().getName(), from, ex );
+      log.error( error_failed_to_update.format( ctx.getCurrentModuleDefinition().getName(), from ), ex );
       throw new IllegalStateException(ex);
     }
   }
@@ -157,15 +150,15 @@ public class KsModuleVersionHandler implements ModuleVersionHandler {
   
   private DeltaBuilder db( Version current, Version toVersion ) {
     if( current == Version.UNDEFINED_FROM ) {
-      return DeltaBuilder.install( toVersion, String.format( FMT_INSTALLING, toVersion ) );
+      return DeltaBuilder.install( toVersion, msg_installing.format( toVersion ) );
     } else {
-      return DeltaBuilder.update( toVersion, String.format( FMT_UPATING, toVersion ) );
+      return DeltaBuilder.update( toVersion, msg_updating.format( toVersion ) );
     }
   }
   
   private void add( List<Delta> deltas, String modulename, String discriminator, Version toVersion, Integer running, Task task ) {
     deltas.add( 
-      DeltaBuilder.update( toVersion, String.format( FMT_UPDATING_TASK, toVersion, discriminator, running ) )
+      DeltaBuilder.update( toVersion, msg_updating_task.format( toVersion, discriminator, running ) )
         // execute the task itself
         .addTask( task )
         // update the running number
@@ -181,7 +174,7 @@ public class KsModuleVersionHandler implements ModuleVersionHandler {
       try {
         result = Integer.parseInt( PropertyUtil.getString( module, propertyName ) );
       } catch( NumberFormatException ex ) {
-        log.warn( MSG_MISSING_RUNNING_NUMBER, ctx.getCurrentModuleDefinition().getName(), propertyName );
+        log.warn( msg_missing_running.format( ctx.getCurrentModuleDefinition().getName(), propertyName ) );
       }
     }
     return result;
@@ -196,7 +189,7 @@ public class KsModuleVersionHandler implements ModuleVersionHandler {
     
     try {
       
-      log.debug( MSG_TESTING_VERSION, ctx.getCurrentModuleDefinition() );
+      log.debug( msg_testing_version.format( ctx.getCurrentModuleDefinition().getName() ) );
 
       Node module = SessionUtil.getNode( ctx.getConfigJCRSession(), getModulePath( ctx ) );
       if( module != null ) {
@@ -210,7 +203,7 @@ public class KsModuleVersionHandler implements ModuleVersionHandler {
       }
       
     } catch( Exception ex ) {
-      log.error( MSG_MISSING_VERSION, ctx.getCurrentModuleDefinition(), ex.getLocalizedMessage(), ex );
+      log.error( error_missing_version.format( ctx.getCurrentModuleDefinition(), ex.getLocalizedMessage() ), ex );
       throw new IllegalStateException(ex);
     }
     
@@ -231,20 +224,17 @@ public class KsModuleVersionHandler implements ModuleVersionHandler {
   
   private static class SetPropertyTask extends AbstractRepositoryTask {
     
-    static final String NAME        = "Setting property";
-    static final String DESCRIPTION = "Setting property %s@%s to '%s'";
-    
     String   value;
     String   property;
     
     protected SetPropertyTask( String module, String prop, Version toVersion ) {
-      super( NAME, String.format( DESCRIPTION, module, prop, toVersion ) );
+      super( task_set_property_name, task_set_property_desc.format( module, prop, toVersion ) );
       value    = toVersion.toString();
       property = prop;
     }
 
     protected SetPropertyTask( String module, String prop, int run ) {
-      super( NAME, String.format( DESCRIPTION, module, prop, run ) );
+      super( task_set_property_name, task_set_property_desc.format( module, prop, run ) );
       value    = String.valueOf( run );
       property = prop;
     }
@@ -259,11 +249,8 @@ public class KsModuleVersionHandler implements ModuleVersionHandler {
 
   private static class GrantModuleTask extends AbstractRepositoryTask {
     
-    static final String DESCRIPTION = "Granting module configuration for module '%s'";
-    static final String NAME        = "Grant module";
-
     protected GrantModuleTask( String moduleName ) {
-      super( NAME, String.format( DESCRIPTION, moduleName ) );
+      super( task_grant_module_name, task_grant_module_desc.format( moduleName ) );
     }
 
     @Override

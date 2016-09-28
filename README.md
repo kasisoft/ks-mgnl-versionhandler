@@ -1,6 +1,8 @@
 Purpose
 =======
 
+'''NOTE:''' This documentation is currently work-in-progress and therefore incomplete. 28-Sep-2016
+
 Magnolia module providing an alternative solution in order to setup jcr configurations.
 
 
@@ -9,6 +11,12 @@ Requirements
 
  * Java 8
  * Magnolia 5.4.9
+
+
+Development Setup
+-----------------
+
+* Lombok is used, so check it out: https://projectlombok.org/
 
 
 Maven

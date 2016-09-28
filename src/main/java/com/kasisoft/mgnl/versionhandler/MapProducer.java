@@ -1,7 +1,10 @@
 package com.kasisoft.mgnl.versionhandler;
 
-import java.util.*;
+import static com.kasisoft.mgnl.versionhandler.internal.Messages.*;
+
 import java.util.function.*;
+
+import java.util.*;
 
 import lombok.extern.slf4j.*;
 
@@ -18,11 +21,9 @@ import lombok.*;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class MapProducer implements Producer<Map<String, Object>> {
 
-  static final String MSG_INVALID_NODETYPE = "invalid node type. got '%s' instead of '%s'";
-  
   static final String PN_NODETYPE = "nodetype";
   
-  Function<Exception, IllegalStateException>  handler = $ -> new IllegalStateException($);
+  Function<Exception, IllegalStateException>   handler = $ -> new IllegalStateException($);
   
   @Override
   public Map<String, Object> getRootNode() {
@@ -36,7 +37,7 @@ public class MapProducer implements Producer<Map<String, Object>> {
       result = (Map<String, Object>) parent.get( name );
       if( result.containsKey( PN_NODETYPE ) ) {
         if( ! result.get( PN_NODETYPE ).equals( nodeType ) ) {
-          String invalidNodetype = String.format( MSG_INVALID_NODETYPE, result.get( PN_NODETYPE ), nodeType );
+          String invalidNodetype = error_invalid_nodetype.format( result.get( PN_NODETYPE ), nodeType );
           if( fail ) {
             handler.apply( new IllegalStateException( invalidNodetype ) );
           } else {

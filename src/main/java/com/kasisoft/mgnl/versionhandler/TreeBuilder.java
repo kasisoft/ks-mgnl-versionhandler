@@ -1,5 +1,7 @@
 package com.kasisoft.mgnl.versionhandler;
 
+import static com.kasisoft.mgnl.versionhandler.internal.Messages.*;
+
 import info.magnolia.jcr.util.*;
 
 import org.apache.commons.lang3.*;
@@ -40,9 +42,6 @@ public final class TreeBuilder {
   static final String PN_ID     = "id";
   static final String PN_NAME   = "name";
   
-  static final String FMT_ERROR_YAML    = "the yaml source '%s' could not be loaded. cause: %s";
-  static final String FMT_MISSING_YAML  = "the yaml source '%s' is not on the classpath.";
-
   private enum ScopeToken {
     
     SubNodes,
@@ -237,7 +236,7 @@ public final class TreeBuilder {
     if( descriptor.yamlSource != null ) {
       URL url = Thread.currentThread().getContextClassLoader().getResource( descriptor.yamlSource );
       if( url == null ) {
-        String msg = String.format( FMT_MISSING_YAML, descriptor.yamlSource );
+        String msg = error_missing_resource.format( descriptor.yamlSource );
         log.error( msg );
         throw errorHandler( new IllegalStateException( msg ) );
       } else {
@@ -245,7 +244,7 @@ public final class TreeBuilder {
         try( BufferedReader reader = new BufferedReader( new InputStreamReader( url.openStream(), Charset.forName( encoding ) ) ) ) {
           result = new HashMap<>( (Map<String, Object>) yaml.load( reader ) );
         } catch( Exception ex ) {
-          String msg = String.format( FMT_ERROR_YAML, descriptor.yamlSource, ex.getLocalizedMessage() );
+          String msg = error_loading.format( descriptor.yamlSource, ex.getLocalizedMessage() );
           log.error( msg, ex );
           throw errorHandler(ex);
         }

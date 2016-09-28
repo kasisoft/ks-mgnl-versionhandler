@@ -1,5 +1,9 @@
 package com.kasisoft.mgnl.versionhandler;
 
+import static com.kasisoft.mgnl.versionhandler.internal.Messages.*;
+
+import info.magnolia.repository.*;
+
 import info.magnolia.module.delta.*;
 
 import info.magnolia.module.*;
@@ -14,8 +18,6 @@ import lombok.extern.slf4j.*;
 import lombok.experimental.*;
 
 import lombok.*;
-
-import info.magnolia.repository.*;
 
 /**
  * This basic task allows to execute the tree based creation on different workspaces. 
@@ -59,11 +61,11 @@ public class JcrConfigurationTask extends AbstractRepositoryTask {
   
   @Override
   protected void doExecute( @Nonnull InstallContext ctx ) throws RepositoryException, TaskExecutionException {
-    log.debug( "got {} tree configurations to setup", builders.size() );
+    log.debug( msg_n_configurations.format( builders.size() ) );
     int i = 1;
     for( Object[] builder : builders ) {
       String      workspace   = (String) builder[0];
-      log.debug( "configuring {}/{} on workspace {}", i, builders.size(), workspace );
+      log.debug( msg_configuring.format( i, builders.size(), workspace ) );
       TreeBuilder ntBuilder   = (TreeBuilder) builder[1];
       Session     jcrSession  = ctx.getJCRSession( workspace );
       ntBuilder.build( new NodeProducer( jcrSession ) );
