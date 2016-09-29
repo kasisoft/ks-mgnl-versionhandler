@@ -12,6 +12,9 @@ import lombok.*;
 @FieldDefaults(level = AccessLevel.PUBLIC)
 public class Messages {
 
+  @I18N("cannot determine name of record '%s'")
+  static I18NFormatter              error_cannot_determine_name;
+  
   @I18N("failed to update module '%s' from version %s. cause: %s")
   static I18NFormatter              error_failed_to_update;
 

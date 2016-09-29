@@ -6,6 +6,7 @@ import info.magnolia.jcr.util.*;
 
 import com.google.gson.*;
 import com.kasisoft.libs.common.constants.*;
+import com.kasisoft.libs.common.text.*;
 
 import org.apache.commons.lang3.*;
 import org.yaml.snakeyaml.*;
@@ -355,9 +356,10 @@ public final class TreeBuilder {
   @Nonnull
   public <R> R build( @Nonnull Producer<R> producer, boolean fail ) {
     try {
-      R result = producer.getRootNode();
+      R              result = producer.getRootNode();
+      StringFBuilder path   = new StringFBuilder("/");
       for( NodeDescriptor record : root.subnodes ) {
-        addNode( producer, result, record, fail );
+        addNode( producer, result, record, fail, path );
       }
       return result;
     } catch( Exception ex ) {
@@ -365,45 +367,49 @@ public final class TreeBuilder {
     }
   }
 
-  private <R> void addNode( Producer<R> producer, R parent, NodeDescriptor child, boolean fail ) {
+  private <R> void addNode( Producer<R> producer, R parent, NodeDescriptor child, boolean fail, StringFBuilder path ) {
     // create/get the node
+    int    pathlen   = path.length();
     String nodename  = child.name;
     if( nodename.indexOf('/') != -1 ) {
       String[] parts = nodename.split("/");
       for( int i = 0; i < parts.length - 1; i++ ) {
         parent = producer.getChild( parent, parts[i], child.nodeType, fail );
+        path.appendF( "%s/", parts[i] );
       }
       nodename = parts[ parts.length - 1 ];
     }
+    path.appendF( "%s/", nodename );
     R childNode = producer.getChild( parent, nodename, child.nodeType, fail );
     // set the properties
     Map<String, Object> allProperties = allProperties( child );
     for( Map.Entry<String, Object> entry : allProperties.entrySet() ) {
-      setProperty( producer, childNode, entry.getKey(), entry.getValue(), fail );
+      setProperty( producer, childNode, entry.getKey(), entry.getValue(), fail, path );
     }
     // process child elements
     List<NodeDescriptor> children = child.subnodes;
     for( NodeDescriptor record : children ) {
-      addNode( producer, childNode, record, fail );
+      addNode( producer, childNode, record, fail, path );
     }
+    path.setLength( pathlen );
   }
   
-  private <R> void setProperty( Producer<R> producer, R node, String key, Object value, boolean fail ) {
+  private <R> void setProperty( Producer<R> producer, R node, String key, Object value, boolean fail, StringFBuilder path ) {
     if( value instanceof Map ) {
-      setMapProperty( producer, node, key, value, fail );
+      setMapProperty( producer, node, key, value, fail, path );
     } else if( value instanceof List ) {
-      setListProperty( producer, node, key, value, fail );
+      setListProperty( producer, node, key, value, fail, path );
     } else if( value instanceof Supplier ) {
       Object newvalue = ((Supplier) value).get();
       if( newvalue != value ) {
-        setProperty( producer, node, key, newvalue, fail );
+        setProperty( producer, node, key, newvalue, fail, path );
       }
     } else {
       producer.setBasicProperty( node, key, value );
     }
   }
 
-  private <R> void setListProperty( Producer<R> producer, R node, String key, Object value, boolean fail ) {
+  private <R> void setListProperty( Producer<R> producer, R node, String key, Object value, boolean fail, StringFBuilder path ) {
     List list      = (List) value;
     R    childNode = producer.getChild( node, key, NodeTypes.ContentNode.NAME, fail );
     if( ! list.isEmpty() ) {
@@ -411,7 +417,7 @@ public final class TreeBuilder {
       if( basictypes ) {
         int i = 0;
         for( Object obj : list ) {
-          setProperty( producer, childNode, String.valueOf(i), obj, fail );
+          setProperty( producer, childNode, String.valueOf(i), obj, fail, path );
           i++;
         }
       } else {
@@ -419,18 +425,21 @@ public final class TreeBuilder {
         for( Object obj : list ) {
           Map    map  = (Map) obj;
           String name = toName( map, i );
-          setProperty( producer, childNode, name, map, fail );
+          if( name == null ) {
+            throw errorHandler( new IllegalStateException( error_cannot_determine_name.format( path ) ) );
+          }
+          setProperty( producer, childNode, name, map, fail, path );
           i++;
         }
       }
     }
   }
 
-  private <R> void setMapProperty( Producer<R> producer, R node, String key, Object value, boolean fail ) {
+  private <R> void setMapProperty( Producer<R> producer, R node, String key, Object value, boolean fail, StringFBuilder path ) {
     Map<String, Object> map       = (Map<String, Object>) value;
     R                   childNode = producer.getChild( node, key, NodeTypes.ContentNode.NAME, fail );
     for( Map.Entry<String, Object> pair : map.entrySet() ) {
-      setProperty( producer, childNode, pair.getKey(), pair.getValue(), fail );
+      setProperty( producer, childNode, pair.getKey(), pair.getValue(), fail, path );
     }
   }
   
