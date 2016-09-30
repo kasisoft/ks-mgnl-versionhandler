@@ -45,6 +45,21 @@ public class MockNodeProducerTest extends AbstractProducerTest<MockNode> {
   }
 
   @Test
+  public void substitution() throws Exception {
+    
+    MockNode node = substitutionTree();
+    assertNotNull( node );
+    
+    MockNode rootNode = assertNode( node, "root", NodeTypes.ContentNode.NAME );
+    
+    MockNode baseNode = assertNode( rootNode, "base", NodeTypes.Content.NAME );
+
+    MockNode simpleNode = assertNode( baseNode, "simple", NodeTypes.Content.NAME );
+    assertThat( PropertyUtil.getString( simpleNode, "name" ), is( "world" ) );
+    
+  }
+
+  @Test
   public void complex() throws Exception {
     
     MockNode node = complexTree();

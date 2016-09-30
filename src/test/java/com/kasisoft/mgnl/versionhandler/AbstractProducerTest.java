@@ -30,7 +30,20 @@ public abstract class AbstractProducerTest<T> {
       ;
     return tb.build( newProducer() );
   }
-  
+
+  protected T substitutionTree() {
+    TreeBuilder tb = new TreeBuilder()
+      .substitution( "hello", "world" )
+      .sNode( "root" )
+        .sFolder( "base" )
+          .sFolder( "simple" )
+            .property( "name", "${hello}" )
+          .sEnd()
+        .sEnd()
+      ;
+    return tb.build( newProducer() );
+  }
+
   protected T complexTree() {
     TreeBuilder tb = new TreeBuilder()
       .sFolder( "root" )

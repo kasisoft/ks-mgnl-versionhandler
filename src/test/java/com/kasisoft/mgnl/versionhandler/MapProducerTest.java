@@ -42,6 +42,29 @@ public class MapProducerTest extends AbstractProducerTest<Map<String, Object>> {
   }
 
   @Test
+  public void substitution() {
+    
+    Map<String, Object> map = substitutionTree();
+    assertNotNull( map );
+    
+    Map<String, Object> expected = newMap(
+      "root", newMap(
+        "nodetype", "mgnl:contentNode",
+        "base", newMap(
+          "nodetype", "mgnl:content",
+          "simple", newMap(
+            "nodetype", "mgnl:content",
+            "name", "world"
+          )
+        )
+      )
+    );
+    
+    assertThat( map, is( expected ) );
+    
+  }
+
+  @Test
   public void complex() {
     
     Map<String, Object> map = complexTree();

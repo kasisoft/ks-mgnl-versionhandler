@@ -40,8 +40,9 @@ import lombok.*;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public final class TreeBuilder {
 
-  static final String PN_KEY    = "key";
+  static final String PN_CLASS = "class";
   static final String PN_ID     = "id";
+  static final String PN_KEY    = "key";
   static final String PN_NAME   = "name";
   
   private enum ScopeToken {
@@ -66,10 +67,12 @@ public final class TreeBuilder {
   Stack<String>           defaultNodetype;
   Yaml                    yaml;
   Gson                    gson;
+  Map<String, String>     substitution;
 
   public TreeBuilder() {
     yaml            = new Yaml();
     gson            = new GsonBuilder().create();
+    substitution    = new HashMap<>();
     scopes          = new Stack<>();
     current         = new Stack<>();
     defaultNodetype = new Stack<>();
@@ -86,6 +89,30 @@ public final class TreeBuilder {
   }
   
   /**
+   * Registers a substitution token.
+   *  
+   * @param key         The key to be replaced.
+   * @param substitute  The substitution.
+   * 
+   * @return   this
+   */
+  @Nonnull
+  public TreeBuilder substitution( @Nonnull String key, @Nonnull String substitute ) {
+    substitution.put( String.format( "${%s}", key ), substitute );
+    return this;
+  }
+  
+  private String substitute( String input ) {
+    String result = input;
+    if( (result != null) && (!substitution.isEmpty()) ) {
+      StringBuilder builder = new StringBuilder( result );
+      StringFunctions.replace( builder, substitution );
+      result = builder.toString();
+    }
+    return result; 
+  }
+  
+  /**
    * Opens a toplevel node.
    *  
    * @param name   The name of the toplevel node.
@@ -94,6 +121,7 @@ public final class TreeBuilder {
    */
   @Nonnull
   public TreeBuilder sNode( @Nonnull String name ) {
+    name                      = substitute( name );
     NodeDescriptor descriptor = newNodeDescriptor( name );
     if( current().subnodes.isEmpty() ) {
       current().subnodes = new ArrayList<>();
@@ -109,6 +137,7 @@ public final class TreeBuilder {
   }
   
   private NodeDescriptor newNodeDescriptor( String name ) {
+    name                  = substitute( name );
     NodeDescriptor result = new NodeDescriptor();
     result.name           = name;
     result.properties     = Collections.emptyMap();
@@ -171,6 +200,7 @@ public final class TreeBuilder {
    */
   @Nonnull
   public TreeBuilder sDefaultNodetype( @Nonnull String nodetype ) {
+    nodetype = substitute( nodetype );
     defaultNodetype.push( nodetype );
     scopes.push( ScopeToken.NodeType );
     return this;
@@ -186,6 +216,7 @@ public final class TreeBuilder {
    */
   @Nonnull
   public TreeBuilder yaml( @Nonnull String resource, Encoding encoding ) {
+    resource                = substitute( resource );
     NodeDescriptor record   = current();
     record.importSource     = resource;
     record.importEncoding   = encoding;
@@ -215,6 +246,7 @@ public final class TreeBuilder {
    */
   @Nonnull
   public TreeBuilder json( @Nonnull String resource, Encoding encoding ) {
+    resource                = substitute( resource );
     NodeDescriptor record   = current();
     record.importSource     = resource;
     record.importEncoding   = encoding;
@@ -243,6 +275,7 @@ public final class TreeBuilder {
    */
   @Nonnull
   public TreeBuilder nodetype( @Nonnull String nodetype ) {
+    nodetype              = substitute( nodetype );
     NodeDescriptor record = current();
     record.nodeType       = nodetype;
     return this;
@@ -265,11 +298,22 @@ public final class TreeBuilder {
    */
   @Nonnull
   public TreeBuilder property( @Nonnull String name, @Nullable Object value ) {
+    if( value instanceof String ) {
+      value = substitute( (String) value );
+    }
     NodeDescriptor record = current();
     if( record.properties.isEmpty() ) {
       record.properties = new HashMap<>();
     }
     record.properties.put( name, value );
+    return this;
+  }
+  
+  @Nonnull
+  public TreeBuilder clazz( @Nullable Class<?> clazz ) {
+    if( clazz != null ) {
+      property( PN_CLASS, clazz.getName() );
+    }
     return this;
   }
   
