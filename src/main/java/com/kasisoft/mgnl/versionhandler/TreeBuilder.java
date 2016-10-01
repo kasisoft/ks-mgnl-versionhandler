@@ -121,6 +121,9 @@ public final class TreeBuilder {
    */
   @Nonnull
   public TreeBuilder sNode( @Nonnull String name ) {
+    if( name.startsWith("/") ) {
+      name = name.substring(1);
+    }
     name                      = substitute( name );
     NodeDescriptor descriptor = newNodeDescriptor( name );
     if( current().subnodes.isEmpty() ) {
