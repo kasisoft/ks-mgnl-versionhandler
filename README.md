@@ -42,8 +42,8 @@ Maven
      
      <repositories>
          <repository>
-             <id>kasisoft</id>
-             <url>https://kasisoft.com/artifactory/remote-repos</url>
+             <id>kasisoft-mgnl</id>
+             <url>https://kasisoft.com/artifactory/mgnl</url>
              <releases>
                  <enabled>true</enabled>
              </releases>
