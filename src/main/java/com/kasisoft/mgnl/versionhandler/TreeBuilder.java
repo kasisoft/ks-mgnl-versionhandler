@@ -38,9 +38,9 @@ import lombok.*;
  */
 @Slf4j
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public final class TreeBuilder {
+public class TreeBuilder<TB extends TreeBuilder> {
 
-  static final String PN_CLASS = "class";
+  static final String PN_CLASS  = "class";
   static final String PN_ID     = "id";
   static final String PN_KEY    = "key";
   static final String PN_NAME   = "name";
@@ -97,9 +97,9 @@ public final class TreeBuilder {
    * @return   this
    */
   @Nonnull
-  public TreeBuilder substitution( @Nonnull String key, @Nonnull String substitute ) {
+  public TB substitution( @Nonnull String key, @Nonnull String substitute ) {
     substitution.put( String.format( "${%s}", key ), substitute );
-    return this;
+    return (TB) this;
   }
   
   private String substitute( String input ) {
@@ -120,7 +120,7 @@ public final class TreeBuilder {
    * @return   this
    */
   @Nonnull
-  public TreeBuilder sNode( @Nonnull String name ) {
+  public TB sNode( @Nonnull String name ) {
     if( name.startsWith("/") ) {
       name = name.substring(1);
     }
@@ -132,7 +132,7 @@ public final class TreeBuilder {
     current().subnodes.add( descriptor );
     current.push( descriptor );
     scopes.push( ScopeToken.SubNodes );
-    return this;
+    return (TB) this;
   }
 
   private NodeDescriptor current() {
@@ -157,8 +157,8 @@ public final class TreeBuilder {
    * @return   this
    */
   @Nonnull
-  public TreeBuilder sFolder( @Nonnull String name ) {
-    return sNode( name ).nodetype( NodeTypes.Content.NAME );
+  public TB sFolder( @Nonnull String name ) {
+    return (TB) sNode( name ).nodetype( NodeTypes.Content.NAME );
   }
 
   /**
@@ -169,8 +169,8 @@ public final class TreeBuilder {
    * @return   this
    */
   @Nonnull
-  public TreeBuilder sContentNode( @Nonnull String name ) {
-    return sNode( name ).nodetype( NodeTypes.ContentNode.NAME );
+  public TB sContentNode( @Nonnull String name ) {
+    return (TB) sNode( name ).nodetype( NodeTypes.ContentNode.NAME );
   }
 
   /**
@@ -179,14 +179,14 @@ public final class TreeBuilder {
    * @return   this
    */
   @Nonnull
-  public TreeBuilder sEnd() {
+  public TB sEnd() {
     ScopeToken token = scopes.pop();
     if( token == ScopeToken.SubNodes ) {
       current.pop();
     } else if( token == ScopeToken.NodeType ) {
       defaultNodetype.pop();
     }
-    return this;
+    return (TB) this;
   }
 
   private void pushNodes( NodeDescriptor descriptor ) {
@@ -202,11 +202,11 @@ public final class TreeBuilder {
    * @return   this
    */
   @Nonnull
-  public TreeBuilder sDefaultNodetype( @Nonnull String nodetype ) {
+  public TB sDefaultNodetype( @Nonnull String nodetype ) {
     nodetype = substitute( nodetype );
     defaultNodetype.push( nodetype );
     scopes.push( ScopeToken.NodeType );
-    return this;
+    return (TB) this;
   }
   
   /**
@@ -218,13 +218,13 @@ public final class TreeBuilder {
    * @return   this
    */
   @Nonnull
-  public TreeBuilder yaml( @Nonnull String resource, Encoding encoding ) {
+  public TB yaml( @Nonnull String resource, Encoding encoding ) {
     resource                = substitute( resource );
     NodeDescriptor record   = current();
     record.importSource     = resource;
     record.importEncoding   = encoding;
     record.importType       = ImportType.Yaml;
-    return this;
+    return (TB) this;
   }
   
   /**
@@ -235,7 +235,7 @@ public final class TreeBuilder {
    * @return   this
    */
   @Nonnull
-  public TreeBuilder yaml( @Nonnull String resource ) {
+  public TB yaml( @Nonnull String resource ) {
     return yaml( resource, null );
   }
 
@@ -248,13 +248,13 @@ public final class TreeBuilder {
    * @return   this
    */
   @Nonnull
-  public TreeBuilder json( @Nonnull String resource, Encoding encoding ) {
+  public TB json( @Nonnull String resource, Encoding encoding ) {
     resource                = substitute( resource );
     NodeDescriptor record   = current();
     record.importSource     = resource;
     record.importEncoding   = encoding;
     record.importType       = ImportType.Json;
-    return this;
+    return (TB) this;
   }
   
   /**
@@ -265,7 +265,7 @@ public final class TreeBuilder {
    * @return   this
    */
   @Nonnull
-  public TreeBuilder json( @Nonnull String resource ) {
+  public TB json( @Nonnull String resource ) {
     return json( resource, null );
   }
 
@@ -277,11 +277,11 @@ public final class TreeBuilder {
    * @return   this
    */
   @Nonnull
-  public TreeBuilder nodetype( @Nonnull String nodetype ) {
+  public TB nodetype( @Nonnull String nodetype ) {
     nodetype              = substitute( nodetype );
     NodeDescriptor record = current();
     record.nodeType       = nodetype;
-    return this;
+    return (TB) this;
   }
 
   /**
@@ -300,7 +300,7 @@ public final class TreeBuilder {
    * @return   this
    */
   @Nonnull
-  public TreeBuilder property( @Nonnull String name, @Nullable Object value ) {
+  public TB property( @Nonnull String name, @Nullable Object value ) {
     if( value instanceof String ) {
       value = substitute( (String) value );
     }
@@ -309,15 +309,15 @@ public final class TreeBuilder {
       record.properties = new HashMap<>();
     }
     record.properties.put( name, value );
-    return this;
+    return (TB) this;
   }
   
   @Nonnull
-  public TreeBuilder clazz( @Nullable Class<?> clazz ) {
+  public TB clazz( @Nullable Class<?> clazz ) {
     if( clazz != null ) {
       property( PN_CLASS, clazz.getName() );
     }
-    return this;
+    return (TB) this;
   }
   
   private Map<String, Object> allProperties( NodeDescriptor descriptor ) {

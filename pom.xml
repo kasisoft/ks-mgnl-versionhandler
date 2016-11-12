@@ -68,6 +68,7 @@
     <plugin-version-maven-compiler>3.3</plugin-version-maven-compiler>
     <plugin-version-maven-dependency-plugin>2.10</plugin-version-maven-dependency-plugin>
     <plugin-version-maven-jar-plugin>3.0.0</plugin-version-maven-jar-plugin>
+    <plugin-version-maven-source>3.0.1</plugin-version-maven-source>
     
   </properties>
  
@@ -234,6 +235,21 @@
       
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-source-plugin</artifactId>
+          <version>${plugin-version-maven-source}</version>
+          <executions>
+            <execution>
+              <id>attach-sources</id>
+              <phase>verify</phase>
+              <goals>
+                <goal>jar-no-fork</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
+      
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-dependency-plugin</artifactId>
           <version>${plugin-version-maven-dependency-plugin}</version>
           <executions>
@@ -295,6 +311,11 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
+      </plugin>
+    
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-source-plugin</artifactId>
       </plugin>
     
       <plugin>

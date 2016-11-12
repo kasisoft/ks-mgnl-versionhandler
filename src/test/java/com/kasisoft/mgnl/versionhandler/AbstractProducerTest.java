@@ -20,7 +20,7 @@ public abstract class AbstractProducerTest<T> {
   }
   
   protected T simpleTree() {
-    TreeBuilder tb = new TreeBuilder()
+    TreeBuilder<?> tb = new TreeBuilder<>()
       .sNode( "root" )
         .sFolder( "base" )
           .sFolder( "simple" )
@@ -32,7 +32,7 @@ public abstract class AbstractProducerTest<T> {
   }
 
   protected T substitutionTree() {
-    TreeBuilder tb = new TreeBuilder()
+    TreeBuilder<?> tb = new TreeBuilder()
       .substitution( "hello", "world" )
       .sNode( "root" )
         .sFolder( "base" )
@@ -45,7 +45,7 @@ public abstract class AbstractProducerTest<T> {
   }
 
   protected T complexTree() {
-    TreeBuilder tb = new TreeBuilder()
+    TreeBuilder<?> tb = new TreeBuilder()
       .sFolder( "root" )
         .sFolder( "base" )
           .sFolder( "simple" )
@@ -62,7 +62,7 @@ public abstract class AbstractProducerTest<T> {
   }
 
   protected T complexSimplifiedTree() {
-    TreeBuilder tb = new TreeBuilder()
+    TreeBuilder<?> tb = new TreeBuilder()
       .sFolder( "root/base/wombat/what" )
         .sFolder( "simple" )
           .property( "name", "dodo" )
@@ -81,7 +81,7 @@ public abstract class AbstractProducerTest<T> {
   }
   
   protected T supplierTree() {
-    TreeBuilder tb = new TreeBuilder()
+    TreeBuilder<?> tb = new TreeBuilder()
       .sNode( "root" )
         .sFolder( "base" )
           .sFolder( "simple" )
@@ -98,7 +98,7 @@ public abstract class AbstractProducerTest<T> {
   }
 
   protected T mapValueTree() {
-    TreeBuilder tb = new TreeBuilder()
+    TreeBuilder<?> tb = new TreeBuilder()
       .sNode( "root" )
         .sFolder( "base" )
           .sFolder( "simple" )
@@ -114,7 +114,7 @@ public abstract class AbstractProducerTest<T> {
   }
 
   protected T yamlTree() {
-    TreeBuilder tb = new TreeBuilder()
+    TreeBuilder<?> tb = new TreeBuilder()
       .sNode( "root" )
         .sFolder( "base" )
           .sFolder( "simple" )
@@ -131,7 +131,7 @@ public abstract class AbstractProducerTest<T> {
   }
 
   protected T jsonTree() {
-    TreeBuilder tb = new TreeBuilder()
+    TreeBuilder<?> tb = new TreeBuilder()
       .sNode( "root" )
         .sFolder( "base" )
           .sFolder( "simple" )
