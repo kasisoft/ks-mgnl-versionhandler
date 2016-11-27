@@ -37,7 +37,7 @@ public class MapProducer implements Producer<Map<String, Object>> {
       result = (Map<String, Object>) parent.get( name );
       if( result.containsKey( PN_NODETYPE ) ) {
         if( ! result.get( PN_NODETYPE ).equals( nodeType ) ) {
-          String invalidNodetype = error_invalid_nodetype.format( result.get( PN_NODETYPE ), nodeType );
+          String invalidNodetype = error_invalid_nodetype.format( "{parental map}", name, result.get( PN_NODETYPE ), nodeType );
           if( fail ) {
             handler.apply( new IllegalStateException( invalidNodetype ) );
           } else {

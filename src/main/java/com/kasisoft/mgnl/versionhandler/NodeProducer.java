@@ -54,7 +54,7 @@ public class NodeProducer implements Producer<Node> {
     if( parent.hasNode( name ) ) {
       result = parent.getNode( name );
       if( ! result.isNodeType( nodeType ) ) {
-        String invalidNodetype = error_invalid_nodetype.format( result.getPrimaryNodeType().getName(), nodeType );
+        String invalidNodetype = error_invalid_nodetype.format( parent.getPath(), name, result.getPrimaryNodeType().getName(), nodeType );
         if( fail ) {
           handler.apply( new IllegalStateException( invalidNodetype ) );
         } else {

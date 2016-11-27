@@ -18,7 +18,7 @@ public class Messages {
   @I18N("failed to update module '%s' from version %s. cause: %s")
   static I18NFormatter              error_failed_to_update;
 
-  @I18N("invalid node type. got '%s' instead of '%s'")
+  @I18N("invalid node type at (%s/%s). got '%s' instead of '%s'")
   static I18NFormatter              error_invalid_nodetype;
   
   @I18N("the resource '%s' could not be loaded. cause: %s")
