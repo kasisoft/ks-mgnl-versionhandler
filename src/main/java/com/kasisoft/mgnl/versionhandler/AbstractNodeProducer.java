@@ -41,20 +41,20 @@ public class AbstractNodeProducer<R extends Node> implements Producer<R> {
   }
   
   @Override
-  public R getChild( R parent, String name, String nodeType, boolean fail ) {
+  public R getChild( String parentPath, R parent, String name, String nodeType, boolean fail ) {
     try {
-      return getChildImpl( parent, name, nodeType, fail );
+      return getChildImpl( parentPath, parent, name, nodeType, fail );
     } catch( RepositoryException ex ) {
       throw handler.apply( ex );
     }
   }
 
-  private R getChildImpl( R parent, String name, String nodeType, boolean fail ) throws RepositoryException {
+  private R getChildImpl( String parentPath, R parent, String name, String nodeType, boolean fail ) throws RepositoryException {
     R result = null;
     if( parent.hasNode( name ) ) {
       result = (R) parent.getNode( name );
       if( ! result.isNodeType( nodeType ) ) {
-        String invalidNodetype = error_invalid_nodetype.format( parent.getPath(), name, result.getPrimaryNodeType().getName(), nodeType );
+        String invalidNodetype = error_invalid_nodetype.format( parentPath, name, result.getPrimaryNodeType().getName(), nodeType );
         if( fail ) {
           handler.apply( new IllegalStateException( invalidNodetype ) );
         } else {

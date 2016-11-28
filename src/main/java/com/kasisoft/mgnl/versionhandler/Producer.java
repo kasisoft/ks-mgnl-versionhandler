@@ -30,6 +30,7 @@ public interface Producer<R> {
    * Returns the child node associated with a parental node. If the child doesn't exist it's supposed to be
    * created.
    * 
+   * @param path       The current path of the parental element (useful if not available within <code>parent</code>).
    * @param parent     The parental node.
    * @param name       The name of the child node.
    * @param nodeType   The desired nodetype.
@@ -38,7 +39,7 @@ public interface Producer<R> {
    * @return   The child node.
    */
   @Nonnull
-  R getChild( @Nonnull R parent, @Nonnull String name, @Nonnull String nodeType, boolean fail );
+  R getChild( @Nonnull String path, @Nonnull R parent, @Nonnull String name, @Nonnull String nodeType, boolean fail );
   
   /**
    * Applies a simple property to the supplied node.

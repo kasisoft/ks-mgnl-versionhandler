@@ -8,6 +8,8 @@ import info.magnolia.module.delta.*;
 
 import info.magnolia.module.*;
 
+import com.kasisoft.libs.common.model.*;
+
 import javax.annotation.*;
 import javax.jcr.*;
 
@@ -28,7 +30,7 @@ import lombok.*;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class JcrConfigurationTask extends AbstractRepositoryTask {
 
-  List<Object[]>   builders = new ArrayList<>();
+  List<Pair<String, TreeBuilder>>   builders = new ArrayList<>();
   
   /**
    * Initializes this task with a certain name and a description.
@@ -56,17 +58,22 @@ public class JcrConfigurationTask extends AbstractRepositoryTask {
    * @param builder     The builder used to produce the structure.
    */
   protected void register( @Nonnull String workspace, @Nonnull TreeBuilder builder ) {
-    builders.add( new Object[] { workspace, builder } );
+    builders.add( new Pair<String, TreeBuilder>( workspace, builder ) );
   }
   
   @Override
   protected void doExecute( @Nonnull InstallContext ctx ) throws RepositoryException, TaskExecutionException {
     log.debug( msg_n_configurations.format( builders.size() ) );
     int i = 1;
-    for( Object[] builder : builders ) {
-      String      workspace   = (String) builder[0];
+    for( Pair<String, TreeBuilder> pair : builders ) {
+      String      workspace   = pair.getKey();
+      TreeBuilder ntBuilder   = pair.getValue();
       log.debug( msg_configuring.format( i, builders.size(), workspace ) );
-      TreeBuilder ntBuilder   = (TreeBuilder) builder[1];
+      if( log.isDebugEnabled() ) {
+        DescriptiveProducer prod = new DescriptiveProducer();
+        ntBuilder.build( prod );
+        log.debug( prod.toString() );
+      }      
       Session     jcrSession  = ctx.getJCRSession( workspace );
       ntBuilder.build( new NodeProducer( jcrSession ) );
       jcrSession.save();

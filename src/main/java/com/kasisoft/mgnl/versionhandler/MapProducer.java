@@ -31,13 +31,13 @@ public class MapProducer implements Producer<Map<String, Object>> {
   }
   
   @Override
-  public Map<String, Object> getChild( Map<String, Object> parent, String name, String nodeType, boolean fail ) {
+  public Map<String, Object> getChild( String parentPath, Map<String, Object> parent, String name, String nodeType, boolean fail ) {
     Map<String, Object> result = null;
     if( parent.containsKey( name ) ) {
       result = (Map<String, Object>) parent.get( name );
       if( result.containsKey( PN_NODETYPE ) ) {
         if( ! result.get( PN_NODETYPE ).equals( nodeType ) ) {
-          String invalidNodetype = error_invalid_nodetype.format( "{parental map}", name, result.get( PN_NODETYPE ), nodeType );
+          String invalidNodetype = error_invalid_nodetype.format( parentPath, name, result.get( PN_NODETYPE ), nodeType );
           if( fail ) {
             handler.apply( new IllegalStateException( invalidNodetype ) );
           } else {
