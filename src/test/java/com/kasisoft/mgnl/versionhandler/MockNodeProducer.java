@@ -1,9 +1,5 @@
 package com.kasisoft.mgnl.versionhandler;
 
-import lombok.experimental.*;
-
-import lombok.*;
-
 import info.magnolia.test.mock.jcr.*;
 
 /**
@@ -11,7 +7,6 @@ import info.magnolia.test.mock.jcr.*;
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public class MockNodeProducer extends AbstractNodeProducer<MockNode> {
   
   public MockNodeProducer( MockSession jcrSession ) {

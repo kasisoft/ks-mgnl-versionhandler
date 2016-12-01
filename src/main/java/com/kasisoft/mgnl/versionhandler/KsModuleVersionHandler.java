@@ -10,6 +10,8 @@ import info.magnolia.module.*;
 
 import info.magnolia.jcr.util.*;
 
+import org.slf4j.*;
+
 import org.apache.commons.lang3.*;
 
 import javax.annotation.*;
@@ -20,12 +22,6 @@ import java.util.stream.*;
 
 import java.util.*;
 
-import lombok.extern.slf4j.*;
-
-import lombok.experimental.*;
-
-import lombok.*;
-
 /**
  * This {@link ModuleVersionHandler} is pretty simple as the task execution is tracked through a running number.
  * It's possible to associate this number with a discriminator in order to distinguish various numbers. Since
@@ -35,18 +31,18 @@ import lombok.*;
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
-@Slf4j
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public class KsModuleVersionHandler implements ModuleVersionHandler {
   
-  static final String PN_VERSION            = "version";
+  private static final Logger log = LoggerFactory.getLogger( KsModuleVersionHandler.class );
   
-  static final String FMT_UPDATESET         = "update_%s";
-  static final String FMT_MODULES           = "/modules/%s";
+  private static final String PN_VERSION            = "version";
+  
+  private static final String FMT_UPDATESET         = "update_%s";
+  private static final String FMT_MODULES           = "/modules/%s";
 
-  static final String DEFAULT_DISCRIMINATOR = "default";
+  private static final String DEFAULT_DISCRIMINATOR = "default";
   
-  Map<String, Map<Integer, Task>>   tasks = new HashMap<>();
+  private Map<String, Map<Integer, Task>>   tasks = new HashMap<>();
   
   /**
    * Registers the supplied task with a running number.

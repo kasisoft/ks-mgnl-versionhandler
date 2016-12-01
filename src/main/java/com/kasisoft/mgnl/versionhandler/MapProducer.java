@@ -2,28 +2,24 @@ package com.kasisoft.mgnl.versionhandler;
 
 import static com.kasisoft.mgnl.versionhandler.internal.Messages.*;
 
+import org.slf4j.*;
+
 import java.util.function.*;
 
 import java.util.*;
-
-import lombok.extern.slf4j.*;
-
-import lombok.experimental.*;
-
-import lombok.*;
 
 /**
  * This {@link Producer} implementation generates a Map based tree structure. 
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
-@Slf4j
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public class MapProducer implements Producer<Map<String, Object>> {
 
-  static final String PN_NODETYPE = "nodetype";
+  private static final Logger log = LoggerFactory.getLogger( MapProducer.class );
   
-  Function<Exception, IllegalStateException>   handler = $ -> new IllegalStateException($);
+  private static final String PN_NODETYPE = "nodetype";
+  
+  private Function<Exception, IllegalStateException>   handler = $ -> new IllegalStateException($);
   
   @Override
   public Map<String, Object> getRootNode() {

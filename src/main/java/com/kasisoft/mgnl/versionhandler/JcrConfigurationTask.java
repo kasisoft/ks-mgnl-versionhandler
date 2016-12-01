@@ -10,27 +10,23 @@ import info.magnolia.module.*;
 
 import com.kasisoft.libs.common.model.*;
 
+import org.slf4j.*;
+
 import javax.annotation.*;
 import javax.jcr.*;
 
 import java.util.*;
-
-import lombok.extern.slf4j.*;
-
-import lombok.experimental.*;
-
-import lombok.*;
 
 /**
  * This basic task allows to execute the tree based creation on different workspaces. 
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
-@Slf4j
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public class JcrConfigurationTask extends AbstractRepositoryTask {
 
-  List<Pair<String, TreeBuilder>>   builders = new ArrayList<>();
+  private static final Logger log = LoggerFactory.getLogger( JcrConfigurationTask.class );
+  
+  private List<Pair<String, TreeBuilder>>   builders = new ArrayList<>();
   
   /**
    * Initializes this task with a certain name and a description.
