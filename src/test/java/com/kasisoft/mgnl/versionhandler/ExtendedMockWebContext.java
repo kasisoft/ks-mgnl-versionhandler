@@ -61,8 +61,12 @@ public class ExtendedMockWebContext extends MockWebContext {
     Node mainContentNode    = getAggregationState().getMainContentNode();
     Node currentContentNode = getAggregationState().getCurrentContentNode();
     super.setAggregationState( aggregationState );
-    aggregationState.setMainContentNode( mainContentNode );
-    aggregationState.setCurrentContentNode( currentContentNode );
+    if( mainContentNode != null ) {
+      aggregationState.setMainContentNode( mainContentNode );
+    }
+    if( currentContentNode != null ) {
+      aggregationState.setCurrentContentNode( currentContentNode );
+    }
   }
   
   @Nonnull
