@@ -9,3 +9,5 @@ target/
 **/app/*.js
 **/app/*.js.map
 .sass-cache/
+rebel.xml
+
