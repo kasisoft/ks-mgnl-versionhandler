@@ -25,8 +25,9 @@ import java.util.*;
 public class JcrConfigurationTask extends AbstractRepositoryTask {
 
   private static final Logger log = LoggerFactory.getLogger( JcrConfigurationTask.class );
-  
-  private List<Pair<String, TreeBuilder>>   builders = new ArrayList<>();
+
+  // either Task or Pair<String, TreeBuilder>
+  private List<Object>   builders = new ArrayList<>();
   
   /**
    * Initializes this task with a certain name and a description.
@@ -36,6 +37,15 @@ public class JcrConfigurationTask extends AbstractRepositoryTask {
    */
   public JcrConfigurationTask( @Nonnull String name, @Nonnull String description ) {
     super( name, description );
+  }
+
+  /**
+   * Registers the supplied {@link Task} instance to be executed as part of this task.
+   * 
+   * @param task   The task that will be executed as part of this task.
+   */
+  protected void register( @Nonnull Task task ) {
+    builders.add( task );
   }
 
   /**
@@ -61,19 +71,24 @@ public class JcrConfigurationTask extends AbstractRepositoryTask {
   protected void doExecute( @Nonnull InstallContext ctx ) throws RepositoryException, TaskExecutionException {
     log.debug( msg_n_configurations.format( builders.size() ) );
     int i = 1;
-    for( Pair<String, TreeBuilder> pair : builders ) {
-      String      workspace   = pair.getKey();
-      TreeBuilder ntBuilder   = pair.getValue();
-      log.debug( msg_configuring.format( i, builders.size(), workspace ) );
-      if( log.isDebugEnabled() ) {
-        DescriptiveProducer prod = new DescriptiveProducer();
-        ntBuilder.build( prod );
-        log.debug( prod.toString() );
-      }      
-      Session     jcrSession  = ctx.getJCRSession( workspace );
-      ntBuilder.build( new NodeProducer( jcrSession ) );
-      jcrSession.save();
-      i++;
+    for( Object obj : builders ) {
+      if( obj instanceof Task ) {
+        ((Task) obj).execute( ctx );
+      } else {
+        Pair<String, TreeBuilder> pair = (Pair<String, TreeBuilder>) obj;
+        String      workspace   = pair.getKey();
+        TreeBuilder ntBuilder   = pair.getValue();
+        log.debug( msg_configuring.format( i, builders.size(), workspace ) );
+        if( log.isDebugEnabled() ) {
+          DescriptiveProducer prod = new DescriptiveProducer();
+          ntBuilder.build( prod );
+          log.debug( prod.toString() );
+        }      
+        Session jcrSession  = ctx.getJCRSession( workspace );
+        ntBuilder.build( new NodeProducer( jcrSession ) );
+        jcrSession.save();
+        i++;
+      }
     }
   }
 
