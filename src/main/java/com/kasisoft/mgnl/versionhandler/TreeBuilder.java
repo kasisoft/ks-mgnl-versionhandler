@@ -286,6 +286,24 @@ public class TreeBuilder<TB extends TreeBuilder> {
   }
 
   /**
+   * Like {@link #property(String, Object)} with the difference that this variety allows the argument to be
+   * a formatting String.
+   * 
+   * @param name    The name of the property.  
+   * @param fmt     The formatting string.
+   * @param args    The arguments for the formatting string.
+   * 
+   * @return   this
+   */
+  public TB propertyF( @Nonnull String name, @Nullable String fmt, Object ... args ) {
+    String val = fmt;
+    if( (fmt != null) && (args != null) && (args.length > 0) ) {
+      val = String.format( fmt, args );
+    }
+    return property( name, val );
+  }
+  
+  /**
    * Changes a property for the current node. The value will be processed in the following way:
    * 
    * <ul>
