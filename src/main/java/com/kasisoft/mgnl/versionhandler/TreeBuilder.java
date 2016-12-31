@@ -380,7 +380,7 @@ public class TreeBuilder<TB extends TreeBuilder> {
     }
   }
 
-  private String toName( Map<String, Object> map, Integer idx ) {
+  private String toName( Map<String, Object> map ) {
     String result = StringUtils.trimToNull( (String) map.get( PN_NAME ) );
     if( result == null ) {
       result = StringUtils.trimToNull( (String) map.get( PN_ID ) );
@@ -487,15 +487,13 @@ public class TreeBuilder<TB extends TreeBuilder> {
           i++;
         }
       } else {
-        int i = 0;
         for( Object obj : list ) {
           Map    map  = (Map) obj;
-          String name = toName( map, i );
+          String name = toName( map );
           if( name == null ) {
             throw errorHandler( new IllegalStateException( error_cannot_determine_name.format( path ) ) );
           }
           setProperty( producer, childNode, name, map, fail, path );
-          i++;
         }
       }
     }
