@@ -43,18 +43,25 @@ public class JcrConfigurationTask extends AbstractRepositoryTask {
    * Registers the supplied {@link Task} instance to be executed as part of this task.
    * 
    * @param task   The task that will be executed as part of this task.
+   * 
+   * @return   this
    */
-  protected void register( @Nonnull Task task ) {
+  @Nonnull
+  protected <R extends JcrConfigurationTask> R register( @Nonnull Task task ) {
     builders.add( task );
+    return (R) this;
   }
 
   /**
    * Registers the supplied {@link TreeBuilder} instance to be executed on the {@link RepositoryConstants#CONFIG} workspace.
    * 
    * @param builder   The builder used to produce the structure.
+   * 
+   * @return   this
    */
-  protected void register( @Nonnull TreeBuilder builder ) {
-    register( RepositoryConstants.CONFIG, builder );
+  @Nonnull
+  protected <R extends JcrConfigurationTask> R register( @Nonnull TreeBuilder builder ) {
+    return register( RepositoryConstants.CONFIG, builder );
   }
   
   /**
@@ -62,9 +69,13 @@ public class JcrConfigurationTask extends AbstractRepositoryTask {
    *
    * @param workspace   The workspace to be used.
    * @param builder     The builder used to produce the structure.
+   * 
+   * @return   this
    */
-  protected void register( @Nonnull String workspace, @Nonnull TreeBuilder builder ) {
+  @Nonnull
+  protected <R extends JcrConfigurationTask> R register( @Nonnull String workspace, @Nonnull TreeBuilder builder ) {
     builders.add( new Pair<String, TreeBuilder>( workspace, builder ) );
+    return (R) this;
   }
   
   @Override
