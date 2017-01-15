@@ -432,14 +432,14 @@
   
   <distributionManagement>
     <repository>
-      <id>kasisoft-mgnl</id>
-      <name>kasisoft-mgnl</name>
-      <url>https://kasisoft.com/artifactory/mgnl</url>
+      <id>libs-kasisoft</id>
+      <name>libs-kasisoft</name>
+      <url>https://kasisoft.com/artifactory/libs-kasisoft</url>
     </repository>
     <snapshotRepository>
-      <id>kasisoft-mgnl</id>
-      <name>kasisoft-mgnl</name>
-      <url>https://kasisoft.com/artifactory/mgnl</url>
+      <id>libs-kasisoft</id>
+      <name>libs-kasisoft</name>
+      <url>https://kasisoft.com/artifactory/libs-kasisoft</url>
     </snapshotRepository>
   </distributionManagement>
   

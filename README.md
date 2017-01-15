@@ -40,8 +40,8 @@ Maven
      
      <repositories>
          <repository>
-             <id>kasisoft-mgnl</id>
-             <url>https://kasisoft.com/artifactory/mgnl</url>
+             <id>libs-kasisoft</id>
+             <url>https://kasisoft.com/artifactory/libs-kasisoft</url>
              <releases>
                  <enabled>true</enabled>
              </releases>
