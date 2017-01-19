@@ -28,9 +28,6 @@ public class Messages {
   @I18N("cannot register running key %d for discriminator '%s' as it had already been registered")
   public static I18NFormatter              error_registration_failure;
 
-  @I18N("executing query (%s): %s")
-  public static I18NFormatter              executing_query;
-  
   @I18N("configuring %d/%d on workspace '%s'")
   public static I18NFormatter              msg_configuring;
   
