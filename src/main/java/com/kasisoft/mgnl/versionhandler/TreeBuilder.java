@@ -284,7 +284,19 @@ public class TreeBuilder<TB extends TreeBuilder> {
     record.nodeType       = nodetype;
     return (TB) this;
   }
-
+  
+  /**
+   * This function allows to use an alternative api above the treebuilder.
+   * 
+   * @param apiProvider   This function delivers the wrapper in order to use the alternative api.
+   * 
+   * @return   The new wrapper which might provide a different api on top of the TreeBuilder.
+   */
+  @Nonnull
+  public <R extends TreeBuilderModifier> R sStartModifier( @Nonnull Function<TreeBuilder, R> apiProvider ) {
+    return apiProvider.apply( this );
+  }
+  
   /**
    * Like {@link #property(String, Object)} with the difference that this variety allows the argument to be
    * a formatting String.
