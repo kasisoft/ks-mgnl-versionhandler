@@ -159,7 +159,7 @@ public class TreeBuilder<TB extends TreeBuilder> {
    */
   @Nonnull
   public TB sFolder( @Nonnull String name ) {
-    return (TB) sNode( name ).nodetype( NodeTypes.Content.NAME );
+    return (TB) sNode( name ).nodetype( NodeTypes.Folder.NAME );
   }
 
   /**
