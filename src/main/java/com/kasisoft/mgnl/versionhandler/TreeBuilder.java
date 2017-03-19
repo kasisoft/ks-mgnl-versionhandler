@@ -151,7 +151,7 @@ public class TreeBuilder<TB extends TreeBuilder> {
   }
 
   /**
-   * Opens a node on a sublevel with the node type <code>NodeTypes.Content.NAME</code>.
+   * Opens a node on a sublevel with the node type <code>NodeTypes.Folder.NAME</code>.
    *  
    * @param name   The name of the sublevel node.
    * 
@@ -160,6 +160,18 @@ public class TreeBuilder<TB extends TreeBuilder> {
   @Nonnull
   public TB sFolder( @Nonnull String name ) {
     return (TB) sNode( name ).nodetype( NodeTypes.Folder.NAME );
+  }
+
+  /**
+   * Opens a node on a sublevel with the node type <code>NodeTypes.Content.NAME</code>.
+   *  
+   * @param name   The name of the sublevel node.
+   * 
+   * @return   this
+   */
+  @Nonnull
+  public TB sContent( @Nonnull String name ) {
+    return (TB) sNode( name ).nodetype( NodeTypes.Content.NAME );
   }
 
   /**

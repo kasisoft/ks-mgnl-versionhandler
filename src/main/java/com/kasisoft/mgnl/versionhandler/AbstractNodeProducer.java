@@ -50,6 +50,13 @@ public class AbstractNodeProducer<R extends Node> implements Producer<R> {
     if( parent.hasNode( name ) ) {
       result = (R) parent.getNode( name );
       if( ! result.isNodeType( nodeType ) ) {
+        if( parentPath.endsWith("/") ) {
+          if( parentPath.length() == 1 ) {
+            parentPath = "";
+          } else {
+            parentPath = parentPath.substring( 0, parentPath.length() - 1 );
+          }
+        }
         String invalidNodetype = error_invalid_nodetype.format( parentPath, name, result.getPrimaryNodeType().getName(), nodeType );
         if( fail ) {
           handler.apply( new IllegalStateException( invalidNodetype ) );
