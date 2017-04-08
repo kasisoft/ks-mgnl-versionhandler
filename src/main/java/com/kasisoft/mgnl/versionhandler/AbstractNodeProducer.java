@@ -4,23 +4,27 @@ import static com.kasisoft.mgnl.versionhandler.internal.Messages.*;
 
 import info.magnolia.jcr.util.*;
 
-import org.slf4j.*;
-
 import javax.jcr.*;
 
 import java.util.function.*;
+
+import lombok.extern.slf4j.*;
+
+import lombok.experimental.*;
+
+import lombok.*;
 
 /**
  * This producer generates a JCR based tree structure. 
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@Slf4j
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class AbstractNodeProducer<R extends Node> implements Producer<R> {
 
-  private static final Logger log = LoggerFactory.getLogger( AbstractNodeProducer.class );
-  
-  private Session                                      session;
-  private Function<Exception, IllegalStateException>   handler;
+  Session                                      session;
+  Function<Exception, IllegalStateException>   handler;
   
   public AbstractNodeProducer( Session jcrSession ) {
     session = jcrSession;

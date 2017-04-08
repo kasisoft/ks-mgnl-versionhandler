@@ -12,8 +12,6 @@ import com.google.gson.*;
 
 import org.yaml.snakeyaml.*;
 
-import org.slf4j.*;
-
 import org.apache.commons.lang3.builder.*;
 
 import org.apache.commons.lang3.*;
@@ -28,6 +26,12 @@ import java.net.*;
 
 import java.io.*;
 
+import lombok.extern.slf4j.*;
+
+import lombok.experimental.*;
+
+import lombok.*;
+
 /**
  * This convenience class allows to setup a tree in order to transform it for various purposes.
  * Be aware that each method prefixed with a lower case 's' opens a scope and thus requires to be closed
@@ -37,10 +41,10 @@ import java.io.*;
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@FieldDefaults(level = AccessLevel.PRIVATE)
+@Slf4j
 public class TreeBuilder<TB extends TreeBuilder> {
 
-  private static final Logger log = LoggerFactory.getLogger( TreeBuilder.class );
-  
   private static final String PN_CLASS  = "class";
   private static final String PN_ID     = "id";
   private static final String PN_KEY    = "key";
@@ -62,13 +66,13 @@ public class TreeBuilder<TB extends TreeBuilder> {
     
   }
   
-  private NodeDescriptor          root;
-  private Stack<NodeDescriptor>   current;
-  private Stack<ScopeToken>       scopes;
-  private Stack<String>           defaultNodetype;
-  private Yaml                    yaml;
-  private Gson                    gson;
-  private Map<String, String>     substitution;
+  NodeDescriptor          root;
+  Stack<NodeDescriptor>   current;
+  Stack<ScopeToken>       scopes;
+  Stack<String>           defaultNodetype;
+  Yaml                    yaml;
+  Gson                    gson;
+  Map<String, String>     substitution;
 
   public TreeBuilder() {
     yaml            = new Yaml();

@@ -4,15 +4,21 @@ import com.kasisoft.libs.common.text.*;
 
 import java.util.function.*;
 
+import lombok.experimental.*;
+
+import lombok.*;
+
 /**
  * This producer generates a JCR based tree structure. 
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@FieldDefaults(level = AccessLevel.PRIVATE)
+@ToString(of = {"text"})
 public class DescriptiveProducer implements Producer<StringFBuilder> {
 
-  private Function<Exception, IllegalStateException>   handler;
-  private StringFBuilder                               text;
+  Function<Exception, IllegalStateException>   handler;
+  StringFBuilder                               text;
   
   public DescriptiveProducer() {
     handler = $ -> new IllegalStateException($);
@@ -48,9 +54,4 @@ public class DescriptiveProducer implements Producer<StringFBuilder> {
     }
   }
   
-  @Override
-  public String toString() {
-    return text.toString();
-  }
-
 } /* ENDCLASS */

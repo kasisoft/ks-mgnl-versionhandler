@@ -22,6 +22,10 @@ import java.util.stream.*;
 
 import java.util.*;
 
+import lombok.experimental.*;
+
+import lombok.*;
+
 /**
  * This {@link ModuleVersionHandler} is pretty simple as the task execution is tracked through a running number.
  * It's possible to associate this number with a discriminator in order to distinguish various numbers. Since
@@ -31,6 +35,7 @@ import java.util.*;
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class KsModuleVersionHandler implements ModuleVersionHandler {
   
   private static final Logger log = LoggerFactory.getLogger( KsModuleVersionHandler.class );
@@ -42,7 +47,7 @@ public class KsModuleVersionHandler implements ModuleVersionHandler {
 
   private static final String DEFAULT_DISCRIMINATOR = "default";
   
-  private Map<String, Map<Integer, Task>>   tasks = new HashMap<>();
+  Map<String, Map<Integer, Task>>   tasks = new HashMap<>();
   
   /**
    * Registers the supplied task with a running number.
