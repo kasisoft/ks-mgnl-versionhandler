@@ -1,43 +1,38 @@
 Purpose
 =======
 
-'''NOTE:''' This documentation is currently work-in-progress and therefore incomplete. 28-Sep-2016
-
-Magnolia module providing an alternative solution in order to setup jcr configurations.
+This project provides a bunch of helpful tools in order to manage JCR configurations.
 
 
 Contact
--------
+=======
 
 * daniel.kasmeroglu@kasisoft.net
 
 
 Requirements
-------------
+============
 
  * Java 8
  * Magnolia 5.4.9
 
 
-Development Setup
------------------
+Jira
+====
 
-
-Jenkins (CI)
-------------
-
-* https://kasisoft.com/ci/job/mgnl.versionhandler
+* https://kasisoft.com/jira/projects/MGNLVERS/issues
 
 
 Maven
------
+=====
 
-     <dependency>
-         <groupId>com.kasisoft.mgnl</groupId>
-         <artifactId>com.kasisoft.mgnl.versionhandler</artifactId>
-         <version>0.1-SNAPSHOT</version>
-     </dependency>
-     
+I assume that you're familiar with Maven. If not I suggest to visit the following page:
+
+* https://maven.apache.org/
+
+All artifacts (SNAPSHOTS/RELEASES) are being managed within a dedicated repository which is accessible to all.
+Just add the following repository to your pom or settings.xml :
+
      <repositories>
          <repository>
              <id>libs-kasisoft</id>
@@ -50,10 +45,23 @@ Maven
              </snapshots>
          </repository>
      </repositories>
-     
+
+
+Dependency
+----------
+
+     <dependency>
+         <groupId>com.kasisoft.mgnl</groupId>
+         <artifactId>com.kasisoft.mgnl.versionhandler</artifactId>
+         <version>0.1</version>
+         <!--
+         <version>0.1-SNAPSHOT</version>
+         -->
+     </dependency>
+
      
 Basic scenario
---------------
+==============
 
     public CustomThemeVersionHandler() {
         register( 1, new VirtualUriMappingTask() );
@@ -113,34 +121,26 @@ A final sequence of *sEnd()* calls is allowed to be omitted, so the tree could b
     
 
 License
--------
+=======
 
-* BSD: http://directory.fsf.org/wiki/License:BSD_3Clause
+MIT License
 
-Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions are
-met:
+Copyright (c) 2017 Daniel Kasmeroglu (Kasisoft)
 
-    (1) Redistributions of source code must retain the above copyright
-    notice, this list of conditions and the following disclaimer. 
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
 
-    (2) Redistributions in binary form must reproduce the above copyright
-    notice, this list of conditions and the following disclaimer in
-    the documentation and/or other materials provided with the
-    distribution.  
-    
-    (3)The name of the author may not be used to
-    endorse or promote products derived from this software without
-    specific prior written permission.
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
 
-THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
-IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
-WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-DISCLAIMED. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT,
-INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
-(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
-SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
-HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
-STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING
-IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
-POSSIBILITY OF SUCH DAMAGE.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
