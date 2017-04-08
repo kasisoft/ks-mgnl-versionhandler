@@ -35,11 +35,11 @@ public class MockNodeProducerTest extends AbstractProducerTest<MockNode> {
     MockNode node = simpleTree();
     assertNotNull( node );
     
-    MockNode rootNode = assertNode( node, "root", NodeTypes.ContentNode.NAME );
+    MockNode rootNode = assertNode( node, "root", NodeTypes.Content.NAME );
     
-    MockNode baseNode = assertNode( rootNode, "base", NodeTypes.Content.NAME );
+    MockNode baseNode = assertNode( rootNode, "base", NodeTypes.Folder.NAME );
 
-    MockNode simpleNode = assertNode( baseNode, "simple", NodeTypes.Content.NAME );
+    MockNode simpleNode = assertNode( baseNode, "simple", NodeTypes.Folder.NAME );
     assertThat( PropertyUtil.getString( simpleNode, "name" ), is( "dodo" ) );
     
   }
@@ -50,11 +50,11 @@ public class MockNodeProducerTest extends AbstractProducerTest<MockNode> {
     MockNode node = substitutionTree();
     assertNotNull( node );
     
-    MockNode rootNode = assertNode( node, "root", NodeTypes.ContentNode.NAME );
+    MockNode rootNode = assertNode( node, "root", NodeTypes.Content.NAME );
     
-    MockNode baseNode = assertNode( rootNode, "base", NodeTypes.Content.NAME );
+    MockNode baseNode = assertNode( rootNode, "base", NodeTypes.Folder.NAME );
 
-    MockNode simpleNode = assertNode( baseNode, "simple", NodeTypes.Content.NAME );
+    MockNode simpleNode = assertNode( baseNode, "simple", NodeTypes.Folder.NAME );
     assertThat( PropertyUtil.getString( simpleNode, "name" ), is( "world" ) );
     
   }
@@ -65,11 +65,11 @@ public class MockNodeProducerTest extends AbstractProducerTest<MockNode> {
     MockNode node = complexTree();
     assertNotNull( node );
     
-    MockNode rootNode = assertNode( node, "root", NodeTypes.Content.NAME );
+    MockNode rootNode = assertNode( node, "root", NodeTypes.Folder.NAME );
     
-    MockNode baseNode = assertNode( rootNode, "base", NodeTypes.Content.NAME );
+    MockNode baseNode = assertNode( rootNode, "base", NodeTypes.Folder.NAME );
 
-    MockNode simpleNode = assertNode( baseNode, "simple", NodeTypes.Content.NAME );
+    MockNode simpleNode = assertNode( baseNode, "simple", NodeTypes.Folder.NAME );
     assertThat( PropertyUtil.getString( simpleNode, "name" ), is( "dodo" ) );
 
     MockNode oopsiNode = assertNode( baseNode, "oopsi", NodeTypes.ContentNode.NAME );
@@ -84,18 +84,18 @@ public class MockNodeProducerTest extends AbstractProducerTest<MockNode> {
     MockNode node = complexSimplifiedTree();
     assertNotNull( node );
     
-    MockNode rootNode = assertNode( node, "root", NodeTypes.Content.NAME );
+    MockNode rootNode = assertNode( node, "root", NodeTypes.Folder.NAME );
     
-    MockNode baseNode = assertNode( rootNode, "base", NodeTypes.Content.NAME );
+    MockNode baseNode = assertNode( rootNode, "base", NodeTypes.Folder.NAME );
     
-    MockNode wombatNode = assertNode( baseNode, "wombat", NodeTypes.Content.NAME );
+    MockNode wombatNode = assertNode( baseNode, "wombat", NodeTypes.Folder.NAME );
     
-    MockNode whatNode = assertNode( wombatNode, "what", NodeTypes.Content.NAME );
+    MockNode whatNode = assertNode( wombatNode, "what", NodeTypes.Folder.NAME );
     
-    MockNode simpleNode = assertNode( whatNode, "simple", NodeTypes.Content.NAME );
+    MockNode simpleNode = assertNode( whatNode, "simple", NodeTypes.Folder.NAME );
     assertThat( PropertyUtil.getString( simpleNode, "name" ), is( "dodo" ) );
     
-    MockNode oopsiNode = assertNode( whatNode, "oopsi", NodeTypes.ContentNode.NAME );
+    MockNode oopsiNode = assertNode( whatNode, "oopsi", NodeTypes.Content.NAME );
     assertThat( PropertyUtil.getString( oopsiNode, "word" ), is( "boo" ) );
     assertThat( PropertyUtil.getString( oopsiNode, "second" ), is( "third" ) );
     
@@ -107,14 +107,14 @@ public class MockNodeProducerTest extends AbstractProducerTest<MockNode> {
     MockNode node = supplierTree();
     assertNotNull( node );
     
-    MockNode rootNode = assertNode( node, "root", NodeTypes.ContentNode.NAME );
+    MockNode rootNode = assertNode( node, "root", NodeTypes.Content.NAME );
     
-    MockNode baseNode = assertNode( rootNode, "base", NodeTypes.Content.NAME );
+    MockNode baseNode = assertNode( rootNode, "base", NodeTypes.Folder.NAME );
     
-    MockNode simpleNode = assertNode( baseNode, "simple", NodeTypes.Content.NAME );
+    MockNode simpleNode = assertNode( baseNode, "simple", NodeTypes.Folder.NAME );
     assertThat( PropertyUtil.getString( simpleNode, "name" ), is( "dodo" ) );
     
-    MockNode oopsiNode = assertNode( baseNode, "oopsi", NodeTypes.ContentNode.NAME );
+    MockNode oopsiNode = assertNode( baseNode, "oopsi", NodeTypes.Content.NAME );
     assertThat( PropertyUtil.getString( oopsiNode, "word" ), is( "boo" ) );
     assertThat( PropertyUtil.getString( oopsiNode, "second" ), is( "simpleSupplier" ) );
     
@@ -126,14 +126,14 @@ public class MockNodeProducerTest extends AbstractProducerTest<MockNode> {
     MockNode node = mapValueTree();
     assertNotNull( node );
     
-    MockNode rootNode = assertNode( node, "root", NodeTypes.ContentNode.NAME );
+    MockNode rootNode = assertNode( node, "root", NodeTypes.Content.NAME );
     
-    MockNode baseNode = assertNode( rootNode, "base", NodeTypes.Content.NAME );
+    MockNode baseNode = assertNode( rootNode, "base", NodeTypes.Folder.NAME );
     
-    MockNode simpleNode = assertNode( baseNode, "simple", NodeTypes.Content.NAME );
+    MockNode simpleNode = assertNode( baseNode, "simple", NodeTypes.Folder.NAME );
     assertThat( PropertyUtil.getString( simpleNode, "name" ), is( "dodo" ) );
     
-    MockNode oopsiNode = assertNode( baseNode, "oopsi", NodeTypes.ContentNode.NAME );
+    MockNode oopsiNode = assertNode( baseNode, "oopsi", NodeTypes.Content.NAME );
     assertThat( PropertyUtil.getString( oopsiNode, "word" ), is( "list" ) );
     
     MockNode secondNode = assertNode( oopsiNode, "second", NodeTypes.ContentNode.NAME );
@@ -147,14 +147,14 @@ public class MockNodeProducerTest extends AbstractProducerTest<MockNode> {
     MockNode node = yamlTree();
     assertNotNull( node );
     
-    MockNode rootNode = assertNode( node, "root", NodeTypes.ContentNode.NAME );
+    MockNode rootNode = assertNode( node, "root", NodeTypes.Content.NAME );
     
-    MockNode baseNode = assertNode( rootNode, "base", NodeTypes.Content.NAME );
+    MockNode baseNode = assertNode( rootNode, "base", NodeTypes.Folder.NAME );
     
-    MockNode simpleNode = assertNode( baseNode, "simple", NodeTypes.Content.NAME );
+    MockNode simpleNode = assertNode( baseNode, "simple", NodeTypes.Folder.NAME );
     assertThat( PropertyUtil.getString( simpleNode, "name" ), is( "dodo" ) );
     
-    MockNode oopsiNode = assertNode( baseNode, "oopsi", NodeTypes.ContentNode.NAME );
+    MockNode oopsiNode = assertNode( baseNode, "oopsi", NodeTypes.Content.NAME );
     assertThat( PropertyUtil.getString( oopsiNode, "word" ), is( "list" ) );
     assertThat( PropertyUtil.getString( oopsiNode, "templateScript" ), is( "overridden" ) );
     assertThat( PropertyUtil.getString( oopsiNode, "renderType" ), is( "freemarker" ) );
@@ -181,14 +181,14 @@ public class MockNodeProducerTest extends AbstractProducerTest<MockNode> {
     MockNode node = jsonTree();
     assertNotNull( node );
     
-    MockNode rootNode = assertNode( node, "root", NodeTypes.ContentNode.NAME );
+    MockNode rootNode = assertNode( node, "root", NodeTypes.Content.NAME );
     
-    MockNode baseNode = assertNode( rootNode, "base", NodeTypes.Content.NAME );
+    MockNode baseNode = assertNode( rootNode, "base", NodeTypes.Folder.NAME );
     
-    MockNode simpleNode = assertNode( baseNode, "simple", NodeTypes.Content.NAME );
+    MockNode simpleNode = assertNode( baseNode, "simple", NodeTypes.Folder.NAME );
     assertThat( PropertyUtil.getString( simpleNode, "name" ), is( "dodo" ) );
     
-    MockNode oopsiNode = assertNode( baseNode, "oopsi", NodeTypes.ContentNode.NAME );
+    MockNode oopsiNode = assertNode( baseNode, "oopsi", NodeTypes.Content.NAME );
     assertThat( PropertyUtil.getString( oopsiNode, "word" ), is( "list" ) );
     assertThat( PropertyUtil.getString( oopsiNode, "templateScript" ), is( "overridden" ) );
     assertThat( PropertyUtil.getString( oopsiNode, "renderType" ), is( "freemarker" ) );

@@ -26,11 +26,11 @@ public class MapProducerTest extends AbstractProducerTest<Map<String, Object>> {
     
     Map<String, Object> expected = newMap(
       "root", newMap(
-        "nodetype", "mgnl:contentNode",
+        "nodetype", "mgnl:content",
         "base", newMap(
-          "nodetype", "mgnl:content",
+          "nodetype", "mgnl:folder",
           "simple", newMap(
-            "nodetype", "mgnl:content",
+            "nodetype", "mgnl:folder",
             "name", "dodo"
           )
         )
@@ -49,11 +49,11 @@ public class MapProducerTest extends AbstractProducerTest<Map<String, Object>> {
     
     Map<String, Object> expected = newMap(
       "root", newMap(
-        "nodetype", "mgnl:contentNode",
+        "nodetype", "mgnl:content",
         "base", newMap(
-          "nodetype", "mgnl:content",
+          "nodetype", "mgnl:folder",
           "simple", newMap(
-            "nodetype", "mgnl:content",
+            "nodetype", "mgnl:folder",
             "name", "world"
           )
         )
@@ -72,11 +72,11 @@ public class MapProducerTest extends AbstractProducerTest<Map<String, Object>> {
     
     Map<String, Object> expected = newMap(
       "root", newMap(
-        "nodetype", "mgnl:content",
+        "nodetype", "mgnl:folder",
         "base", newMap(
-          "nodetype", "mgnl:content",
+          "nodetype", "mgnl:folder",
           "simple", newMap(
-            "nodetype", "mgnl:content",
+            "nodetype", "mgnl:folder",
             "name", "dodo"
           ),
           "oopsi", newMap(
@@ -100,19 +100,19 @@ public class MapProducerTest extends AbstractProducerTest<Map<String, Object>> {
     
     Map<String, Object> expected = newMap(
       "root", newMap(
-        "nodetype", "mgnl:content",
+        "nodetype", "mgnl:folder",
         "base", newMap(
-          "nodetype", "mgnl:content",
+          "nodetype", "mgnl:folder",
           "wombat", newMap(
-            "nodetype", "mgnl:content",
+            "nodetype", "mgnl:folder",
             "what", newMap(
-              "nodetype", "mgnl:content",
+              "nodetype", "mgnl:folder",
               "simple", newMap(
-                "nodetype", "mgnl:content",
+                "nodetype", "mgnl:folder",
                 "name", "dodo"
               ),
               "oopsi", newMap(
-                "nodetype", "mgnl:contentNode",
+                "nodetype", "mgnl:content",
                 "word", "boo",
                 "second", "third"
               )
@@ -134,15 +134,15 @@ public class MapProducerTest extends AbstractProducerTest<Map<String, Object>> {
     
     Map<String, Object> expected = newMap(
       "root", newMap(
-        "nodetype", "mgnl:contentNode",
+        "nodetype", "mgnl:content",
         "base", newMap(
-          "nodetype", "mgnl:content",
+          "nodetype", "mgnl:folder",
           "simple", newMap(
-            "nodetype", "mgnl:content",
+            "nodetype", "mgnl:folder",
             "name", "dodo"
           ),
           "oopsi", newMap(
-            "nodetype", "mgnl:contentNode",
+            "nodetype", "mgnl:content",
             "word", "boo",
             "second", "simpleSupplier"
           )
@@ -162,15 +162,15 @@ public class MapProducerTest extends AbstractProducerTest<Map<String, Object>> {
     
     Map<String, Object> expected = newMap(
       "root", newMap(
-        "nodetype", "mgnl:contentNode",
+        "nodetype", "mgnl:content",
         "base", newMap(
-          "nodetype", "mgnl:content",
+          "nodetype", "mgnl:folder",
           "simple", newMap(
-            "nodetype", "mgnl:content",
+            "nodetype", "mgnl:folder",
             "name", "dodo"
           ),
           "oopsi", newMap(
-            "nodetype", "mgnl:contentNode",
+            "nodetype", "mgnl:content",
             "word", "list",
             "second", newMap(
               "nodetype", "mgnl:contentNode",
@@ -193,15 +193,15 @@ public class MapProducerTest extends AbstractProducerTest<Map<String, Object>> {
     
     Map<String, Object> expected = newMap(
       "root", newMap(
-        "nodetype", "mgnl:contentNode",
+        "nodetype", "mgnl:content",
         "base", newMap(
-          "nodetype", "mgnl:content",
+          "nodetype", "mgnl:folder",
           "simple", newMap(
-            "nodetype", "mgnl:content",
+            "nodetype", "mgnl:folder",
             "name", "dodo"
           ),
           "oopsi", newMap(
-            "nodetype", "mgnl:contentNode",
+            "nodetype", "mgnl:content",
             "word", "list",
             "templateScript", "overridden",
             "renderType", "freemarker",
@@ -241,15 +241,15 @@ public class MapProducerTest extends AbstractProducerTest<Map<String, Object>> {
     
     Map<String, Object> expected = newMap(
       "root", newMap(
-        "nodetype", "mgnl:contentNode",
+        "nodetype", "mgnl:content",
         "base", newMap(
-          "nodetype", "mgnl:content",
+          "nodetype", "mgnl:folder",
           "simple", newMap(
-            "nodetype", "mgnl:content",
+            "nodetype", "mgnl:folder",
             "name", "dodo"
           ),
           "oopsi", newMap(
-            "nodetype", "mgnl:contentNode",
+            "nodetype", "mgnl:content",
             "word", "list",
             "templateScript", "overridden",
             "renderType", "freemarker",

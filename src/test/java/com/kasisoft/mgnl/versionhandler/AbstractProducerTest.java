@@ -21,7 +21,7 @@ public abstract class AbstractProducerTest<T> {
   
   protected T simpleTree() {
     TreeBuilder<?> tb = new TreeBuilder<>()
-      .sNode( "root" )
+      .sContent( "root" )
         .sFolder( "base" )
           .sFolder( "simple" )
             .property( "name", "dodo" )
@@ -34,7 +34,7 @@ public abstract class AbstractProducerTest<T> {
   protected T substitutionTree() {
     TreeBuilder<?> tb = new TreeBuilder()
       .substitution( "hello", "world" )
-      .sNode( "root" )
+      .sContent( "root" )
         .sFolder( "base" )
           .sFolder( "simple" )
             .property( "name", "${hello}" )
@@ -51,7 +51,7 @@ public abstract class AbstractProducerTest<T> {
           .sFolder( "simple" )
             .property( "name", "dodo" )
           .sEnd()
-          .sNode( "oopsi" )
+          .sContentNode( "oopsi" )
             .property( "word", "list" )
             .property( "word", "boo" )
             .property( "second", "third" )
@@ -67,7 +67,7 @@ public abstract class AbstractProducerTest<T> {
         .sFolder( "simple" )
           .property( "name", "dodo" )
         .sEnd()
-        .sNode( "oopsi" )
+        .sContent( "oopsi" )
           .property( "word", "list" )
           .property( "word", "boo" )
           .property( "second", "third" )
@@ -82,12 +82,12 @@ public abstract class AbstractProducerTest<T> {
   
   protected T supplierTree() {
     TreeBuilder<?> tb = new TreeBuilder()
-      .sNode( "root" )
+      .sContent( "root" )
         .sFolder( "base" )
           .sFolder( "simple" )
             .property( "name", "dodo" )
           .sEnd()
-          .sNode( "oopsi" )
+          .sContent( "oopsi" )
             .property( "word", "list" )
             .property( "word", "boo" )
             .property( "second", (Supplier) this::simpleSupplier )
@@ -99,12 +99,12 @@ public abstract class AbstractProducerTest<T> {
 
   protected T mapValueTree() {
     TreeBuilder<?> tb = new TreeBuilder()
-      .sNode( "root" )
+      .sContent( "root" )
         .sFolder( "base" )
           .sFolder( "simple" )
             .property( "name", "dodo" )
           .sEnd()
-          .sNode( "oopsi" )
+          .sContent( "oopsi" )
             .property( "word", "list" )
             .property( "second", newMap( "a", "b" ) )
           .sEnd()
@@ -115,12 +115,12 @@ public abstract class AbstractProducerTest<T> {
 
   protected T yamlTree() {
     TreeBuilder<?> tb = new TreeBuilder()
-      .sNode( "root" )
+      .sContent( "root" )
         .sFolder( "base" )
           .sFolder( "simple" )
             .property( "name", "dodo" )
           .sEnd()
-          .sNode( "oopsi" )
+          .sContent( "oopsi" )
             .property( "word", "list" )
             .property( "templateScript", "overridden" )
             .yaml( "example.yaml" )
@@ -132,12 +132,12 @@ public abstract class AbstractProducerTest<T> {
 
   protected T jsonTree() {
     TreeBuilder<?> tb = new TreeBuilder()
-      .sNode( "root" )
+      .sContent( "root" )
         .sFolder( "base" )
           .sFolder( "simple" )
             .property( "name", "dodo" )
           .sEnd()
-          .sNode( "oopsi" )
+          .sContent( "oopsi" )
             .property( "word", "list" )
             .property( "templateScript", "overridden" )
             .json( "example.json" )

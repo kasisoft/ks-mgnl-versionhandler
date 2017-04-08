@@ -121,12 +121,13 @@ public class TreeBuilder<TB extends TreeBuilder> {
    * @return   this
    */
   @Nonnull
-  public TB sNode( @Nonnull String name ) {
+  private TB sNode( @Nonnull String name, @Nonnull String nodeType ) {
     if( name.startsWith("/") ) {
       name = name.substring(1);
     }
     name                      = substitute( name );
     NodeDescriptor descriptor = newNodeDescriptor( name );
+    descriptor.nodeType       = nodeType;
     if( current().subnodes.isEmpty() ) {
       current().subnodes = new ArrayList<>();
     }
@@ -159,7 +160,7 @@ public class TreeBuilder<TB extends TreeBuilder> {
    */
   @Nonnull
   public TB sFolder( @Nonnull String name ) {
-    return (TB) sNode( name ).nodetype( NodeTypes.Folder.NAME );
+    return (TB) sNode( name, NodeTypes.Folder.NAME );
   }
 
   /**
@@ -171,7 +172,7 @@ public class TreeBuilder<TB extends TreeBuilder> {
    */
   @Nonnull
   public TB sContent( @Nonnull String name ) {
-    return (TB) sNode( name ).nodetype( NodeTypes.Content.NAME );
+    return (TB) sNode( name, NodeTypes.Content.NAME );
   }
 
   /**
@@ -183,7 +184,7 @@ public class TreeBuilder<TB extends TreeBuilder> {
    */
   @Nonnull
   public TB sContentNode( @Nonnull String name ) {
-    return (TB) sNode( name ).nodetype( NodeTypes.ContentNode.NAME );
+    return (TB) sNode( name, NodeTypes.ContentNode.NAME );
   }
 
   /**
@@ -290,7 +291,7 @@ public class TreeBuilder<TB extends TreeBuilder> {
    * @return   this
    */
   @Nonnull
-  public TB nodetype( @Nonnull String nodetype ) {
+  private TB nodetype( @Nonnull String nodetype ) {
     nodetype              = substitute( nodetype );
     NodeDescriptor record = current();
     record.nodeType       = nodetype;
