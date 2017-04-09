@@ -35,7 +35,6 @@ public class InstallRestServiceTest extends AbstractTreeBuilderProvider {
       ;
     
     String desc = buildDescription( service );
-    
     assertThat( desc, is( expected ) );
     
   }
@@ -56,7 +55,6 @@ public class InstallRestServiceTest extends AbstractTreeBuilderProvider {
       ;
     
     String desc = buildDescription( service );
-    
     assertThat( desc, is( expected ) );
     
   }

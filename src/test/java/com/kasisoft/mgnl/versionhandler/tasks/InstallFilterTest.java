@@ -33,7 +33,8 @@ public class InstallFilterTest extends AbstractTreeBuilderProvider {
       + "@enabled = 'true'\n"
       ;
     
-    assertThat( buildDescription( filter ), is( expected ) );
+    String desc = buildDescription( filter );
+    assertThat( desc, is( expected ) );
     
   }
 
@@ -51,7 +52,8 @@ public class InstallFilterTest extends AbstractTreeBuilderProvider {
       + "@enabled = 'true'\n"
       ;
     
-    assertThat( buildDescription( filter ), is( expected ) );
+    String desc = buildDescription( filter );
+    assertThat( desc, is( expected ) );
     
   }
 
@@ -69,7 +71,8 @@ public class InstallFilterTest extends AbstractTreeBuilderProvider {
       + "@enabled = 'false'\n"
       ;
     
-    assertThat( buildDescription( filter ), is( expected ) );
+    String desc = buildDescription( filter );
+    assertThat( desc, is( expected ) );
     
   }
 
@@ -91,7 +94,8 @@ public class InstallFilterTest extends AbstractTreeBuilderProvider {
       + "@class = 'info.magnolia.voting.voters.URIStartsWithVoter'\n"
       ;
     
-    assertThat( buildDescription( filter ), is( expected ) );
+    String desc = buildDescription( filter );
+    assertThat( desc, is( expected ) );
     
   }
 
@@ -113,7 +117,8 @@ public class InstallFilterTest extends AbstractTreeBuilderProvider {
       + "@class = 'info.magnolia.voting.voters.URIStartsWithVoter'\n"
       ;
     
-    assertThat( buildDescription( filter ), is( expected ) );
+    String desc = buildDescription( filter );
+    assertThat( desc, is( expected ) );
     
   }
 
@@ -135,7 +140,8 @@ public class InstallFilterTest extends AbstractTreeBuilderProvider {
       + "@class = 'info.magnolia.voting.voters.URIPatternVoter'\n"
       ;
     
-    assertThat( buildDescription( filter ), is( expected ) );
+    String desc = buildDescription( filter );
+    assertThat( desc, is( expected ) );
     
   }
 

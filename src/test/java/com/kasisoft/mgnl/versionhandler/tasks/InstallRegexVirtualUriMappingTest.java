@@ -34,8 +34,6 @@ public class InstallRegexVirtualUriMappingTest extends AbstractTreeBuilderProvid
       ;
     
     String desc = buildDescription( mapping );
-    System.err.println( desc );
-    
     assertThat( desc, is( expected ) );
     
   }
@@ -60,7 +58,8 @@ public class InstallRegexVirtualUriMappingTest extends AbstractTreeBuilderProvid
       + "@class = 'info.magnolia.cms.beans.config.RegexpVirtualURIMapping'\n"
       ;
     
-    assertThat( buildDescription( mapping ), is( expected ) );
+    String desc = buildDescription( mapping );
+    assertThat( desc, is( expected ) );
     
   }
 

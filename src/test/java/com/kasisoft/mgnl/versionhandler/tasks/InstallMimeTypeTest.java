@@ -32,7 +32,8 @@ public class InstallMimeTypeTest extends AbstractTreeBuilderProvider {
       + "@icon = null\n"
       ;
 
-    assertThat( buildDescription( mimeType ), is( expected ) );
+    String desc = buildDescription( mimeType );
+    assertThat( desc, is( expected ) );
     
   }
 
@@ -50,7 +51,8 @@ public class InstallMimeTypeTest extends AbstractTreeBuilderProvider {
       + "@icon = null\n"
       ;
 
-    assertThat( buildDescription( mimeType ), is( expected ) );
+    String desc = buildDescription( mimeType );
+    assertThat( desc, is( expected ) );
     
   }
 
@@ -68,7 +70,8 @@ public class InstallMimeTypeTest extends AbstractTreeBuilderProvider {
       + "@icon = 'icon-trashcan'\n"
       ;
 
-    assertThat( buildDescription( mimeType ), is( expected ) );
+    String desc = buildDescription( mimeType );
+    assertThat( desc, is( expected ) );
     
   }
 
@@ -86,7 +89,8 @@ public class InstallMimeTypeTest extends AbstractTreeBuilderProvider {
       + "@icon = 'icon-trashcan'\n"
       ;
 
-    assertThat( buildDescription( mimeType ), is( expected ) );
+    String desc = buildDescription( mimeType );
+    assertThat( desc, is( expected ) );
     
   }
 
@@ -109,7 +113,8 @@ public class InstallMimeTypeTest extends AbstractTreeBuilderProvider {
       + "@icon = 'icon-goofy'\n"
       ;
 
-    assertThat( buildDescription( mimeType ), is( expected ) );
+    String desc = buildDescription( mimeType );
+    assertThat( desc, is( expected ) );
     
   }
 
@@ -132,7 +137,8 @@ public class InstallMimeTypeTest extends AbstractTreeBuilderProvider {
       + "@icon = 'icon-goofy'\n"
       ;
 
-    assertThat( buildDescription( mimeType ), is( expected ) );
+    String desc = buildDescription( mimeType );
+    assertThat( desc, is( expected ) );
     
   }
 
@@ -155,7 +161,8 @@ public class InstallMimeTypeTest extends AbstractTreeBuilderProvider {
       + "@icon = 'icon-goofy'\n"
       ;
 
-    assertThat( buildDescription( mimeType ), is( expected ) );
+    String desc = buildDescription( mimeType );
+    assertThat( desc, is( expected ) );
     
   }
 
@@ -178,7 +185,8 @@ public class InstallMimeTypeTest extends AbstractTreeBuilderProvider {
       + "@icon = 'icon-goofy'\n"
       ;
 
-    assertThat( buildDescription( mimeType ), is( expected ) );
+    String desc = buildDescription( mimeType );
+    assertThat( desc, is( expected ) );
     
   }
   

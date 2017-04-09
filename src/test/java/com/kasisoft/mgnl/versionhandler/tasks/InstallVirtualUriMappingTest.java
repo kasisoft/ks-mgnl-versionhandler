@@ -33,7 +33,8 @@ public class InstallVirtualUriMappingTest extends AbstractTreeBuilderProvider {
       + "@class = 'com.kasisoft.mgnl.versionhandler.tasks.InstallVirtualUriMappingTest$DummyMapping'\n"
       ;
 
-    assertThat( buildDescription( mapping ), is( expected ) );
+    String desc = buildDescription( mapping );
+    assertThat( desc, is( expected ) );
     
   }
 
@@ -51,7 +52,8 @@ public class InstallVirtualUriMappingTest extends AbstractTreeBuilderProvider {
       + "@class = 'com.kasisoft.mgnl.versionhandler.tasks.InstallVirtualUriMappingTest$DummyMapping'\n"
       ;
 
-    assertThat( buildDescription( mapping ), is( expected ) );
+    String desc = buildDescription( mapping );
+    assertThat( desc, is( expected ) );
     
   }
 
