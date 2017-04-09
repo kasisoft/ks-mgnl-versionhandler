@@ -19,9 +19,15 @@ public class DescriptiveProducer implements Producer<StringFBuilder> {
 
   Function<Exception, IllegalStateException>   handler;
   StringFBuilder                               text;
+  boolean                                      nodeTypes;
   
   public DescriptiveProducer() {
-    handler = $ -> new IllegalStateException($);
+    this( false );
+  }
+  
+  public DescriptiveProducer( boolean nt ) {
+    handler   = $ -> new IllegalStateException($);
+    nodeTypes = nt;
   }
   
   @Override
@@ -37,13 +43,17 @@ public class DescriptiveProducer implements Producer<StringFBuilder> {
     } else if( parentPath.endsWith("/") ) {
       parentPath = parentPath.substring( 0, parentPath.length() - 1 );
     }
-    parent.appendF( "(new) %s/%s\n", parentPath, name );
+    parent.appendF( "(new) %s/%s%s\n", parentPath, name, nodeTypes ? ("[" + nodeType + "]") : "" );
     return parent;
   }
 
   @Override
   public void setBasicProperty( StringFBuilder node, String key, Object value ) {
-    node.appendF( "@%s = '%s'\n", key, value );
+    if( value == null ) {
+      node.appendF( "@%s = null\n", key );
+    } else {
+      node.appendF( "@%s = '%s'\n", key, value );
+    }
   }
 
   @Override
