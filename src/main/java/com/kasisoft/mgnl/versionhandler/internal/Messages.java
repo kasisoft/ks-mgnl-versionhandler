@@ -34,6 +34,9 @@ public class Messages {
   @I18N("registering app '%s' in launcher group '%s'")
   public static I18NFormatter               desc_register_app_in_group;
 
+  @I18N("registering subscription for workspace '%s' ('%s' -> '%s')")
+  public static I18NFormatter               desc_register_workspace_subscription;
+
   @I18N("cannot determine name of record '%s'")
   public static I18NFormatter               error_cannot_determine_name;
   
