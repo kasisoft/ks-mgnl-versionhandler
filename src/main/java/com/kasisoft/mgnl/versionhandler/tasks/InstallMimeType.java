@@ -23,26 +23,26 @@ public class InstallMimeType implements TreeBuilderProvider {
   List<String[]>   mimeTypes = new ArrayList<>();
 
   public InstallMimeType( @Nonnull String suffix, @Nonnull String mimeType ) {
-    withMimeType( null, suffix, mimeType, null );
+    mimeType( null, suffix, mimeType, null );
   }
 
   public InstallMimeType( @Nullable String name, @Nonnull String suffix, @Nonnull String mimeType ) {
-    withMimeType( name, suffix, mimeType, null );
+    mimeType( name, suffix, mimeType, null );
   }
   
   public InstallMimeType( @Nullable String name, @Nonnull String suffix, @Nonnull String mimeType, @Nullable String icon ) {
-    withMimeType( name, suffix, mimeType, icon );
+    mimeType( name, suffix, mimeType, icon );
   }
   
-  public InstallMimeType withMimeType( @Nonnull String suffix, @Nonnull String mimeType ) {
-    return withMimeType( null, suffix, mimeType, null );
+  public InstallMimeType mimeType( @Nonnull String suffix, @Nonnull String mimeType ) {
+    return mimeType( null, suffix, mimeType, null );
   }
   
-  public InstallMimeType withMimeType( @Nullable String name, @Nonnull String suffix, @Nonnull String mimeType ) {
-    return withMimeType( name, suffix, mimeType, null );
+  public InstallMimeType mimeType( @Nullable String name, @Nonnull String suffix, @Nonnull String mimeType ) {
+    return mimeType( name, suffix, mimeType, null );
   }
   
-  public InstallMimeType withMimeType( @Nullable String name, @Nonnull String suffix, @Nonnull String mimeType, @Nullable String icon ) {
+  public InstallMimeType mimeType( @Nullable String name, @Nonnull String suffix, @Nonnull String mimeType, @Nullable String icon ) {
     mimeTypes.add( new String[] { toName( name, mimeType ), suffix, mimeType, icon } );
     return this;
   }

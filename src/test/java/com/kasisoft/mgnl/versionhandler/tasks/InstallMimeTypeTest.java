@@ -91,7 +91,7 @@ public class InstallMimeTypeTest extends AbstractTreeBuilderProvider {
   public void many() {
     
     InstallMimeType mimeType = new InstallMimeType( ".iff", "image/iff" )
-      .withMimeType( "oscar", ".png", "image/png", "icon-goofy" );
+      .mimeType( "oscar", ".png", "image/png", "icon-goofy" );
     
     String expected = ""
       + "(new) /server[mgnl:contentNode]\n"
@@ -114,7 +114,7 @@ public class InstallMimeTypeTest extends AbstractTreeBuilderProvider {
   public void manyWithName() {
     
     InstallMimeType mimeType = new InstallMimeType( "bigBird", ".iff", "image/iff" )
-      .withMimeType( "oscar", ".png", "image/png", "icon-goofy" );
+      .mimeType( "oscar", ".png", "image/png", "icon-goofy" );
     
     String expected = ""
       + "(new) /server[mgnl:contentNode]\n"
@@ -137,7 +137,7 @@ public class InstallMimeTypeTest extends AbstractTreeBuilderProvider {
   public void manyWithIcon() {
     
     InstallMimeType mimeType = new InstallMimeType( null, ".iff", "image/iff", "icon-trashcan" )
-      .withMimeType( "oscar", ".png", "image/png", "icon-goofy" );
+      .mimeType( "oscar", ".png", "image/png", "icon-goofy" );
     
     String expected = ""
       + "(new) /server[mgnl:contentNode]\n"
@@ -160,7 +160,7 @@ public class InstallMimeTypeTest extends AbstractTreeBuilderProvider {
   public void manyWithNameAndIcon() {
     
     InstallMimeType mimeType = new InstallMimeType( "bigBird", ".iff", "image/iff", "icon-trashcan" )
-      .withMimeType( "oscar", ".png", "image/png", "icon-goofy" );
+      .mimeType( "oscar", ".png", "image/png", "icon-goofy" );
     
     String expected = ""
       + "(new) /server[mgnl:contentNode]\n"
@@ -178,6 +178,5 @@ public class InstallMimeTypeTest extends AbstractTreeBuilderProvider {
     assertThat( buildDescription( mimeType ), is( expected ) );
     
   }
-  
   
 } /* ENDCLASS */
