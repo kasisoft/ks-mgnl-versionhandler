@@ -38,10 +38,10 @@ public class InstallVirtualUriMappingTest extends AbstractTreeBuilderProvider {
   }
 
   @Test
-  public void withMapperName() {
+  public void mapperName() {
     
     InstallVirtualUriMapping mapping = new InstallVirtualUriMapping( "dodo", DummyMapping.class )
-      .withMapperName( "bibo" );
+      .mapperName( "bibo" );
     
     String expected = ""
       + "(new) /modules[mgnl:contentNode]\n"

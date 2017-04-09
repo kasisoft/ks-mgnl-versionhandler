@@ -34,7 +34,7 @@ public class InstallVirtualUriMapping implements TreeBuilderProvider {
     return desc_install_virtal_uri_mapping.format( uriMapper.getName() );
   }
   
-  public InstallVirtualUriMapping withMapperName( @Nonnull String newMapperName ) {
+  public InstallVirtualUriMapping mapperName( @Nonnull String newMapperName ) {
     mapperName = newMapperName;
     return this;
   }
