@@ -52,11 +52,32 @@ public class KsModuleVersionHandler implements ModuleVersionHandler {
   /**
    * Registers the supplied task with a running number.
    * 
+   * @param running      The running number.
+   * @param tbProvider   Provider for a tree based configuration.
+   */
+  protected void register( int running, @Nonnull TreeBuilderProvider tbProvider ) {
+    register( running, new JcrConfigurationTask( tbProvider ) );
+  }
+  
+  /**
+   * Registers the supplied task with a running number.
+   * 
    * @param running   The running number.
    * @param task      The task that will be executed.
    */
   protected void register( int running, @Nonnull Task task ) {
     register( running, null, task );
+  }
+
+  /**
+   * Registers the supplied task with a running number and an optional discrimator.
+   * 
+   * @param running         The running number.
+   * @param discriminator   A distinction literal.
+   * @param tbProvider      Provider for a tree based configuration.
+   */
+  protected void register( int running, @Nullable String discriminator, @Nonnull TreeBuilderProvider tbProvider ) {
+    register( running, discriminator, new JcrConfigurationTask( tbProvider ) );
   }
   
   /**
