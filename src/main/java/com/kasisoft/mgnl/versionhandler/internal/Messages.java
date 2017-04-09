@@ -10,7 +10,7 @@ public class Messages {
   @I18N("installing filter '%s' (%s)")
   public static I18NFormatter               desc_install_filter;
   
-  @I18N("Positioning filter '%s' after '%s'")
+  @I18N("positioning filter '%s' after '%s'")
   public static I18NFormatter               desc_positioning_filter;
 
   @I18N("installing virtual uri mapping for '%s'")
@@ -28,6 +28,9 @@ public class Messages {
   @I18N("installing mime types: %s")
   public static I18NFormatter               desc_install_mime_types;
 
+  @I18N("registering app launcher group '%s'")
+  public static I18NFormatter               desc_register_app_launcher_group;
+  
   @I18N("cannot determine name of record '%s'")
   public static I18NFormatter               error_cannot_determine_name;
   
