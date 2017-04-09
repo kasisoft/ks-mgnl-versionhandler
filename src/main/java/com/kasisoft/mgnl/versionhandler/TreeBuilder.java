@@ -50,14 +50,6 @@ public class TreeBuilder<TB extends TreeBuilder> {
   private static final String PN_KEY    = "key";
   private static final String PN_NAME   = "name";
   
-  private enum ScopeToken {
-    
-    SubNodes,
-    NodeType,
-    ;
-    
-  }
-  
   private enum ImportType {
     
     Yaml,
@@ -68,8 +60,6 @@ public class TreeBuilder<TB extends TreeBuilder> {
   
   NodeDescriptor          root;
   Stack<NodeDescriptor>   current;
-  Stack<ScopeToken>       scopes;
-  Stack<String>           defaultNodetype;
   Yaml                    yaml;
   Gson                    gson;
   Map<String, String>     substitution;
@@ -78,21 +68,11 @@ public class TreeBuilder<TB extends TreeBuilder> {
     yaml            = new Yaml();
     gson            = new GsonBuilder().create();
     substitution    = new HashMap<>();
-    scopes          = new Stack<>();
     current         = new Stack<>();
-    defaultNodetype = new Stack<>();
-    root            = newNodeDescriptor( "ROOT" );
-    pushNodes( root );
+    root            = newNodeDescriptor( "ROOT", NodeTypes.Content.NAME );
+    current.push( root );
   }
 
-  private String getDefaultNodeType() {
-    String result = NodeTypes.ContentNode.NAME;
-    if( ! defaultNodetype.isEmpty() ) {
-      result = defaultNodetype.peek();
-    }
-    return result;
-  }
-  
   /**
    * Registers a substitution token.
    *  
@@ -130,14 +110,12 @@ public class TreeBuilder<TB extends TreeBuilder> {
       name = name.substring(1);
     }
     name                      = substitute( name );
-    NodeDescriptor descriptor = newNodeDescriptor( name );
-    descriptor.nodeType       = nodeType;
+    NodeDescriptor descriptor = newNodeDescriptor( name, nodeType );
     if( current().subnodes.isEmpty() ) {
       current().subnodes = new ArrayList<>();
     }
     current().subnodes.add( descriptor );
     current.push( descriptor );
-    scopes.push( ScopeToken.SubNodes );
     return (TB) this;
   }
 
@@ -145,13 +123,13 @@ public class TreeBuilder<TB extends TreeBuilder> {
     return current.peek();
   }
   
-  private NodeDescriptor newNodeDescriptor( String name ) {
+  private NodeDescriptor newNodeDescriptor( String name, String nodeType ) {
     name                  = substitute( name );
     NodeDescriptor result = new NodeDescriptor();
     result.name           = name;
     result.properties     = Collections.emptyMap();
     result.subnodes       = Collections.emptyList();
-    result.nodeType       = getDefaultNodeType();
+    result.nodeType       = nodeType;
     return result;
   }
 
@@ -198,35 +176,10 @@ public class TreeBuilder<TB extends TreeBuilder> {
    */
   @Nonnull
   public TB sEnd() {
-    ScopeToken token = scopes.pop();
-    if( token == ScopeToken.SubNodes ) {
-      current.pop();
-    } else if( token == ScopeToken.NodeType ) {
-      defaultNodetype.pop();
-    }
+    current.pop();
     return (TB) this;
   }
 
-  private void pushNodes( NodeDescriptor descriptor ) {
-    current.push( descriptor );
-    scopes.push( ScopeToken.SubNodes );
-  }
-
-  /**
-   * Opens a scope with a different default node type.
-   * 
-   * @param nodetype   The new nodetype to be used.
-   * 
-   * @return   this
-   */
-  @Nonnull
-  public TB sDefaultNodetype( @Nonnull String nodetype ) {
-    nodetype = substitute( nodetype );
-    defaultNodetype.push( nodetype );
-    scopes.push( ScopeToken.NodeType );
-    return (TB) this;
-  }
-  
   /**
    * Loads the yaml content into the current node.
    * 
