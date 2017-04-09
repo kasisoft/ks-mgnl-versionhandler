@@ -1,6 +1,10 @@
 package com.kasisoft.mgnl.versionhandler;
 
+import info.magnolia.module.delta.*;
+
 import javax.annotation.*;
+
+import java.util.*;
 
 /**
  * @author daniel.kasmeroglu@kasisoft.net
@@ -31,5 +35,16 @@ public interface TreeBuilderProvider {
    */
   @Nonnull
   TreeBuilder create();
+  
+  /**
+   * Returns a list of tasks that will be executed after the jcr structure had been configured (mostly for
+   * ordering purposes).
+   * 
+   * @return   A list of tasks that will be executed after the jcr structure had been configured.
+   */
+  @Nonnull
+  default List<Task> postExecute() {
+    return Collections.emptyList();
+  }
   
 } /* ENDINTERFACE */

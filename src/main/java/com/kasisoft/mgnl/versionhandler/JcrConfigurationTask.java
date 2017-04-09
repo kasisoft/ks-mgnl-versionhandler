@@ -51,6 +51,7 @@ public class JcrConfigurationTask extends AbstractRepositoryTask {
   public JcrConfigurationTask( @Nonnull TreeBuilderProvider tbProvider ) {
     super( tbProvider.getTitle(), tbProvider.getDescription() );
     register( tbProvider.create() );
+    tbProvider.postExecute().forEach( this::register );
   }
 
   /**
