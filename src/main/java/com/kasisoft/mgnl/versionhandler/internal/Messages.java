@@ -16,6 +16,12 @@ public class Messages {
   @I18N("installing virtual uri mapping for '%s'")
   public static I18NFormatter               desc_install_virtal_uri_mapping;
 
+  @I18N("installing regex virtual uri mapping '%s' for '%s' -> '%s'")
+  public static I18NFormatter               desc_install_virtual_uri_regex_mapping;
+  
+  @I18N("installing regex virtual uri mapping '%s': %s")
+  public static I18NFormatter               desc_install_virtual_uri_regex_mappings;
+
   @I18N("installing mime type '%s'")
   public static I18NFormatter               desc_install_mime_type;
   
