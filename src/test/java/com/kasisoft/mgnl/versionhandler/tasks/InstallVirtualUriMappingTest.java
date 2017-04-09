@@ -2,6 +2,9 @@ package com.kasisoft.mgnl.versionhandler.tasks;
 
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
+import static org.testng.Assert.*;
+
+import com.kasisoft.libs.common.text.*;
 
 import org.testng.annotations.*;
 
@@ -50,6 +53,19 @@ public class InstallVirtualUriMappingTest extends AbstractTreeBuilderProvider {
 
     assertThat( buildDescription( mapping ), is( expected ) );
     
+  }
+
+  
+  @Test
+  public void hasTitle() {
+    InstallVirtualUriMapping mapping = new InstallVirtualUriMapping( "dodo", DummyMapping.class );
+    assertNotNull( StringFunctions.cleanup( mapping.getTitle() ) );
+  }
+
+  @Test
+  public void hasDescription() {
+    InstallVirtualUriMapping mapping = new InstallVirtualUriMapping( "dodo", DummyMapping.class );
+    assertNotNull( StringFunctions.cleanup( mapping.getDescription() ) );
   }
 
   public static class DummyMapping extends DefaultVirtualURIMapping {

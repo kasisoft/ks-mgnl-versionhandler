@@ -2,6 +2,9 @@ package com.kasisoft.mgnl.versionhandler.tasks;
 
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
+import static org.testng.Assert.*;
+
+import com.kasisoft.libs.common.text.*;
 
 import org.testng.annotations.*;
 
@@ -179,4 +182,16 @@ public class InstallMimeTypeTest extends AbstractTreeBuilderProvider {
     
   }
   
+  @Test
+  public void hasTitle() {
+    InstallMimeType mimeType = new InstallMimeType( ".iff", "image/iff" );
+    assertNotNull( StringFunctions.cleanup( mimeType.getTitle() ) );
+  }
+
+  @Test
+  public void hasDescription() {
+    InstallMimeType mimeType = new InstallMimeType( ".iff", "image/iff" );
+    assertNotNull( StringFunctions.cleanup( mimeType.getDescription() ) );
+  }
+
 } /* ENDCLASS */
