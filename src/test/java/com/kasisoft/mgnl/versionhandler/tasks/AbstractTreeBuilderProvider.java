@@ -9,7 +9,7 @@ import com.kasisoft.mgnl.versionhandler.*;
  */
 abstract class AbstractTreeBuilderProvider {
 
-  DescriptiveProducer   producer = new DescriptiveProducer();
+  DescriptiveProducer   producer = new DescriptiveProducer( true );
 
   protected String buildDescription( TreeBuilderProvider provider ) {
     assertNotNull( provider );

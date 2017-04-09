@@ -23,10 +23,10 @@ public class InstallVirtualUriMappingTest extends AbstractTreeBuilderProvider {
     InstallVirtualUriMapping mapping = new InstallVirtualUriMapping( "dodo", DummyMapping.class );
     
     String expected = ""
-      + "(new) /modules\n"
-      + "(new) /modules/dodo\n"
-      + "(new) /modules/dodo/virtualURIMapping\n"
-      + "(new) /modules/dodo/virtualURIMapping/dummyMapping\n"
+      + "(new) /modules[mgnl:contentNode]\n"
+      + "(new) /modules/dodo[mgnl:contentNode]\n"
+      + "(new) /modules/dodo/virtualURIMapping[mgnl:contentNode]\n"
+      + "(new) /modules/dodo/virtualURIMapping/dummyMapping[mgnl:contentNode]\n"
       + "@class = 'com.kasisoft.mgnl.versionhandler.tasks.InstallVirtualUriMappingTest$DummyMapping'\n"
       ;
 
@@ -41,10 +41,10 @@ public class InstallVirtualUriMappingTest extends AbstractTreeBuilderProvider {
       .withMapperName( "bibo" );
     
     String expected = ""
-      + "(new) /modules\n"
-      + "(new) /modules/dodo\n"
-      + "(new) /modules/dodo/virtualURIMapping\n"
-      + "(new) /modules/dodo/virtualURIMapping/bibo\n"
+      + "(new) /modules[mgnl:contentNode]\n"
+      + "(new) /modules/dodo[mgnl:contentNode]\n"
+      + "(new) /modules/dodo/virtualURIMapping[mgnl:contentNode]\n"
+      + "(new) /modules/dodo/virtualURIMapping/bibo[mgnl:contentNode]\n"
       + "@class = 'com.kasisoft.mgnl.versionhandler.tasks.InstallVirtualUriMappingTest$DummyMapping'\n"
       ;
 

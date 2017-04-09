@@ -9,7 +9,13 @@ public class Messages {
 
   @I18N("installing virtual uri mapping for '%s'")
   public static I18NFormatter               desc_install_virtal_uri_mapping;
+
+  @I18N("installing mime type '%s'")
+  public static I18NFormatter               desc_install_mime_type;
   
+  @I18N("installing mime types: %s")
+  public static I18NFormatter               desc_install_mime_types;
+
   @I18N("cannot determine name of record '%s'")
   public static I18NFormatter               error_cannot_determine_name;
   
