@@ -30,10 +30,6 @@ public class InstallVirtualUriMapping implements TreeBuilderProvider {
   }
   
   @Override
-  public String getTitle() {
-    return getClass().getSimpleName();
-  }
-  @Override
   public String getDescription() {
     return desc_install_virtal_uri_mapping.format( uriMapper.getName() );
   }

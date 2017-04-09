@@ -17,7 +17,9 @@ public interface TreeBuilderProvider {
    * @return   The title to be used while generating the tree structure.
    */
   @Nonnull
-  String getTitle();
+  default String getTitle() {
+    return getClass().getSimpleName();
+  }
   
   /**
    * Returns the description to be used while generating the tree structure.

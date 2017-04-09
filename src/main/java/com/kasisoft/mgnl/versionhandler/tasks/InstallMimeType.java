@@ -56,11 +56,6 @@ public class InstallMimeType implements TreeBuilderProvider {
   }
   
   @Override
-  public String getTitle() {
-    return getClass().getSimpleName();
-  }
-
-  @Override
   public String getDescription() {
     if( mimeTypes.size() == 1 ) {
       return desc_install_mime_type.format( mimeTypes.get(0)[0] );
