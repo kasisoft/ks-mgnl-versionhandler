@@ -45,10 +45,11 @@ import lombok.*;
 @Slf4j
 public class TreeBuilder<TB extends TreeBuilder> {
 
-  private static final String PN_CLASS  = "class";
-  private static final String PN_ID     = "id";
-  private static final String PN_KEY    = "key";
-  private static final String PN_NAME   = "name";
+  private static final String PN_CLASS                  = "class";
+  private static final String PN_IMPLEMENTATION_CLASS   = "implementationClass";
+  private static final String PN_ID                     = "id";
+  private static final String PN_KEY                    = "key";
+  private static final String PN_NAME                   = "name";
   
   private enum ImportType {
     
@@ -308,7 +309,15 @@ public class TreeBuilder<TB extends TreeBuilder> {
     }
     return (TB) this;
   }
-  
+
+  @Nonnull
+  public TB implementationClass( @Nullable Class<?> clazz ) {
+    if( clazz != null ) {
+      property( PN_IMPLEMENTATION_CLASS, clazz.getName() );
+    }
+    return (TB) this;
+  }
+
   private Map<String, Object> allProperties( NodeDescriptor descriptor ) {
     Map<String, Object> result = null;
     if( descriptor.importSource != null ) {
