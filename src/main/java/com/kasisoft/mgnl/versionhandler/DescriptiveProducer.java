@@ -22,11 +22,11 @@ public class DescriptiveProducer implements Producer<StringFBuilder> {
   
   public DescriptiveProducer() {
     handler = $ -> new IllegalStateException($);
-    text    = new StringFBuilder();
   }
   
   @Override
   public StringFBuilder getRootNode() {
+    text = new StringFBuilder();
     return text;
   }
   
