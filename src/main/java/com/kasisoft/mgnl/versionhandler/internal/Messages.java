@@ -82,16 +82,19 @@ public class Messages {
   @I18N("updating %s / [%s:%d]")
   public static I18NFormatter               msg_updating_task;
 
-  @I18N("Granting module configuration for module '%s'")
+  @I18N("granting module configuration for module '%s'")
   public static I18NFormatter               task_grant_module_desc;
 
-  @I18N("Grant module")
+  @I18N("grant module")
   public static String                      task_grant_module_name;
   
-  @I18N("Setting property %s@%s to '%s'")
+  @I18N("installing role '%s'")
+  public static I18NFormatter               task_installing_role;
+  
+  @I18N("setting property %s@%s to '%s'")
   public static I18NFormatter               task_set_property_desc;
   
-  @I18N("Setting property")
+  @I18N("setting property")
   public static String                      task_set_property_name;
 
   static {

@@ -7,6 +7,8 @@ import info.magnolia.test.mock.*;
 
 import info.magnolia.test.*;
 
+import info.magnolia.module.*;
+
 import info.magnolia.context.*;
 
 import info.magnolia.cms.core.*;
@@ -102,7 +104,7 @@ public class ExtendedMockWebContext extends MockWebContext {
     MockSession result = null;
     try {
       result = (MockSession) getJCRSession( name );
-    } catch( RepositoryException ex ) {
+    } catch( Exception ex ) {
       // indicates the session doesn't exist
     }
     return result != null;
@@ -114,7 +116,8 @@ public class ExtendedMockWebContext extends MockWebContext {
   public void install() {
     ComponentsTestUtil.clear();
     MgnlContext.setInstance( this );
-    ComponentsTestUtil.setImplementation( SystemContext.class, MockContext.class );
+    ComponentsTestUtil.setInstance( SystemContext.class, this );
+    ComponentsTestUtil.setInstance( ModuleRegistry.class, new ModuleRegistryImpl() );
   }
 
   public static ExtendedMockWebContextBuilder builder() {
