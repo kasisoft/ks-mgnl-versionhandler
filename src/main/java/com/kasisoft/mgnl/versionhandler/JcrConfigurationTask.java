@@ -44,6 +44,16 @@ public class JcrConfigurationTask extends AbstractRepositoryTask {
   }
 
   /**
+   * Initializes this task for a certain {@link TreeBuilderProvider} instance.
+   * 
+   * @param tbProvider   The {@link TreeBuilderProvider} containing all necessary infos.
+   */
+  public JcrConfigurationTask( @Nonnull TreeBuilderProvider tbProvider ) {
+    super( tbProvider.getTitle(), tbProvider.getDescription() );
+    register( tbProvider.create() );
+  }
+
+  /**
    * Registers the supplied {@link Task} instance to be executed as part of this task.
    * 
    * @param task   The task that will be executed as part of this task.
