@@ -7,6 +7,12 @@ import com.kasisoft.libs.common.i18n.*;
  */
 public class Messages {
 
+  @I18N("installing filter '%s' (%s)")
+  public static I18NFormatter               desc_install_filter;
+  
+  @I18N("Positioning filter '%s' after '%s'")
+  public static I18NFormatter               desc_positioning_filter;
+
   @I18N("installing virtual uri mapping for '%s'")
   public static I18NFormatter               desc_install_virtal_uri_mapping;
 
