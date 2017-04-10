@@ -16,12 +16,12 @@ import lombok.*;
  * @author daniel.kasmeroglu@kasisoft.net
  */
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class InstallThemeTest extends AbstractTreeBuilderProvider {
+public class InstallThemeResourceTest extends AbstractTreeBuilderProvider {
 
   @Test
   public void basic() {
     
-    InstallTheme tb = new InstallTheme( "dodod-module", "dodo-theme" );
+    InstallThemeResources tb = new InstallThemeResources( "dodod-module", "dodo-theme" );
     
     String expected = ""
       + "(new) /modules[mgnl:contentNode]\n"
@@ -52,13 +52,13 @@ public class InstallThemeTest extends AbstractTreeBuilderProvider {
 
   @Test
   public void hasTitle() {
-    InstallTheme tb = new InstallTheme( "dodod-module", "dodo-theme" );
+    InstallThemeResources tb = new InstallThemeResources( "dodod-module", "dodo-theme" );
     assertNotNull( StringFunctions.cleanup( tb.getTitle() ) );
   }
 
   @Test
   public void hasDescription() {
-    InstallTheme tb = new InstallTheme( "dodod-module", "dodo-theme" );
+    InstallThemeResources tb = new InstallThemeResources( "dodod-module", "dodo-theme" );
     assertNotNull( StringFunctions.cleanup( tb.getDescription() ) );
   }
   
