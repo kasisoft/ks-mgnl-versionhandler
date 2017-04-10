@@ -58,6 +58,15 @@ public class Messages {
   @I18N("failed to update module '%s' from version %s. cause: %s")
   public static I18NFormatter               error_failed_to_update;
 
+  @I18N("failed to access module '%s'")
+  public static I18NFormatter               error_failed_to_access_module;
+  
+  @I18N("failed to access node '%s' in workspace '%s'")
+  public static I18NFormatter               error_failed_to_access_node;
+  
+  @I18N("the property path '%s' must contain a '@' to separate the property name")
+  public static I18NFormatter               error_invalid_property_path;
+  
   @I18N("invalid node type at (%s/%s). got '%s' instead of '%s'")
   public static I18NFormatter               error_invalid_nodetype;
   
@@ -103,7 +112,7 @@ public class Messages {
   @I18N("installing role '%s'")
   public static I18NFormatter               task_installing_role;
   
-  @I18N("setting property %s@%s to '%s'")
+  @I18N("setting property '%s' to '%s'")
   public static I18NFormatter               task_set_property_desc;
   
   @I18N("setting property")

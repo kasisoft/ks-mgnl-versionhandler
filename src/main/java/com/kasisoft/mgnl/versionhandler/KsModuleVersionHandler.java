@@ -10,6 +10,8 @@ import info.magnolia.module.*;
 
 import info.magnolia.jcr.util.*;
 
+import com.kasisoft.mgnl.versionhandler.tasks.*;
+
 import org.slf4j.*;
 
 import org.apache.commons.lang3.*;
@@ -164,7 +166,7 @@ public class KsModuleVersionHandler implements ModuleVersionHandler {
     }
     
     // update the module version
-    result.add( db( from, version ).addTask( new SetPropertyTask( moduleName, PN_VERSION, version ) ) );
+    result.add( db( from, version ).addTask( new KsSetModuleVersionTask( moduleName, PN_VERSION, version ) ) );
     
     return result;
     
@@ -184,7 +186,7 @@ public class KsModuleVersionHandler implements ModuleVersionHandler {
         // execute the task itself
         .addTask( task )
         // update the running number
-        .addTask( new SetPropertyTask( modulename, String.format( FMT_UPDATESET, discriminator ), running.intValue() ) )
+        .addTask( new KsSetModuleVersionTask( modulename, String.format( FMT_UPDATESET, discriminator ), running.intValue() ) )
     );
   }
 
@@ -244,31 +246,6 @@ public class KsModuleVersionHandler implements ModuleVersionHandler {
     return String.format( FMT_MODULES, ctx.getCurrentModuleDefinition().getName() );
   }
   
-  private static class SetPropertyTask extends AbstractRepositoryTask {
-    
-    String   value;
-    String   property;
-    
-    protected SetPropertyTask( String module, String prop, Version toVersion ) {
-      super( task_set_property_name, task_set_property_desc.format( module, prop, toVersion ) );
-      value    = toVersion.toString();
-      property = prop;
-    }
-
-    protected SetPropertyTask( String module, String prop, int run ) {
-      super( task_set_property_name, task_set_property_desc.format( module, prop, run ) );
-      value    = String.valueOf( run );
-      property = prop;
-    }
-    
-    @Override
-    protected void doExecute( InstallContext ctx ) throws RepositoryException, TaskExecutionException {
-      Node module = SessionUtil.getNode( ctx.getConfigJCRSession(), getModulePath( ctx ) );
-      PropertyUtil.setProperty( module, property, value );
-    }
-
-  } /* ENDCLASS */
-
   private static class GrantModuleTask extends AbstractRepositoryTask {
     
     protected GrantModuleTask( String moduleName ) {
