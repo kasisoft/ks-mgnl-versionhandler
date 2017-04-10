@@ -21,7 +21,7 @@ public class RegisterAppLauncherTest extends AbstractTreeBuilderProvider {
   @Test
   public void basic() {
     
-    RegisterAppLauncher registerAppLauncher = new RegisterAppLauncher( "newgroup", "myapp" );
+    RegisterAppLauncher tb = new RegisterAppLauncher( "newgroup", "myapp" );
     
     String expected = ""
       + "(new) /modules[mgnl:contentNode]\n"
@@ -34,21 +34,21 @@ public class RegisterAppLauncherTest extends AbstractTreeBuilderProvider {
       + "(new) /modules/ui-admincentral/config/appLauncherLayout/groups/newgroup/apps/myapp[mgnl:contentNode]\n"
       ;
     
-    String desc = buildDescription( registerAppLauncher );
+    String desc = buildDescription( tb );
     assertThat( desc, is( expected ) );
     
   }
   
   @Test
   public void hasTitle() {
-    RegisterAppLauncher registerAppLauncher = new RegisterAppLauncher( "newgroup", "myapp" );
-    assertNotNull( StringFunctions.cleanup( registerAppLauncher.getTitle() ) );
+    RegisterAppLauncher tb = new RegisterAppLauncher( "newgroup", "myapp" );
+    assertNotNull( StringFunctions.cleanup( tb.getTitle() ) );
   }
 
   @Test
   public void hasDescription() {
-    RegisterAppLauncher registerAppLauncher = new RegisterAppLauncher( "newgroup", "myapp" );
-    assertNotNull( StringFunctions.cleanup( registerAppLauncher.getDescription() ) );
+    RegisterAppLauncher tb = new RegisterAppLauncher( "newgroup", "myapp" );
+    assertNotNull( StringFunctions.cleanup( tb.getDescription() ) );
   }
 
 } /* ENDCLASS */

@@ -23,7 +23,7 @@ public class InstallRestServiceTest extends AbstractTreeBuilderProvider {
   @Test
   public void basic() {
     
-    InstallRestService service = new InstallRestService( String.class, List.class );
+    InstallRestService tb = new InstallRestService( String.class, List.class );
     
     String expected = ""
       + "(new) /modules[mgnl:folder]\n"
@@ -34,7 +34,7 @@ public class InstallRestServiceTest extends AbstractTreeBuilderProvider {
       + "@class = 'java.lang.String'\n"
       ;
     
-    String desc = buildDescription( service );
+    String desc = buildDescription( tb );
     assertThat( desc, is( expected ) );
     
   }
@@ -42,7 +42,7 @@ public class InstallRestServiceTest extends AbstractTreeBuilderProvider {
   @Test
   public void named() {
     
-    InstallRestService service = new InstallRestService( String.class, List.class )
+    InstallRestService tb = new InstallRestService( String.class, List.class )
       .serviceName( "bibo" );
     
     String expected = ""
@@ -54,21 +54,21 @@ public class InstallRestServiceTest extends AbstractTreeBuilderProvider {
       + "@class = 'java.lang.String'\n"
       ;
     
-    String desc = buildDescription( service );
+    String desc = buildDescription( tb );
     assertThat( desc, is( expected ) );
     
   }
 
   @Test
   public void hasTitle() {
-    InstallRestService service = new InstallRestService( String.class, List.class );
-    assertNotNull( StringFunctions.cleanup( service.getTitle() ) );
+    InstallRestService tb = new InstallRestService( String.class, List.class );
+    assertNotNull( StringFunctions.cleanup( tb.getTitle() ) );
   }
 
   @Test
   public void hasDescription() {
-    InstallRestService service = new InstallRestService( String.class, List.class );
-    assertNotNull( StringFunctions.cleanup( service.getDescription() ) );
+    InstallRestService tb = new InstallRestService( String.class, List.class );
+    assertNotNull( StringFunctions.cleanup( tb.getDescription() ) );
   }
   
 } /* ENDCLASS */

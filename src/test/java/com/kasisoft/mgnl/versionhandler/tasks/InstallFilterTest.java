@@ -23,7 +23,7 @@ public class InstallFilterTest extends AbstractTreeBuilderProvider {
   @Test
   public void basic() {
     
-    InstallFilter filter = new InstallFilter( DummyFilter.class );
+    InstallFilter tb = new InstallFilter( DummyFilter.class );
     
     String expected = ""
       + "(new) /server[mgnl:content]\n"
@@ -33,7 +33,7 @@ public class InstallFilterTest extends AbstractTreeBuilderProvider {
       + "@enabled = 'true'\n"
       ;
     
-    String desc = buildDescription( filter );
+    String desc = buildDescription( tb );
     assertThat( desc, is( expected ) );
     
   }
@@ -41,7 +41,7 @@ public class InstallFilterTest extends AbstractTreeBuilderProvider {
   @Test
   public void named() {
     
-    InstallFilter filter = new InstallFilter( DummyFilter.class )
+    InstallFilter tb = new InstallFilter( DummyFilter.class )
       .filterName( "dodo" );
     
     String expected = ""
@@ -52,7 +52,7 @@ public class InstallFilterTest extends AbstractTreeBuilderProvider {
       + "@enabled = 'true'\n"
       ;
     
-    String desc = buildDescription( filter );
+    String desc = buildDescription( tb );
     assertThat( desc, is( expected ) );
     
   }
@@ -60,7 +60,7 @@ public class InstallFilterTest extends AbstractTreeBuilderProvider {
   @Test
   public void disabled() {
     
-    InstallFilter filter = new InstallFilter( DummyFilter.class )
+    InstallFilter tb = new InstallFilter( DummyFilter.class )
       .disable();
     
     String expected = ""
@@ -71,7 +71,7 @@ public class InstallFilterTest extends AbstractTreeBuilderProvider {
       + "@enabled = 'false'\n"
       ;
     
-    String desc = buildDescription( filter );
+    String desc = buildDescription( tb );
     assertThat( desc, is( expected ) );
     
   }
@@ -79,7 +79,7 @@ public class InstallFilterTest extends AbstractTreeBuilderProvider {
   @Test
   public void bypassInternal() {
     
-    InstallFilter filter = new InstallFilter( DummyFilter.class )
+    InstallFilter tb = new InstallFilter( DummyFilter.class )
       .bypassInternal();
     
     String expected = ""
@@ -94,7 +94,7 @@ public class InstallFilterTest extends AbstractTreeBuilderProvider {
       + "@class = 'info.magnolia.voting.voters.URIStartsWithVoter'\n"
       ;
     
-    String desc = buildDescription( filter );
+    String desc = buildDescription( tb );
     assertThat( desc, is( expected ) );
     
   }
@@ -102,7 +102,7 @@ public class InstallFilterTest extends AbstractTreeBuilderProvider {
   @Test
   public void bypassUsingPrefix() {
     
-    InstallFilter filter = new InstallFilter( DummyFilter.class )
+    InstallFilter tb = new InstallFilter( DummyFilter.class )
       .bypassPrefixed( "/dodo-" );
     
     String expected = ""
@@ -117,7 +117,7 @@ public class InstallFilterTest extends AbstractTreeBuilderProvider {
       + "@class = 'info.magnolia.voting.voters.URIStartsWithVoter'\n"
       ;
     
-    String desc = buildDescription( filter );
+    String desc = buildDescription( tb );
     assertThat( desc, is( expected ) );
     
   }
@@ -125,7 +125,7 @@ public class InstallFilterTest extends AbstractTreeBuilderProvider {
   @Test
   public void bypassDefaultResources() {
     
-    InstallFilter filter = new InstallFilter( DummyFilter.class )
+    InstallFilter tb = new InstallFilter( DummyFilter.class )
       .bypassResource();
     
     String expected = ""
@@ -140,7 +140,7 @@ public class InstallFilterTest extends AbstractTreeBuilderProvider {
       + "@class = 'info.magnolia.voting.voters.URIPatternVoter'\n"
       ;
     
-    String desc = buildDescription( filter );
+    String desc = buildDescription( tb );
     assertThat( desc, is( expected ) );
     
   }
@@ -148,7 +148,7 @@ public class InstallFilterTest extends AbstractTreeBuilderProvider {
   @Test
   public void bypassSpecificResources() {
     
-    InstallFilter filter = new InstallFilter( DummyFilter.class )
+    InstallFilter tb = new InstallFilter( DummyFilter.class )
       .bypassResource( "css", "js" );
     
     String expected = ""
@@ -163,20 +163,20 @@ public class InstallFilterTest extends AbstractTreeBuilderProvider {
       + "@class = 'info.magnolia.voting.voters.URIPatternVoter'\n"
       ;
     
-    assertThat( buildDescription( filter ), is( expected ) );
+    assertThat( buildDescription( tb ), is( expected ) );
     
   }
   
   @Test
   public void hasTitle() {
-    InstallFilter filter = new InstallFilter( DummyFilter.class );
-    assertNotNull( StringFunctions.cleanup( filter.getTitle() ) );
+    InstallFilter tb = new InstallFilter( DummyFilter.class );
+    assertNotNull( StringFunctions.cleanup( tb.getTitle() ) );
   }
 
   @Test
   public void hasDescription() {
-    InstallFilter filter = new InstallFilter( DummyFilter.class );
-    assertNotNull( StringFunctions.cleanup( filter.getDescription() ) );
+    InstallFilter tb = new InstallFilter( DummyFilter.class );
+    assertNotNull( StringFunctions.cleanup( tb.getDescription() ) );
   }
 
   @SuppressWarnings("deprecation")

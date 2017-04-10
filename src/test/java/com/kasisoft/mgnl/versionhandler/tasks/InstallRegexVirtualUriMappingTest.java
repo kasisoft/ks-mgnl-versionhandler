@@ -21,7 +21,7 @@ public class InstallRegexVirtualUriMappingTest extends AbstractTreeBuilderProvid
   @Test
   public void defaultUsage() {
     
-    InstallRegexpVirtualUriMapping mapping = new InstallRegexpVirtualUriMapping( "dodo", "mapping1", "fromUri1", "toUri1" );
+    InstallRegexpVirtualUriMapping tb = new InstallRegexpVirtualUriMapping( "dodo", "mapping1", "fromUri1", "toUri1" );
     
     String expected = ""
       + "(new) /modules[mgnl:contentNode]\n"
@@ -33,7 +33,7 @@ public class InstallRegexVirtualUriMappingTest extends AbstractTreeBuilderProvid
       + "@class = 'info.magnolia.cms.beans.config.RegexpVirtualURIMapping'\n"
       ;
     
-    String desc = buildDescription( mapping );
+    String desc = buildDescription( tb );
     assertThat( desc, is( expected ) );
     
   }
@@ -41,7 +41,7 @@ public class InstallRegexVirtualUriMappingTest extends AbstractTreeBuilderProvid
   @Test
   public void manyMappings() {
     
-    InstallRegexpVirtualUriMapping mapping = new InstallRegexpVirtualUriMapping( "dodo", "mapping1", "fromUri1", "toUri1" )
+    InstallRegexpVirtualUriMapping tb = new InstallRegexpVirtualUriMapping( "dodo", "mapping1", "fromUri1", "toUri1" )
       .mapping( "mapping2", "fromUri2", "toUri2" );
     
     String expected = ""
@@ -58,21 +58,21 @@ public class InstallRegexVirtualUriMappingTest extends AbstractTreeBuilderProvid
       + "@class = 'info.magnolia.cms.beans.config.RegexpVirtualURIMapping'\n"
       ;
     
-    String desc = buildDescription( mapping );
+    String desc = buildDescription( tb );
     assertThat( desc, is( expected ) );
     
   }
 
   @Test
   public void hasTitle() {
-    InstallRegexpVirtualUriMapping mapping = new InstallRegexpVirtualUriMapping( "dodo", "mapping1", "fromUri1", "toUri1" );
-    assertNotNull( StringFunctions.cleanup( mapping.getTitle() ) );
+    InstallRegexpVirtualUriMapping tb = new InstallRegexpVirtualUriMapping( "dodo", "mapping1", "fromUri1", "toUri1" );
+    assertNotNull( StringFunctions.cleanup( tb.getTitle() ) );
   }
 
   @Test
   public void hasDescription() {
-    InstallRegexpVirtualUriMapping mapping = new InstallRegexpVirtualUriMapping( "dodo", "mapping1", "fromUri1", "toUri1" );
-    assertNotNull( StringFunctions.cleanup( mapping.getDescription() ) );
+    InstallRegexpVirtualUriMapping tb = new InstallRegexpVirtualUriMapping( "dodo", "mapping1", "fromUri1", "toUri1" );
+    assertNotNull( StringFunctions.cleanup( tb.getDescription() ) );
   }
 
 } /* ENDCLASS */

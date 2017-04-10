@@ -21,7 +21,7 @@ public class InstallMimeTypeTest extends AbstractTreeBuilderProvider {
   @Test
   public void single() {
     
-    InstallMimeType mimeType = new InstallMimeType( ".iff", "image/iff" );
+    InstallMimeType tb = new InstallMimeType( ".iff", "image/iff" );
     
     String expected = ""
       + "(new) /server[mgnl:contentNode]\n"
@@ -32,7 +32,7 @@ public class InstallMimeTypeTest extends AbstractTreeBuilderProvider {
       + "@icon = null\n"
       ;
 
-    String desc = buildDescription( mimeType );
+    String desc = buildDescription( tb );
     assertThat( desc, is( expected ) );
     
   }
@@ -40,7 +40,7 @@ public class InstallMimeTypeTest extends AbstractTreeBuilderProvider {
   @Test
   public void singleWithName() {
     
-    InstallMimeType mimeType = new InstallMimeType( "bigBird", ".iff", "image/iff" );
+    InstallMimeType tb = new InstallMimeType( "bigBird", ".iff", "image/iff" );
     
     String expected = ""
       + "(new) /server[mgnl:contentNode]\n"
@@ -51,7 +51,7 @@ public class InstallMimeTypeTest extends AbstractTreeBuilderProvider {
       + "@icon = null\n"
       ;
 
-    String desc = buildDescription( mimeType );
+    String desc = buildDescription( tb );
     assertThat( desc, is( expected ) );
     
   }
@@ -59,7 +59,7 @@ public class InstallMimeTypeTest extends AbstractTreeBuilderProvider {
   @Test
   public void singleWithIcon() {
     
-    InstallMimeType mimeType = new InstallMimeType( null, ".iff", "image/iff", "icon-trashcan" );
+    InstallMimeType tb = new InstallMimeType( null, ".iff", "image/iff", "icon-trashcan" );
     
     String expected = ""
       + "(new) /server[mgnl:contentNode]\n"
@@ -70,7 +70,7 @@ public class InstallMimeTypeTest extends AbstractTreeBuilderProvider {
       + "@icon = 'icon-trashcan'\n"
       ;
 
-    String desc = buildDescription( mimeType );
+    String desc = buildDescription( tb );
     assertThat( desc, is( expected ) );
     
   }
@@ -78,7 +78,7 @@ public class InstallMimeTypeTest extends AbstractTreeBuilderProvider {
   @Test
   public void singleWithNameAndIcon() {
     
-    InstallMimeType mimeType = new InstallMimeType( "bigBird", ".iff", "image/iff", "icon-trashcan" );
+    InstallMimeType tb = new InstallMimeType( "bigBird", ".iff", "image/iff", "icon-trashcan" );
     
     String expected = ""
       + "(new) /server[mgnl:contentNode]\n"
@@ -89,7 +89,7 @@ public class InstallMimeTypeTest extends AbstractTreeBuilderProvider {
       + "@icon = 'icon-trashcan'\n"
       ;
 
-    String desc = buildDescription( mimeType );
+    String desc = buildDescription( tb );
     assertThat( desc, is( expected ) );
     
   }
@@ -97,7 +97,7 @@ public class InstallMimeTypeTest extends AbstractTreeBuilderProvider {
   @Test
   public void many() {
     
-    InstallMimeType mimeType = new InstallMimeType( ".iff", "image/iff" )
+    InstallMimeType tb = new InstallMimeType( ".iff", "image/iff" )
       .mimeType( "oscar", ".png", "image/png", "icon-goofy" );
     
     String expected = ""
@@ -113,7 +113,7 @@ public class InstallMimeTypeTest extends AbstractTreeBuilderProvider {
       + "@icon = 'icon-goofy'\n"
       ;
 
-    String desc = buildDescription( mimeType );
+    String desc = buildDescription( tb );
     assertThat( desc, is( expected ) );
     
   }
@@ -121,7 +121,7 @@ public class InstallMimeTypeTest extends AbstractTreeBuilderProvider {
   @Test
   public void manyWithName() {
     
-    InstallMimeType mimeType = new InstallMimeType( "bigBird", ".iff", "image/iff" )
+    InstallMimeType tb = new InstallMimeType( "bigBird", ".iff", "image/iff" )
       .mimeType( "oscar", ".png", "image/png", "icon-goofy" );
     
     String expected = ""
@@ -137,7 +137,7 @@ public class InstallMimeTypeTest extends AbstractTreeBuilderProvider {
       + "@icon = 'icon-goofy'\n"
       ;
 
-    String desc = buildDescription( mimeType );
+    String desc = buildDescription( tb );
     assertThat( desc, is( expected ) );
     
   }
@@ -145,7 +145,7 @@ public class InstallMimeTypeTest extends AbstractTreeBuilderProvider {
   @Test
   public void manyWithIcon() {
     
-    InstallMimeType mimeType = new InstallMimeType( null, ".iff", "image/iff", "icon-trashcan" )
+    InstallMimeType tb = new InstallMimeType( null, ".iff", "image/iff", "icon-trashcan" )
       .mimeType( "oscar", ".png", "image/png", "icon-goofy" );
     
     String expected = ""
@@ -161,7 +161,7 @@ public class InstallMimeTypeTest extends AbstractTreeBuilderProvider {
       + "@icon = 'icon-goofy'\n"
       ;
 
-    String desc = buildDescription( mimeType );
+    String desc = buildDescription( tb );
     assertThat( desc, is( expected ) );
     
   }
@@ -169,7 +169,7 @@ public class InstallMimeTypeTest extends AbstractTreeBuilderProvider {
   @Test
   public void manyWithNameAndIcon() {
     
-    InstallMimeType mimeType = new InstallMimeType( "bigBird", ".iff", "image/iff", "icon-trashcan" )
+    InstallMimeType tb = new InstallMimeType( "bigBird", ".iff", "image/iff", "icon-trashcan" )
       .mimeType( "oscar", ".png", "image/png", "icon-goofy" );
     
     String expected = ""
@@ -185,21 +185,21 @@ public class InstallMimeTypeTest extends AbstractTreeBuilderProvider {
       + "@icon = 'icon-goofy'\n"
       ;
 
-    String desc = buildDescription( mimeType );
+    String desc = buildDescription( tb );
     assertThat( desc, is( expected ) );
     
   }
   
   @Test
   public void hasTitle() {
-    InstallMimeType mimeType = new InstallMimeType( ".iff", "image/iff" );
-    assertNotNull( StringFunctions.cleanup( mimeType.getTitle() ) );
+    InstallMimeType tb = new InstallMimeType( ".iff", "image/iff" );
+    assertNotNull( StringFunctions.cleanup( tb.getTitle() ) );
   }
 
   @Test
   public void hasDescription() {
-    InstallMimeType mimeType = new InstallMimeType( ".iff", "image/iff" );
-    assertNotNull( StringFunctions.cleanup( mimeType.getDescription() ) );
+    InstallMimeType tb = new InstallMimeType( ".iff", "image/iff" );
+    assertNotNull( StringFunctions.cleanup( tb.getDescription() ) );
   }
 
 } /* ENDCLASS */

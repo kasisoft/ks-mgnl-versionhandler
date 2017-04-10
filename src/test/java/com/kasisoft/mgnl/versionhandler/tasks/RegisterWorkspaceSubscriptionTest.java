@@ -21,7 +21,7 @@ public class RegisterWorkspaceSubscriptionTest extends AbstractTreeBuilderProvid
   @Test
   public void basic() {
     
-    RegisterWorkspaceSubscription registerSubscription = new RegisterWorkspaceSubscription( "myws" );
+    RegisterWorkspaceSubscription tb = new RegisterWorkspaceSubscription( "myws" );
     
     String expected = ""
       + "(new) /server[mgnl:contentNode]\n"
@@ -35,7 +35,7 @@ public class RegisterWorkspaceSubscriptionTest extends AbstractTreeBuilderProvid
       + "@repository = 'myws'\n"
       ;
     
-    String desc = buildDescription( registerSubscription );
+    String desc = buildDescription( tb );
     assertThat( desc, is( expected ) );
     
   }
@@ -43,7 +43,7 @@ public class RegisterWorkspaceSubscriptionTest extends AbstractTreeBuilderProvid
   @Test
   public void mapped() {
     
-    RegisterWorkspaceSubscription registerSubscription = new RegisterWorkspaceSubscription( "myws", "/hello", "/kitty" );
+    RegisterWorkspaceSubscription tb = new RegisterWorkspaceSubscription( "myws", "/hello", "/kitty" );
     
     String expected = ""
       + "(new) /server[mgnl:contentNode]\n"
@@ -57,7 +57,7 @@ public class RegisterWorkspaceSubscriptionTest extends AbstractTreeBuilderProvid
       + "@repository = 'myws'\n"
       ;
     
-    String desc = buildDescription( registerSubscription );
+    String desc = buildDescription( tb );
     assertThat( desc, is( expected ) );
     
   }
@@ -65,7 +65,7 @@ public class RegisterWorkspaceSubscriptionTest extends AbstractTreeBuilderProvid
   @Test
   public void subscriber() {
     
-    RegisterWorkspaceSubscription registerSubscription = new RegisterWorkspaceSubscription( "myws" )
+    RegisterWorkspaceSubscription tb = new RegisterWorkspaceSubscription( "myws" )
       .subscriber( "remote" );
     
     String expected = ""
@@ -80,21 +80,21 @@ public class RegisterWorkspaceSubscriptionTest extends AbstractTreeBuilderProvid
       + "@repository = 'myws'\n"
       ;
     
-    String desc = buildDescription( registerSubscription );
+    String desc = buildDescription( tb );
     assertThat( desc, is( expected ) );
     
   }
 
   @Test
   public void hasTitle() {
-    RegisterWorkspaceSubscription registerSubscription = new RegisterWorkspaceSubscription( "myws" );
-    assertNotNull( StringFunctions.cleanup( registerSubscription.getTitle() ) );
+    RegisterWorkspaceSubscription tb = new RegisterWorkspaceSubscription( "myws" );
+    assertNotNull( StringFunctions.cleanup( tb.getTitle() ) );
   }
 
   @Test
   public void hasDescription() {
-    RegisterWorkspaceSubscription registerSubscription = new RegisterWorkspaceSubscription( "myws" );
-    assertNotNull( StringFunctions.cleanup( registerSubscription.getDescription() ) );
+    RegisterWorkspaceSubscription tb = new RegisterWorkspaceSubscription( "myws" );
+    assertNotNull( StringFunctions.cleanup( tb.getDescription() ) );
   }
 
 } /* ENDCLASS */

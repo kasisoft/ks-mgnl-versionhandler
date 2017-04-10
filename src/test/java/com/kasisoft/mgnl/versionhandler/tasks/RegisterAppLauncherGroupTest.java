@@ -23,7 +23,7 @@ public class RegisterAppLauncherGroupTest extends AbstractTreeBuilderProvider {
   @Test
   public void basic() {
     
-    RegisterAppLauncherGroup registerAppLauncherGroup = new RegisterAppLauncherGroup( "newgroup", Color.yellow );
+    RegisterAppLauncherGroup tb = new RegisterAppLauncherGroup( "newgroup", Color.yellow );
     
     String expected = ""
       + "(new) /modules[mgnl:contentNode]\n"
@@ -35,21 +35,21 @@ public class RegisterAppLauncherGroupTest extends AbstractTreeBuilderProvider {
       + "@color = '#ffff00'\n"
       ;
     
-    String desc = buildDescription( registerAppLauncherGroup );
+    String desc = buildDescription( tb );
     assertThat( desc, is( expected ) );
     
   }
   
   @Test
   public void hasTitle() {
-    RegisterAppLauncherGroup registerAppLauncherGroup = new RegisterAppLauncherGroup( "newgroup", Color.yellow );
-    assertNotNull( StringFunctions.cleanup( registerAppLauncherGroup.getTitle() ) );
+    RegisterAppLauncherGroup tb = new RegisterAppLauncherGroup( "newgroup", Color.yellow );
+    assertNotNull( StringFunctions.cleanup( tb.getTitle() ) );
   }
 
   @Test
   public void hasDescription() {
-    RegisterAppLauncherGroup registerAppLauncherGroup = new RegisterAppLauncherGroup( "newgroup", Color.yellow );
-    assertNotNull( StringFunctions.cleanup( registerAppLauncherGroup.getDescription() ) );
+    RegisterAppLauncherGroup tb = new RegisterAppLauncherGroup( "newgroup", Color.yellow );
+    assertNotNull( StringFunctions.cleanup( tb.getDescription() ) );
   }
 
 } /* ENDCLASS */

@@ -23,7 +23,7 @@ public class InstallVirtualUriMappingTest extends AbstractTreeBuilderProvider {
   @Test
   public void defaultUsage() {
     
-    InstallVirtualUriMapping mapping = new InstallVirtualUriMapping( "dodo", DummyMapping.class );
+    InstallVirtualUriMapping tb = new InstallVirtualUriMapping( "dodo", DummyMapping.class );
     
     String expected = ""
       + "(new) /modules[mgnl:contentNode]\n"
@@ -33,7 +33,7 @@ public class InstallVirtualUriMappingTest extends AbstractTreeBuilderProvider {
       + "@class = 'com.kasisoft.mgnl.versionhandler.tasks.InstallVirtualUriMappingTest$DummyMapping'\n"
       ;
 
-    String desc = buildDescription( mapping );
+    String desc = buildDescription( tb );
     assertThat( desc, is( expected ) );
     
   }
@@ -41,7 +41,7 @@ public class InstallVirtualUriMappingTest extends AbstractTreeBuilderProvider {
   @Test
   public void mapperName() {
     
-    InstallVirtualUriMapping mapping = new InstallVirtualUriMapping( "dodo", DummyMapping.class )
+    InstallVirtualUriMapping tb = new InstallVirtualUriMapping( "dodo", DummyMapping.class )
       .mapperName( "bibo" );
     
     String expected = ""
@@ -52,7 +52,7 @@ public class InstallVirtualUriMappingTest extends AbstractTreeBuilderProvider {
       + "@class = 'com.kasisoft.mgnl.versionhandler.tasks.InstallVirtualUriMappingTest$DummyMapping'\n"
       ;
 
-    String desc = buildDescription( mapping );
+    String desc = buildDescription( tb );
     assertThat( desc, is( expected ) );
     
   }
@@ -60,14 +60,14 @@ public class InstallVirtualUriMappingTest extends AbstractTreeBuilderProvider {
   
   @Test
   public void hasTitle() {
-    InstallVirtualUriMapping mapping = new InstallVirtualUriMapping( "dodo", DummyMapping.class );
-    assertNotNull( StringFunctions.cleanup( mapping.getTitle() ) );
+    InstallVirtualUriMapping tb = new InstallVirtualUriMapping( "dodo", DummyMapping.class );
+    assertNotNull( StringFunctions.cleanup( tb.getTitle() ) );
   }
 
   @Test
   public void hasDescription() {
-    InstallVirtualUriMapping mapping = new InstallVirtualUriMapping( "dodo", DummyMapping.class );
-    assertNotNull( StringFunctions.cleanup( mapping.getDescription() ) );
+    InstallVirtualUriMapping tb = new InstallVirtualUriMapping( "dodo", DummyMapping.class );
+    assertNotNull( StringFunctions.cleanup( tb.getDescription() ) );
   }
 
   public static class DummyMapping extends DefaultVirtualURIMapping {
