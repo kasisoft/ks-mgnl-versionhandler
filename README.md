@@ -26,13 +26,25 @@ Jira
 Maven
 =====
 
-I assume that you're familiar with Maven. If not I suggest to visit the following page:
+Release
+-------
 
-* https://maven.apache.org/
+     <dependency>
+         <groupId>com.kasisoft.mgnl</groupId>
+         <artifactId>com.kasisoft.mgnl.versionhandler</artifactId>
+         <version>0.1</version>
+     </dependency>
+     
+     
+Snapshot
+--------
 
-All artifacts (SNAPSHOTS/RELEASES) are being managed within a dedicated repository which is accessible to all.
-Just add the following repository to your pom or settings.xml :
-
+     <dependency>
+         <groupId>com.kasisoft.mgnl</groupId>
+         <artifactId>com.kasisoft.mgnl.versionhandler</artifactId>
+         <version>0.1-SNAPSHOT</version>
+     </dependency>
+     
      <repositories>
          <repository>
              <id>libs-kasisoft</id>
@@ -45,20 +57,6 @@ Just add the following repository to your pom or settings.xml :
              </snapshots>
          </repository>
      </repositories>
-
-
-Dependency
-----------
-
-     <dependency>
-         <groupId>com.kasisoft.mgnl</groupId>
-         <artifactId>com.kasisoft.mgnl.versionhandler</artifactId>
-         <version>0.1</version>
-         <!--
-         <version>0.1-SNAPSHOT</version>
-         -->
-     </dependency>
-
      
 Basic scenario
 ==============
