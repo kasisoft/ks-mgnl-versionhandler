@@ -34,6 +34,9 @@ public class Messages {
   @I18N("configuring template declarations for site '%s'")
   public static I18NFormatter               desc_install_template_declarations;
   
+  @I18N("installing theme '%s' for module '%s'")
+  public static I18NFormatter               desc_install_theme;
+  
   @I18N("registering app launcher group '%s'")
   public static I18NFormatter               desc_register_app_launcher_group;
 
