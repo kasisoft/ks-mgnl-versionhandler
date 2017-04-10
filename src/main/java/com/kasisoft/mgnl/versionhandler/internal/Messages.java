@@ -13,6 +13,9 @@ public class Messages {
   @I18N("positioning filter '%s' after '%s'")
   public static I18NFormatter               desc_positioning_filter;
 
+  @I18N("installing image variations for theme '%s'")
+  public static I18NFormatter               desc_install_image_variations;
+  
   @I18N("installing rest service '%s' (implementation: %s)")
   public static I18NFormatter               desc_install_rest_service;
   
