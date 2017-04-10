@@ -41,7 +41,7 @@ public class KsSetPropertyTaskTest {
   @Mock
   ModuleDefinition    moduleDefinition;
   
-  @BeforeClass
+  @BeforeMethod
   public void setup() throws Exception {
     
     initMocks( this );

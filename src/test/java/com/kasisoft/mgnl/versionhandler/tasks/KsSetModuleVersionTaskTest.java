@@ -37,12 +37,12 @@ public class KsSetModuleVersionTaskTest {
   @Mock
   ModuleDefinition    moduleDefinition;
   
-  @BeforeClass
+  @BeforeMethod
   public void setup() throws Exception {
     
     initMocks( this );
     
-    when( moduleDefinition.getName() ).thenReturn( "fluffy" );
+    when( moduleDefinition.getName() ).thenReturn( "gollum" );
     when( installContext.getCurrentModuleDefinition() ).thenReturn( moduleDefinition );
     
     ExtendedMockWebContext.builder()
@@ -57,7 +57,7 @@ public class KsSetModuleVersionTaskTest {
   
   @Test(expectedExceptions = TaskExecutionException.class)
   public void error() throws Exception {
-    KsSetModuleVersionTask task = new KsSetModuleVersionTask( "fluffy", "key", 1 );
+    KsSetModuleVersionTask task = new KsSetModuleVersionTask( "gollum", "key", 1 );
     task.execute( installContext );
   }
 
@@ -66,9 +66,9 @@ public class KsSetModuleVersionTaskTest {
     
     Session session = MgnlContext.getJCRSession( RepositoryConstants.CONFIG );
     Node    modules = session.getRootNode().addNode( "modules" );
-    modules.addNode( "fluffy" );
+    modules.addNode( "gollum" );
     
-    KsSetModuleVersionTask task = new KsSetModuleVersionTask( "fluffy", "key", 1 );
+    KsSetModuleVersionTask task = new KsSetModuleVersionTask( "gollum", "key", 1 );
     task.execute( installContext );
     
   }
