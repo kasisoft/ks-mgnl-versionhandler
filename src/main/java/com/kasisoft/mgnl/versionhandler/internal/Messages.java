@@ -31,6 +31,9 @@ public class Messages {
   @I18N("installing mime types: %s")
   public static I18NFormatter               desc_install_mime_types;
 
+  @I18N("configuring template declarations for site '%s'")
+  public static I18NFormatter               desc_install_template_declarations;
+  
   @I18N("registering app launcher group '%s'")
   public static I18NFormatter               desc_register_app_launcher_group;
 
@@ -42,7 +45,7 @@ public class Messages {
 
   @I18N("cannot determine name of record '%s'")
   public static I18NFormatter               error_cannot_determine_name;
-  
+
   @I18N("failed to update module '%s' from version %s. cause: %s")
   public static I18NFormatter               error_failed_to_update;
 
