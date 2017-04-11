@@ -8,13 +8,13 @@ import com.kasisoft.libs.common.text.*;
 
 import org.testng.annotations.*;
 
+import javax.servlet.http.*;
+
 import java.util.*;
 
 import lombok.experimental.*;
 
 import lombok.*;
-
-import freemarker.ext.servlet.*;
 
 /**
  * @author daniel.kasmeroglu@kasisoft.net
@@ -228,7 +228,7 @@ public class InstallServletTest extends AbstractTreeBuilderProvider {
     assertNotNull( StringFunctions.cleanup( tb.getDescription() ) );
   }
 
-  public static class DummyServlet extends FreemarkerServlet {
+  public static class DummyServlet extends HttpServlet {
     
   } /* ENDCLASS */
   
