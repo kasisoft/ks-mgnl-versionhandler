@@ -25,6 +25,9 @@ public class Messages {
   @I18N("installing theme '%s' for site '%s'")
   public static I18NFormatter               desc_installing_site_config;
   
+  @I18N("installing servlet '%s'")
+  public static I18NFormatter               desc_install_servlet;
+  
   @I18N("installing regex virtual uri mapping '%s' for '%s' -> '%s'")
   public static I18NFormatter               desc_install_virtual_uri_regex_mapping;
   
@@ -108,6 +111,9 @@ public class Messages {
 
   @I18N("grant module")
   public static String                      task_grant_module_name;
+  
+  @I18N("positioning filter servlet '%s' after '%s'")
+  public static I18NFormatter               task_positioning_filter_servlet;
   
   @I18N("installing role '%s'")
   public static I18NFormatter               task_installing_role;
