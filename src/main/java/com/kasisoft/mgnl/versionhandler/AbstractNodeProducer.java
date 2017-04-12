@@ -77,6 +77,11 @@ public class AbstractNodeProducer<R extends Node> implements Producer<R> {
   @Override
   public void setBasicProperty( Node node, String key, Object value ) {
     try {
+      if( (value instanceof Character) || (value instanceof Byte) || (value instanceof Short) ) {
+        value = String.valueOf( value );
+      } else if( value instanceof Float ) {
+        value = ((Float) value).doubleValue();
+      }
       PropertyUtil.setProperty( node, key, value );
     } catch( RepositoryException ex ) {
       throw handler.apply( ex );
