@@ -1,5 +1,7 @@
 package com.kasisoft.mgnl.versionhandler;
 
+import static org.mockito.Mockito.*;
+
 import info.magnolia.test.mock.jcr.*;
 import info.magnolia.test.mock.jcr.MockWorkspace;
 
@@ -13,6 +15,8 @@ import info.magnolia.context.*;
 
 import info.magnolia.cms.core.*;
 
+import info.magnolia.jcr.util.*;
+
 import info.magnolia.jcr.*;
 
 import org.mockito.*;
@@ -24,6 +28,14 @@ import javax.jcr.*;
 
 import java.util.*;
 
+import lombok.experimental.*;
+
+import lombok.*;
+
+import info.magnolia.cms.security.*;
+import info.magnolia.init.*;
+import info.magnolia.objectfactory.*;
+
 /**
  * This extension provides some helpful defaults in order to easily setup a test environment.
  * 
@@ -32,6 +44,15 @@ import java.util.*;
 public class ExtendedMockWebContext extends MockWebContext {
 
   private static final String DEFAULT_APP_PATH = "/test-path";
+
+  @Getter @Setter(AccessLevel.PRIVATE)
+  MagnoliaConfigurationProperties   mgnlProps;
+  
+  @Getter @Setter(AccessLevel.PRIVATE)
+  SecuritySupport                   secSupport;
+  
+  @Getter
+  MgnlRoleManager                   roleManager;
 
   public ExtendedMockWebContext() {
     setAggregationState   ( Mockito.spy( new MockAggregationState            () ) );
@@ -110,23 +131,44 @@ public class ExtendedMockWebContext extends MockWebContext {
     return result != null;
   }
   
+  private void defaults() {
+    if( mgnlProps == null ) {
+      mgnlProps = mock( MagnoliaConfigurationProperties.class );
+    }
+    if( secSupport == null ) {
+      secSupport = mock( SecuritySupport.class );
+    }
+  }
+  
   /**
    * Installs this context into the current test environment.
    */
   public void install() {
+    
+    defaults();
+    
+    NodeNameHelper nodeNameHelper = new NodeNameHelper( mgnlProps );
+    roleManager                   = new MgnlRoleManager( nodeNameHelper );
+    when( secSupport.getRoleManager() ).thenReturn( roleManager );
+    
     ComponentsTestUtil.clear();
+    Components.setComponentProvider( new MockComponentProvider() );
     MgnlContext.setInstance( this );
+    ComponentsTestUtil.setInstance( MagnoliaConfigurationProperties.class, mgnlProps );
+    ComponentsTestUtil.setInstance( SecuritySupport.class, secSupport );
     ComponentsTestUtil.setInstance( SystemContext.class, this );
     ComponentsTestUtil.setInstance( ModuleRegistry.class, new ModuleRegistryImpl() );
+    
   }
 
   public static ExtendedMockWebContextBuilder builder() {
     return new ExtendedMockWebContextBuilder();
   }
   
+  @FieldDefaults(level = AccessLevel.PRIVATE)
   public static final class ExtendedMockWebContextBuilder {
 
-    private ExtendedMockWebContext   instance;
+    ExtendedMockWebContext   instance;
 
     private ExtendedMockWebContextBuilder() {
       instance = new ExtendedMockWebContext();
@@ -142,6 +184,16 @@ public class ExtendedMockWebContext extends MockWebContext {
       return this;
     }
     
+    public ExtendedMockWebContextBuilder mgnlProperties( @Nonnull MagnoliaConfigurationProperties props ) {
+      instance.setMgnlProps( props );
+      return this;
+    }
+
+    public ExtendedMockWebContextBuilder securitySupport( @Nonnull SecuritySupport secSupport ) {
+      instance.setSecSupport( secSupport );
+      return this;
+    }
+
     public ExtendedMockWebContextBuilder workspace( @Nonnull String wsname ) {
       return workspace( wsname, null );
     }
