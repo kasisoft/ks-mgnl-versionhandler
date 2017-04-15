@@ -54,7 +54,7 @@
     <version-mgnl-util>0.3</version-mgnl-util>
     <version-mockito>2.2.28</version-mockito>
     <version-testng>6.9.4</version-testng>
-    <version-tomcat>6.0.48</version-tomcat>
+    <version-tomcat>8.5.13</version-tomcat>
     
     <plugin-version-cobertura-maven>2.7</plugin-version-cobertura-maven>
     
@@ -67,6 +67,14 @@
         <groupId>com.kasisoft.mgnl</groupId>
         <artifactId>com.kasisoft.mgnl.dependencies</artifactId>
         <version>${version-magnolia}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+
+      <dependency>
+        <groupId>com.kasisoft</groupId>
+        <artifactId>com.kasisoft.pom.tomcat</artifactId>
+        <version>${version-tomcat}</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
@@ -237,13 +245,13 @@
 
     <dependency>
       <groupId>org.apache.tomcat</groupId>
-      <artifactId>servlet-api</artifactId>
+      <artifactId>tomcat-servlet-api</artifactId>
       <scope>provided</scope>
     </dependency>
 
     <dependency>
       <groupId>org.apache.tomcat</groupId>
-      <artifactId>jsp-api</artifactId>
+      <artifactId>tomcat-jsp-api</artifactId>
       <scope>provided</scope>
     </dependency>
 
