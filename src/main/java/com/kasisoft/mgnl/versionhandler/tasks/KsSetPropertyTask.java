@@ -13,6 +13,8 @@ import info.magnolia.jcr.util.*;
 import javax.annotation.*;
 import javax.jcr.*;
 
+import java.util.function.*;
+
 import lombok.experimental.*;
 
 import lombok.*;
@@ -25,16 +27,25 @@ import lombok.*;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class KsSetPropertyTask extends AbstractTask {
   
-  String   workspace;
-  String   propertyPath;
-  String   value;
+  String              workspace;
+  String              propertyPath;
+  String              value;
+  Supplier<String>    valueSupplier;
   
   public KsSetPropertyTask( @Nonnull String path, @Nonnull String propValue ) {
-    super( "KsSetPropertyTask", task_set_property_desc.format( path, propValue ) );
-    propertyPath = path;
-    value        = propValue;
+    super( KsSetPropertyTask.class.getSimpleName(), task_set_property_desc.format( path, propValue ) );
+    propertyPath  = path;
+    value         = propValue;
+    valueSupplier = null;
   }
-  
+
+  public KsSetPropertyTask( @Nonnull String path, @Nonnull Supplier<String> propSupplier ) {
+    super( KsSetPropertyTask.class.getSimpleName(), task_set_property_desc.format( path, "[property suppplier]" ) );
+    propertyPath  = path;
+    value         = null;
+    valueSupplier = propSupplier;
+  }
+
   public KsSetPropertyTask workspace( @Nonnull String newWorkspace ) {
     workspace = newWorkspace;
     return this;
@@ -61,6 +72,9 @@ public class KsSetPropertyTask extends AbstractTask {
     Node   node   = SessionUtil.getNode( ctx.getJCRSession( workspace ), path );
     if( node == null ) {
       throw new TaskExecutionException( error_failed_to_access_node.format( path, workspace ) );
+    }
+    if( valueSupplier != null ) {
+      value = valueSupplier.get();
     }
     PropertyUtil.setProperty( node, propertyPath.substring( idx + 1 ), value );
   }
