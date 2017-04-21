@@ -106,7 +106,7 @@ public class TreeBuilder<TB extends TreeBuilder> {
    * @return   this
    */
   @Nonnull
-  private TB sNode( @Nonnull String name, @Nonnull String nodeType ) {
+  public TB sNode( @Nonnull String name, @Nonnull String nodeType ) {
     if( name.startsWith("/") ) {
       name = name.substring(1);
     }
