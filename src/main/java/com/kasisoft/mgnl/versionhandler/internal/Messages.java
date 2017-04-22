@@ -24,7 +24,10 @@ public class Messages {
 
   @I18N("installing theme '%s' for site '%s'")
   public static I18NFormatter               desc_installing_site_config;
-  
+
+  @I18N("installing theme '%s' into module '%s'")
+  public static I18NFormatter               desc_installing_module;
+
   @I18N("installing servlet '%s'")
   public static I18NFormatter               desc_install_servlet;
   
