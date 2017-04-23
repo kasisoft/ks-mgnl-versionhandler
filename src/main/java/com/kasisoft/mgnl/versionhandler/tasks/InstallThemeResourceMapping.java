@@ -16,12 +16,12 @@ import info.magnolia.cms.beans.config.*;
  * @author daniel.kasmeroglu@kasisoft.net
  */
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class InstallThemeResources implements TreeBuilderProvider {
+public class InstallThemeResourceMapping implements TreeBuilderProvider {
 
   String    themeName;
   String    moduleName;
   
-  public InstallThemeResources( @Nonnull String module, @Nonnull String theme ) {
+  public InstallThemeResourceMapping( @Nonnull String module, @Nonnull String theme ) {
     moduleName  = module;
     themeName   = theme;
   }
