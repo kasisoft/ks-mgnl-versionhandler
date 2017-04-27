@@ -51,6 +51,39 @@ public class InstallThemeResourceMappingTest extends AbstractTreeBuilderProvider
   }
 
   @Test
+  public void includeTheme() {
+    
+    InstallThemeResourceMapping tb = new InstallThemeResourceMapping( "dodod-module", "dodo-theme" )
+      .includeThemeName();
+    
+    String expected = ""
+      + "(new) /modules[mgnl:contentNode]\n"
+      + "(new) /modules/dodod-module[mgnl:contentNode]\n"
+      + "(new) /modules/dodod-module/virtualURIMapping[mgnl:contentNode]\n"
+      + "(new) /modules/dodod-module/virtualURIMapping/cssFiles[mgnl:contentNode]\n"
+      + "@fromURI = '^/dodo-theme/css/(.+)$'\n"
+      + "@toURI = 'forward:/.resources/dodo-theme/css/$1'\n"
+      + "@class = 'info.magnolia.cms.beans.config.RegexpVirtualURIMapping'\n"
+      + "(new) /modules/dodod-module/virtualURIMapping/fontFiles[mgnl:contentNode]\n"
+      + "@fromURI = '^/dodo-theme/fonts/(.+)$'\n"
+      + "@toURI = 'forward:/.resources/dodo-theme/fonts/$1'\n"
+      + "@class = 'info.magnolia.cms.beans.config.RegexpVirtualURIMapping'\n"
+      + "(new) /modules/dodod-module/virtualURIMapping/iconFiles[mgnl:contentNode]\n"
+      + "@fromURI = '^/dodo-theme/icons/(.+)$'\n"
+      + "@toURI = 'forward:/.resources/dodo-theme/icons/$1'\n"
+      + "@class = 'info.magnolia.cms.beans.config.RegexpVirtualURIMapping'\n"
+      + "(new) /modules/dodod-module/virtualURIMapping/jsFiles[mgnl:contentNode]\n"
+      + "@fromURI = '^/dodo-theme/js/(.+)$'\n"
+      + "@toURI = 'forward:/.resources/dodo-theme/js/$1'\n"
+      + "@class = 'info.magnolia.cms.beans.config.RegexpVirtualURIMapping'\n"
+      ;
+    
+    String desc = buildDescription( tb );
+    assertThat( desc, is( expected ) );
+    
+  }
+
+  @Test
   public void hasTitle() {
     InstallThemeResourceMapping tb = new InstallThemeResourceMapping( "dodod-module", "dodo-theme" );
     assertNotNull( StringFunctions.cleanup( tb.getTitle() ) );
