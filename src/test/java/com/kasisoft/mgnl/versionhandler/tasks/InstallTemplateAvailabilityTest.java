@@ -30,12 +30,37 @@ public class InstallTemplateAvailabilityTest extends AbstractTreeBuilderProvider
       + "(new) /modules[mgnl:contentNode]\n"
       + "(new) /modules/site[mgnl:contentNode]\n"
       + "(new) /modules/site/config[mgnl:contentNode]\n"
-      + "(new) /modules/site/config/bobo[mgnl:contentNode]\n"
-      + "(new) /modules/site/config/bobo/templates[mgnl:contentNode]\n"
-      + "(new) /modules/site/config/bobo/templates/availability[mgnl:contentNode]\n"
-      + "(new) /modules/site/config/bobo/templates/availability/templates[mgnl:contentNode]\n"
-      + "(new) /modules/site/config/bobo/templates/availability/templates/mytemplate1[mgnl:contentNode]\n"
+      + "(new) /modules/site/config/site[mgnl:contentNode]\n"
+      + "(new) /modules/site/config/site/templates[mgnl:contentNode]\n"
+      + "(new) /modules/site/config/site/templates/availability[mgnl:contentNode]\n"
+      + "(new) /modules/site/config/site/templates/availability/templates[mgnl:contentNode]\n"
+      + "(new) /modules/site/config/site/templates/availability/templates/mytemplate1[mgnl:contentNode]\n"
       + "@id = 'id:template1'\n"
+      ;
+    
+    String desc = buildDescription( tb );
+    assertThat( desc, is( expected ) );
+    
+  }
+
+  @Test
+  public void templateAvailability() {
+    
+    InstallTemplateAvailability tb = new InstallTemplateAvailability( "bobo" )
+      .templateAvailability( DummyTemplateAvailability.class )
+      .templateDeclarations( new TemplateDeclaration( "mytemplate4", "id:template4", false ) );
+    
+    String expected = ""
+      + "(new) /modules[mgnl:contentNode]\n"
+      + "(new) /modules/site[mgnl:contentNode]\n"
+      + "(new) /modules/site/config[mgnl:contentNode]\n"
+      + "(new) /modules/site/config/site[mgnl:contentNode]\n"
+      + "(new) /modules/site/config/site/templates[mgnl:contentNode]\n"
+      + "(new) /modules/site/config/site/templates/availability[mgnl:contentNode]\n"
+      + "@class = 'com.kasisoft.mgnl.versionhandler.tasks.InstallTemplateAvailabilityTest$DummyTemplateAvailability'\n"
+      + "(new) /modules/site/config/site/templates/availability/templates[mgnl:contentNode]\n"
+      + "(new) /modules/site/config/site/templates/availability/templates/mytemplate4[mgnl:contentNode]\n"
+      + "@id = 'id:template4'\n"
       ;
     
     String desc = buildDescription( tb );
@@ -57,4 +82,7 @@ public class InstallTemplateAvailabilityTest extends AbstractTreeBuilderProvider
     assertNotNull( StringFunctions.cleanup( tb.getDescription() ) );
   }
 
+  private static class DummyTemplateAvailability {
+  } /* ENDCLASS */
+  
 } /* ENDCLASS */

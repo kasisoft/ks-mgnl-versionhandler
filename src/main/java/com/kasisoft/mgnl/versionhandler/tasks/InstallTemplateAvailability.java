@@ -21,12 +21,18 @@ public class InstallTemplateAvailability implements TreeBuilderProvider {
   
   List<TemplateDeclaration>   declarations;
   String                      siteName;
+  Class<?>                    templateAvailability;
   
   public InstallTemplateAvailability( @Nonnull String site ) {
     declarations = new ArrayList<>();
     siteName     = site;
   }
 
+  public InstallTemplateAvailability templateAvailability( @Nonnull Class<?> availabilityClass ) {
+    templateAvailability = availabilityClass;
+    return this;
+  }
+  
   public InstallTemplateAvailability templateDeclarations( @Nonnull TemplateDeclaration... templateDeclarations ) {
     declarations.addAll( Arrays.asList( templateDeclarations ) );
     return this;
@@ -40,11 +46,12 @@ public class InstallTemplateAvailability implements TreeBuilderProvider {
   @Override
   public TreeBuilder create() {
     TreeBuilder result = new TreeBuilder();
-    result.sContentNode( "modules/site/config" );
-    result.sContentNode( siteName );
-    result.sContentNode( "templates/availability/templates" );
+    result.sContentNode( "modules/site/config/site/templates/availability" );
+    if( templateAvailability != null ) {
+      result.clazz( templateAvailability );
+    }
+    result.sContentNode( "templates" );
     declarations.forEach( $ -> create( result, $ ) );
-    result.sEnd();
     result.sEnd();
     result.sEnd();
     return result;
