@@ -69,6 +69,32 @@ public class InstallTemplateAvailabilityTest extends AbstractTreeBuilderProvider
   }
 
   @Test
+  public void prototype() {
+    
+    InstallTemplateAvailability tb = new InstallTemplateAvailability( "bobo" )
+      .prototypeId( "kasisoft:bibo" )
+      .templateDeclarations( new TemplateDeclaration( "mytemplate5", "id:template5", false ) );
+    
+    String expected = ""
+      + "(new) /modules[mgnl:contentNode]\n"
+      + "(new) /modules/site[mgnl:contentNode]\n"
+      + "(new) /modules/site/config[mgnl:contentNode]\n"
+      + "(new) /modules/site/config/site[mgnl:contentNode]\n"
+      + "(new) /modules/site/config/site/templates[mgnl:contentNode]\n"
+      + "@prototypeId = 'kasisoft:bibo'\n"
+      + "@class = 'info.magnolia.module.site.templates.ReferencingPrototypeTemplateSettings'\n"
+      + "(new) /modules/site/config/site/templates/availability[mgnl:contentNode]\n"
+      + "(new) /modules/site/config/site/templates/availability/templates[mgnl:contentNode]\n"
+      + "(new) /modules/site/config/site/templates/availability/templates/mytemplate5[mgnl:contentNode]\n"
+      + "@id = 'id:template5'\n"
+      ;
+    
+    String desc = buildDescription( tb );
+    assertThat( desc, is( expected ) );
+    
+  }
+
+  @Test
   public void hasTitle() {
     InstallTemplateAvailability tb = new InstallTemplateAvailability( "bobo" )
       .templateDeclarations( new TemplateDeclaration( "mytemplate2", "id:template2", false ) );
