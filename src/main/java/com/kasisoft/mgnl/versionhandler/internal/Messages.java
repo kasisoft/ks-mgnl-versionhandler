@@ -7,6 +7,9 @@ import com.kasisoft.libs.common.i18n.*;
  */
 public class Messages {
 
+  @I18N("configuring workspace mapping at '%s' for workspace '%s' ('%s' -> '%s')")
+  public static I18NFormatter               desc_configure_workspace_mapping;
+  
   @I18N("installing filter '%s' (%s)")
   public static I18NFormatter               desc_install_filter;
   
