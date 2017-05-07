@@ -1,5 +1,7 @@
 package com.kasisoft.mgnl.versionhandler;
 
+import info.magnolia.repository.*;
+
 import info.magnolia.module.delta.*;
 
 import javax.annotation.*;
@@ -37,6 +39,29 @@ public interface TreeBuilderProvider {
    */
   @Nonnull
   TreeBuilder create();
+
+  /**
+   * Returns the workspace name the TreeBuilder from {@link #create()} should operate on.
+   * 
+   * @return   The workspace name. Default is {@link RepositoryConstants#CONFIG}.
+   */
+  @Nonnull
+  default String getWorkspace() {
+    return RepositoryConstants.CONFIG;
+  }
+  
+  /**
+   * Returns <code>null</code> if this provider shall be used on author and public. <code>true</code> means
+   * that it's only supposed to be used on the author instance. <code>false</code> means that it's only
+   * supposed to be used on the public instance.
+   * 
+   * @return   <code>null</code>  <=> Install on both instances.
+   *           <code>true</code>  <=> Install on author instance only.
+   *           <code>false</code> <=> Install on public instance only.
+   */
+  default Boolean authorOnly() {
+    return null;
+  }
   
   /**
    * Returns a list of tasks that will be executed after the jcr structure had been configured (mostly for

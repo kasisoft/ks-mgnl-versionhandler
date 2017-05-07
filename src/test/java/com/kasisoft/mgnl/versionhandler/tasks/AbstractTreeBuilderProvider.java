@@ -17,6 +17,5 @@ abstract class AbstractTreeBuilderProvider {
     assertNotNull( builder );
     return builder.build( producer ).toString();
   }
-  
 
 } /* ENDCLASS */
