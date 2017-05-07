@@ -16,4 +16,9 @@ public class SubscribeWorkspace extends  ConfigureWorkspaceMapping<SubscribeWork
     super( ws, String.format( "/server/activation/subscribers/%s/subscriptions/%s", subscriber, ws ) );
   }
 
+  @Override
+  public Boolean authorOnly() {
+    return Boolean.TRUE;
+  }
+
 } /* ENDCLASS */
