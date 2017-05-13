@@ -18,7 +18,10 @@ public class Messages {
 
   @I18N("installing image variations for theme '%s'")
   public static I18NFormatter               desc_install_image_variations;
-  
+
+  @I18N("installing flush all for workspace '%s'")
+  public static I18NFormatter               desc_install_flush_all;
+
   @I18N("installing rest service '%s' (implementation: %s)")
   public static I18NFormatter               desc_install_rest_service;
   
