@@ -24,6 +24,7 @@ public class InstallThemeResourceMapping implements TreeBuilderProvider {
   String    jsFolderName;
   String    cssFolderName;
   String    fontsFolderName;
+  String    iconsFolderName;
   
   public InstallThemeResourceMapping( @Nonnull String module, @Nonnull String theme ) {
     moduleName      = module;
@@ -32,6 +33,7 @@ public class InstallThemeResourceMapping implements TreeBuilderProvider {
     jsFolderName    = "js";
     cssFolderName   = "css";
     fontsFolderName = "fonts";
+    iconsFolderName = "icons";
   }
 
   public InstallThemeResourceMapping includeThemeName() {
@@ -54,6 +56,11 @@ public class InstallThemeResourceMapping implements TreeBuilderProvider {
     return this;
   }
 
+  public InstallThemeResourceMapping iconsFolderName( @Nonnull String name ) {
+    iconsFolderName = name;
+    return this;
+  }
+
   @Override
   public String getDescription() {
     return desc_install_theme.format( themeName, moduleName );
@@ -69,6 +76,7 @@ public class InstallThemeResourceMapping implements TreeBuilderProvider {
       .substitution( "jsFolder"    , jsFolderName    )
       .substitution( "cssFolder"   , cssFolderName   )
       .substitution( "fontsFolder" , fontsFolderName )
+      .substitution( "iconsFolder" , iconsFolderName )
       
       .sContentNode( "modules/${module}/virtualURIMapping/cssFiles" )
         .clazz( RegexpVirtualURIMapping.class )
@@ -84,8 +92,8 @@ public class InstallThemeResourceMapping implements TreeBuilderProvider {
       
       .sContentNode( "modules/${module}/virtualURIMapping/iconFiles" )
         .clazz( RegexpVirtualURIMapping.class )
-        .propertyF( "fromURI" , "^%s/icons/(.+)$", prefix )
-        .property( "toURI"   , "forward:/.resources/${theme}/icons/$1" )
+        .propertyF( "fromURI" , "^%s/${iconsFolder}/(.+)$", prefix )
+        .property( "toURI"   , "forward:/.resources/${theme}/${iconsFolder}/$1" )
       .sEnd()
       
       .sContentNode( "modules/${module}/virtualURIMapping/jsFiles" )
