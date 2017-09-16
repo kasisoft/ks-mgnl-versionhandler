@@ -1,43 +1,44 @@
-Purpose
-=======
+# Purpose
+
 
 This project provides a bunch of helpful tools in order to manage JCR configurations.
 
 
-Contact
-=======
+# Infos
 
-* daniel.kasmeroglu@kasisoft.net
-
-
-Requirements
-============
-
- * Java 8
- * Magnolia 5.5.6
+* [eMail: daniel.kasmeroglu@kasisoft.net](mailto:daniel.kasmeroglu@kasisoft.net)
+* [Jira](https://kasisoft.com/jira/projects/MGNLVERS)
+* [Jenkins](https://kasisoft.com/jenkins/job/mgnl.com.kasisoft.mgnl.versionhandler)
+* [GIT](https://kasisoft.com/bitbucket/projects/MGNL/repos/com.kasisoft.mgnl.versionhandler)
 
 
-Jira
-====
+# Development Setup
 
-* https://kasisoft.com/jira/projects/MGNLVERS/issues
+I assume that you're familiar with Maven. If not I suggest to visit the following page:
+
+* https://maven.apache.org/
 
 
-Maven
-=====
+## Requirements
 
-Release
--------
+* Java 8
+* Magnolia 5.5.6
+
+
+## Maven
+
+### Releases
 
      <dependency>
          <groupId>com.kasisoft.mgnl</groupId>
          <artifactId>com.kasisoft.mgnl.versionhandler</artifactId>
          <version>0.2</version>
      </dependency>
-     
-     
-Snapshot
---------
+
+
+### Snapshots
+
+Snapshots can be used while accessing a dedicated maven repository. Your POM needs the following settings:
 
      <dependency>
          <groupId>com.kasisoft.mgnl</groupId>
@@ -58,8 +59,9 @@ Snapshot
          </repository>
      </repositories>
      
-Basic scenario
-==============
+
+# Usage
+
 
     public CustomThemeVersionHandler() {
         register( 1, new VirtualUriMappingTask() );
@@ -118,8 +120,7 @@ A final sequence of *sEnd()* calls is allowed to be omitted, so the tree could b
     }
     
 
-License
-=======
+# License
 
 MIT License
 
