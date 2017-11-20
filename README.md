@@ -8,8 +8,8 @@ This project provides a bunch of helpful tools in order to manage JCR configurat
 
 * [eMail: daniel.kasmeroglu@kasisoft.net](mailto:daniel.kasmeroglu@kasisoft.net)
 * [Jira](https://kasisoft.com/jira/projects/MGNLVERS)
-* [Jenkins](https://kasisoft.com/jenkins/job/mgnl.com.kasisoft.mgnl.versionhandler)
-* [GIT](https://kasisoft.com/bitbucket/projects/MGNL/repos/com.kasisoft.mgnl.versionhandler)
+* [Jenkins](https://kasisoft.com/jenkins/job/mgnl.ks-mgnl-versionhandler)
+* [GIT](https://kasisoft.com/bitbucket/projects/MGNL/repos/ks-mgnl-versionhandler)
 
 
 # Development Setup
@@ -31,8 +31,8 @@ I assume that you're familiar with Maven. If not I suggest to visit the followin
 
      <dependency>
          <groupId>com.kasisoft.mgnl</groupId>
-         <artifactId>com.kasisoft.mgnl.versionhandler</artifactId>
-         <version>0.2</version>
+         <artifactId>ks-mgnl-versionhandler</artifactId>
+         <version>0.4</version>
      </dependency>
 
 
@@ -42,8 +42,8 @@ Snapshots can be used while accessing a dedicated maven repository. Your POM nee
 
      <dependency>
          <groupId>com.kasisoft.mgnl</groupId>
-         <artifactId>com.kasisoft.mgnl.versionhandler</artifactId>
-         <version>0.3-SNAPSHOT</version>
+         <artifactId>ks-mgnl-versionhandler</artifactId>
+         <version>0.4-SNAPSHOT</version>
      </dependency>
      
      <repositories>
