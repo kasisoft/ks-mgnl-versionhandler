@@ -11,8 +11,6 @@ import info.magnolia.repository.*;
 
 import info.magnolia.test.mock.jcr.*;
 
-import info.magnolia.test.mock.*;
-
 import info.magnolia.module.delta.*;
 
 import info.magnolia.module.*;
@@ -64,10 +62,6 @@ public class AuthorOnlyTest {
     mockSession = (MockSession) context.getJCRSession( RepositoryConstants.CONFIG );
     builder.build( new MockNodeProducer( mockSession ) );
     
-    // used within the IsAuthorInstanceDelegateTask
-    MockHierarchyManager hm = new MockHierarchyManager( mockSession );
-    
-    when( installContext.getHierarchyManager( RepositoryConstants.CONFIG ) ).thenReturn( hm );
     when( installContext.getJCRSession( RepositoryConstants.CONFIG ) ).thenReturn( mockSession );
     
   }
