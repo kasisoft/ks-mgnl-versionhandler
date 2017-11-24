@@ -24,7 +24,7 @@ public class InstallTemplateAvailabilityTest extends AbstractTreeBuilderProvider
   public void basic() {
     
     InstallTemplateAvailability tb = new InstallTemplateAvailability( "bobo" )
-      .templateDeclarations( new TemplateDeclaration( "mytemplate1", "id:template1", false ) );
+      .templateDeclarations( new ComponentDeclaration( "mytemplate1", "id:template1", false ) );
     
     String expected = ""
       + "(new) /modules[mgnl:contentNode]\n"
@@ -48,7 +48,7 @@ public class InstallTemplateAvailabilityTest extends AbstractTreeBuilderProvider
     
     InstallTemplateAvailability tb = new InstallTemplateAvailability( "bobo" )
       .templateAvailability( DummyTemplateAvailability.class )
-      .templateDeclarations( new TemplateDeclaration( "mytemplate4", "id:template4", false ) );
+      .templateDeclarations( new ComponentDeclaration( "mytemplate4", "id:template4", false ) );
     
     String expected = ""
       + "(new) /modules[mgnl:contentNode]\n"
@@ -73,7 +73,7 @@ public class InstallTemplateAvailabilityTest extends AbstractTreeBuilderProvider
     
     InstallTemplateAvailability tb = new InstallTemplateAvailability( "bobo" )
       .prototypeId( "kasisoft:bibo" )
-      .templateDeclarations( new TemplateDeclaration( "mytemplate5", "id:template5", false ) );
+      .templateDeclarations( new ComponentDeclaration( "mytemplate5", "id:template5", false ) );
     
     String expected = ""
       + "(new) /modules[mgnl:contentNode]\n"
@@ -97,14 +97,14 @@ public class InstallTemplateAvailabilityTest extends AbstractTreeBuilderProvider
   @Test
   public void hasTitle() {
     InstallTemplateAvailability tb = new InstallTemplateAvailability( "bobo" )
-      .templateDeclarations( new TemplateDeclaration( "mytemplate2", "id:template2", false ) );
+      .templateDeclarations( new ComponentDeclaration( "mytemplate2", "id:template2", false ) );
     assertNotNull( StringFunctions.cleanup( tb.getTitle() ) );
   }
 
   @Test
   public void hasDescription() {
     InstallTemplateAvailability tb = new InstallTemplateAvailability( "bobo" )
-      .templateDeclarations( new TemplateDeclaration( "mytemplate3", "id:template3", false ) );
+      .templateDeclarations( new ComponentDeclaration( "mytemplate3", "id:template3", false ) );
     assertNotNull( StringFunctions.cleanup( tb.getDescription() ) );
   }
 
