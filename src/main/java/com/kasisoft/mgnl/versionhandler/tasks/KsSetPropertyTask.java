@@ -10,6 +10,8 @@ import info.magnolia.module.*;
 
 import info.magnolia.jcr.util.*;
 
+import com.kasisoft.mgnl.util.*;
+
 import javax.annotation.*;
 import javax.jcr.*;
 
@@ -31,12 +33,14 @@ public class KsSetPropertyTask extends AbstractTask {
   String              propertyPath;
   String              value;
   Supplier<String>    valueSupplier;
+  boolean             createPath;
   
   public KsSetPropertyTask( @Nonnull String path, @Nonnull String propValue ) {
     super( KsSetPropertyTask.class.getSimpleName(), task_set_property_desc.format( path, propValue ) );
     propertyPath  = path;
     value         = propValue;
     valueSupplier = null;
+    createPath    = false;
   }
 
   public KsSetPropertyTask( @Nonnull String path, @Nonnull Supplier<String> propSupplier ) {
@@ -44,6 +48,11 @@ public class KsSetPropertyTask extends AbstractTask {
     propertyPath  = path;
     value         = null;
     valueSupplier = propSupplier;
+  }
+
+  public KsSetPropertyTask createPath() {
+    createPath = true;
+    return this;
   }
 
   public KsSetPropertyTask workspace( @Nonnull String newWorkspace ) {
@@ -64,12 +73,20 @@ public class KsSetPropertyTask extends AbstractTask {
     if( workspace == null ) {
       workspace = RepositoryConstants.CONFIG;
     }
+    if( propertyPath.charAt(0) != '/' ) {
+      throw new TaskExecutionException( error_invalid_property_path.format( propertyPath ) );
+    }
     int  idx    = propertyPath.indexOf('@');
     if( (idx == -1) || (idx == propertyPath.length() - 1) ) {
       throw new TaskExecutionException( error_invalid_property_path.format( propertyPath ) );
     }
     String path   = propertyPath.substring( 0, idx );
-    Node   node   = SessionUtil.getNode( ctx.getJCRSession( workspace ), path );
+    Node   node   = null;
+    if( createPath ) {
+      node = NodeFunctions.getOrCreateNode( ctx.getJCRSession( workspace ).getRootNode(), path.substring(1) );
+    } else {
+      node = SessionUtil.getNode( ctx.getJCRSession( workspace ), path );
+    }
     if( node == null ) {
       throw new TaskExecutionException( error_failed_to_access_node.format( path, workspace ) );
     }
@@ -78,5 +95,5 @@ public class KsSetPropertyTask extends AbstractTask {
     }
     PropertyUtil.setProperty( node, propertyPath.substring( idx + 1 ), value );
   }
-
+  
 } /* ENDCLASS */
