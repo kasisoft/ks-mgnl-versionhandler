@@ -65,7 +65,7 @@ public class AbstractNodeProducer<R extends Node> implements Producer<R> {
         if( fail ) {
           handler.apply( new IllegalStateException( invalidNodetype ) );
         } else {
-          log.warn( invalidNodetype );
+          log.debug( invalidNodetype );
         }
       }
     } else {
