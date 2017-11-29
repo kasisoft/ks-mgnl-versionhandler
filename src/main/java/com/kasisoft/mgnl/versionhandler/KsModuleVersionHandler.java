@@ -153,7 +153,7 @@ public class KsModuleVersionHandler implements ModuleVersionHandler {
       // get all registered tasks
       Map<Integer, Task> updates       = perDiscriminator.getValue();
       // get the current running number (the tasks that already passed)
-      int                current       = getDiscriminatorValue( ctx, discriminator, installation );
+      int                current       = getDiscriminatorValue( ctx, discriminator );
       // filter only remaining tasks and add them
       List<Integer>      matches       = getUpdatesToBeDone( updates.keySet(), current );
       matches.forEach( $ -> add( result, moduleName, discriminator, version, $, updates.get($) ) );
@@ -190,16 +190,14 @@ public class KsModuleVersionHandler implements ModuleVersionHandler {
     );
   }
 
-  private int getDiscriminatorValue( InstallContext ctx, String discriminator, boolean installation ) throws RepositoryException {
-    int result = -1;
-    if( ! installation ) {
-      String propertyName = String.format( FMT_UPDATESET, discriminator );
-      Node   module       = SessionUtil.getNode( ctx.getConfigJCRSession(), getModulePath( ctx ) );
-      try {
-        result = Integer.parseInt( PropertyUtil.getString( module, propertyName ) );
-      } catch( NumberFormatException ex ) {
-        log.warn( msg_missing_running.format( ctx.getCurrentModuleDefinition().getName(), propertyName ) );
-      }
+  private int getDiscriminatorValue( InstallContext ctx, String discriminator ) throws RepositoryException {
+    int    result       = -1;
+    String propertyName = String.format( FMT_UPDATESET, discriminator );
+    Node   module       = SessionUtil.getNode( ctx.getConfigJCRSession(), getModulePath( ctx ) );
+    try {
+      result = Integer.parseInt( PropertyUtil.getString( module, propertyName ) );
+    } catch( NumberFormatException ex ) {
+      log.warn( msg_missing_running.format( ctx.getCurrentModuleDefinition().getName(), propertyName ) );
     }
     return result;
   }
