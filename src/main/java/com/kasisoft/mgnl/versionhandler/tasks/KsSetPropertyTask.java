@@ -34,22 +34,42 @@ public class KsSetPropertyTask extends AbstractTask {
   String              value;
   Supplier<String>    valueSupplier;
   boolean             createPath;
-  
-  public KsSetPropertyTask( @Nonnull String path, @Nonnull String propValue ) {
-    super( KsSetPropertyTask.class.getSimpleName(), task_set_property_desc.format( path, propValue ) );
-    propertyPath  = path;
+
+  public KsSetPropertyTask( @Nullable String moduleName, @Nonnull String path, @Nonnull String propValue ) {
+    super( KsSetPropertyTask.class.getSimpleName(), task_set_property_desc.format( toFullPath( moduleName, path ), propValue ) );
+    propertyPath  = toFullPath( moduleName, path );
     value         = propValue;
     valueSupplier = null;
     createPath    = false;
   }
 
-  public KsSetPropertyTask( @Nonnull String path, @Nonnull Supplier<String> propSupplier ) {
-    super( KsSetPropertyTask.class.getSimpleName(), task_set_property_desc.format( path, "[property suppplier]" ) );
-    propertyPath  = path;
+  public KsSetPropertyTask( @Nullable String moduleName, @Nonnull String path, @Nonnull Supplier<String> propSupplier ) {
+    super( KsSetPropertyTask.class.getSimpleName(), task_set_property_desc.format( toFullPath( moduleName, path ), "[property suppplier]" ) );
+    propertyPath  = toFullPath( moduleName, path );
     value         = null;
     valueSupplier = propSupplier;
   }
+  
+  public KsSetPropertyTask( @Nonnull String path, @Nonnull String propValue ) {
+    this( null, path, propValue );
+  }
 
+  public KsSetPropertyTask( @Nonnull String path, @Nonnull Supplier<String> propSupplier ) {
+    this( null, path, propSupplier );
+  }
+
+  private static String toFullPath( String moduleName, String path ) {
+    String result = path;
+    if( moduleName != null ) {
+      result = "/modules/" + moduleName;
+      if( ! result.endsWith("/") ) {
+        result += "/";
+      }
+      result += path;
+    }
+    return result;
+  }
+  
   public KsSetPropertyTask createPath() {
     createPath = true;
     return this;
