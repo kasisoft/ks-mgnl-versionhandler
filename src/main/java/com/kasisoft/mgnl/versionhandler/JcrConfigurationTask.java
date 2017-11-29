@@ -9,8 +9,6 @@ import info.magnolia.module.delta.*;
 
 import info.magnolia.module.*;
 
-import com.kasisoft.libs.common.model.*;
-
 import javax.annotation.*;
 import javax.jcr.*;
 
@@ -31,7 +29,7 @@ import lombok.*;
 @Slf4j
 public class JcrConfigurationTask extends AbstractRepositoryTask {
 
-  // either Task or Triple<String, TreeBuilder, Boolean>
+  // either Task or Object[4]<String, String, TreeBuilder, Boolean>
   List<Object>   builders = new ArrayList<>();
   
   /**
@@ -51,7 +49,7 @@ public class JcrConfigurationTask extends AbstractRepositoryTask {
    */
   public JcrConfigurationTask( @Nonnull TreeBuilderProvider tbProvider ) {
     super( tbProvider.getTitle(), tbProvider.getDescription() );
-    register( tbProvider.getWorkspace(), tbProvider.create(), tbProvider.authorOnly() );
+    register( tbProvider.getTitle(), tbProvider.getWorkspace(), tbProvider.create(), tbProvider.authorOnly() );
     tbProvider.postExecute().stream()
       .map( $ -> protect( tbProvider.getTitle(), tbProvider.authorOnly(), $ ) )
       .forEach( this::register );
@@ -91,8 +89,8 @@ public class JcrConfigurationTask extends AbstractRepositoryTask {
    * @return   this
    */
   @Nonnull
-  protected <R extends JcrConfigurationTask> R register( @Nonnull TreeBuilder builder ) {
-    return register( RepositoryConstants.CONFIG, builder );
+  protected <R extends JcrConfigurationTask> R register( @Nonnull String source, @Nonnull TreeBuilder builder ) {
+    return register( source, RepositoryConstants.CONFIG, builder );
   }
   
   /**
@@ -104,8 +102,8 @@ public class JcrConfigurationTask extends AbstractRepositoryTask {
    * @return   this
    */
   @Nonnull
-  protected <R extends JcrConfigurationTask> R register( @Nonnull String workspace, @Nonnull TreeBuilder builder ) {
-    return register( workspace, builder, null );
+  protected <R extends JcrConfigurationTask> R register( @Nonnull String source, @Nonnull String workspace, @Nonnull TreeBuilder builder ) {
+    return register( source, workspace, builder, null );
   }
 
   /**
@@ -120,8 +118,8 @@ public class JcrConfigurationTask extends AbstractRepositoryTask {
    * @return   this
    */
   @Nonnull
-  protected <R extends JcrConfigurationTask> R register( @Nonnull String workspace, @Nonnull TreeBuilder builder, @Nullable Boolean authorOnly ) {
-    builders.add( new Triple<String, TreeBuilder, Boolean>( workspace, builder, authorOnly ) );
+  protected <R extends JcrConfigurationTask> R register( @Nonnull String source, @Nonnull String workspace, @Nonnull TreeBuilder builder, @Nullable Boolean authorOnly ) {
+    builders.add( new Object[] { source, workspace, builder, authorOnly } );
     return (R) this;
   }
 
@@ -133,12 +131,14 @@ public class JcrConfigurationTask extends AbstractRepositoryTask {
     boolean isPublic = !isAuthor;
     for( Object obj : builders ) {
       if( obj instanceof Task ) {
+        log.debug( msg_executing_task.format( i, builders.size(), obj.getClass().getName() ) );
         ((Task) obj).execute( ctx );
       } else {
-        Triple<String, TreeBuilder, Boolean>  triple      = (Triple<String, TreeBuilder, Boolean>) obj;
-        String                                workspace   = triple.getValue1();
-        TreeBuilder                           ntBuilder   = triple.getValue2();
-        Boolean                               authorOnly  = triple.getValue3();
+        Object[]                              config      = (Object[]) obj;
+        String                                title       = (String) config[0];
+        String                                workspace   = (String) config[1];
+        TreeBuilder                           ntBuilder   = (TreeBuilder) config[2];
+        Boolean                               authorOnly  = (Boolean) config[3];
         boolean                               execute     = true;
         if( authorOnly != null ) {
           if( authorOnly.booleanValue() ) {
@@ -148,7 +148,7 @@ public class JcrConfigurationTask extends AbstractRepositoryTask {
           }
         }
         if( execute ) {
-          log.debug( msg_configuring.format( i, builders.size(), workspace ) );
+          log.debug( msg_configuring.format( i, builders.size(), title, workspace ) );
           if( log.isDebugEnabled() ) {
             DescriptiveProducer prod = new DescriptiveProducer();
             ntBuilder.build( prod );
@@ -158,6 +158,8 @@ public class JcrConfigurationTask extends AbstractRepositoryTask {
           ntBuilder.build( new NodeProducer( jcrSession ) );
           jcrSession.save();
           i++;
+        } else {
+          log.debug( msg_not_configuring.format( i, builders.size(), title, workspace, authorOnly ) );
         }
       }
     }
