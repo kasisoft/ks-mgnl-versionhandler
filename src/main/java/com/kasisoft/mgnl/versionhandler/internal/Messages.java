@@ -94,9 +94,15 @@ public class Messages {
   @I18N("cannot register running key %d for discriminator '%s' as it had already been registered")
   public static I18NFormatter               error_registration_failure;
 
-  @I18N("configuring %d/%d on workspace '%s'")
+  @I18N("[%d/%d] %s: configuring on workspace '%s'")
   public static I18NFormatter               msg_configuring;
-  
+
+  @I18N("[%d/%d] %s: not configuring on workspace '%s' (authorOnly=%s)")
+  public static I18NFormatter               msg_not_configuring;
+
+  @I18N("[%d/%d] executing task '%s'")
+  public static I18NFormatter               msg_executing_task;
+
   @I18N("installing to %s")
   public static I18NFormatter               msg_installing;
   
