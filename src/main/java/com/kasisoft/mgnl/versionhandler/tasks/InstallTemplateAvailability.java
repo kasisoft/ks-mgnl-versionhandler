@@ -64,8 +64,9 @@ public class InstallTemplateAvailability implements TreeBuilderProvider {
       result.clazz( templateAvailability );
     }
     
+    Set<String> done = new HashSet<>();
     result.sContentNode( "templates" );
-    declarations.forEach( $ -> create( result, $ ) );
+    declarations.forEach( $ -> create( result, $, done ) );
     result.sEnd();
     
     result.sEnd();
@@ -74,11 +75,14 @@ public class InstallTemplateAvailability implements TreeBuilderProvider {
     return result;
   }
   
-  private void create( TreeBuilder result, TemplateDeclaration decl ) {
-    result
-      .sContentNode( decl.getName() )
-        .property( "id", decl.getId() )
-      .sEnd();
+  private void create( TreeBuilder result, TemplateDeclaration decl, Set<String> done ) {
+    if( ! done.contains( decl.getId() ) ) {
+      done.add( decl.getId() );
+      result
+        .sContentNode( decl.getName() )
+          .property( "id", decl.getId() )
+        .sEnd();
+    }
   }
 
 } /* ENDCLASS */
