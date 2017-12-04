@@ -21,6 +21,7 @@ import info.magnolia.cms.beans.config.*;
 /**
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@SuppressWarnings("deprecation")
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class InstallRegexpVirtualUriMapping implements TreeBuilderProvider {
   

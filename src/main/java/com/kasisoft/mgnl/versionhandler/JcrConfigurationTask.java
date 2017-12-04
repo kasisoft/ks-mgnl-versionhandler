@@ -25,8 +25,9 @@ import lombok.*;
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
-@FieldDefaults(level = AccessLevel.PRIVATE)
 @Slf4j
+@SuppressWarnings("deprecation")
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class JcrConfigurationTask extends AbstractRepositoryTask {
 
   // either Task or Object[4]<String, String, TreeBuilder, Boolean>
