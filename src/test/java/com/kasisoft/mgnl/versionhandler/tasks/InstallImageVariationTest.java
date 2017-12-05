@@ -6,8 +6,6 @@ import static org.testng.Assert.*;
 
 import com.kasisoft.libs.common.text.*;
 
-import com.kasisoft.mgnl.util.model.*;
-
 import org.testng.annotations.*;
 
 import lombok.experimental.*;
@@ -20,16 +18,11 @@ import lombok.*;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class InstallImageVariationTest extends AbstractTreeBuilderProvider {
 
-  @BeforeClass
-  public void setup() {
-    BreakpointDeclaration.loadDefaultBreakpoints();
-  }
-  
   @Test
   public void breakpoint() {
     
     InstallImageVariation tb = new InstallImageVariation( "my-theme" )
-      .variation( DummyVariation.class, BreakpointDeclaration.DEFAULT );
+      .variation( DummyVariation.class, "ls", 400, null );
     
     String expected = ""
       + "(new) /modules[mgnl:contentNode]\n"
@@ -42,7 +35,7 @@ public class InstallImageVariationTest extends AbstractTreeBuilderProvider {
       + "@enabled = 'true'\n"
       + "(new) /modules/site/config/themes/my-theme/imaging/variations[mgnl:contentNode]\n"
       + "(new) /modules/site/config/themes/my-theme/imaging/variations/ls[mgnl:contentNode]\n"
-      + "@width = '1200'\n"
+      + "@width = '400'\n"
       + "@class = 'com.kasisoft.mgnl.versionhandler.tasks.InstallImageVariationTest$DummyVariation'\n"
       ;
 

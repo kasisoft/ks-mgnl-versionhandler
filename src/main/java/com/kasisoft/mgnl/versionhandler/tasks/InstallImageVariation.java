@@ -2,7 +2,6 @@ package com.kasisoft.mgnl.versionhandler.tasks;
 
 import static com.kasisoft.mgnl.versionhandler.internal.Messages.*;
 
-import com.kasisoft.mgnl.util.model.*;
 import com.kasisoft.mgnl.versionhandler.*;
 
 import javax.annotation.*;
@@ -30,16 +29,16 @@ public class InstallImageVariation implements TreeBuilderProvider {
     return variation( null, key, width, height );
   }
 
-  public InstallImageVariation variation( @Nullable Class<?> variation, @Nonnull String key, int width, int height ) {
+  public InstallImageVariation variation( @Nullable Class<?> variation, @Nonnull String key, Integer width ) {
+    variations.add( new Object[] { variation, key, width, null } );
+    return this;
+  }
+
+  public InstallImageVariation variation( @Nullable Class<?> variation, @Nonnull String key, Integer width, Integer height ) {
     variations.add( new Object[] { variation, key, width, height } );
     return this;
   }
     
-  public InstallImageVariation variation( Class<?> variation, BreakpointDeclaration bp ) {
-    variations.add( new Object[] { variation, bp } );
-    return this;
-  }
-  
   @Override
   public String getDescription() {
     return desc_install_image_variations.format( themeName );
@@ -60,26 +59,31 @@ public class InstallImageVariation implements TreeBuilderProvider {
   }
   
   private void create( TreeBuilder result, Object[] variation ) {
-    if( variation.length == 2 ) {
-      create( result, (Class) variation[0], (BreakpointDeclaration) variation[1] );
-    } else {
-      create( result, (Class) variation[0], (String) variation[1], (int) variation[2], (int) variation[3] );
-    }
+//    if( variation.length == 2 ) {
+//      create( result, (Class) variation[0], (String) variation[1], 400 );
+//    } else {
+      create( result, (Class) variation[0], (String) variation[1], (Integer) variation[2], (Integer) variation[3] );
+//    }
   }
 
-  private void create( TreeBuilder result, Class<?> variation, BreakpointDeclaration bp ) {
-    result.sContentNode( bp.getKey().toLowerCase() )
-      .property( "class", toVariationClass( variation ) )
-      .property( "width", bp.getMaxWidth() )
-    .sEnd();
-  }
+//  private void create( TreeBuilder result, Class<?> variation, String breakpoint, int maxwdith ) {
+//    result.sContentNode( breakpoint.toLowerCase() )
+//      .property( "class", toVariationClass( variation ) )
+//      .property( "width", maxwdith )
+//    .sEnd();
+//  }
 
-  private void create( TreeBuilder result, Class<?> variation, String name, int width, int height ) {
+  private void create( TreeBuilder result, Class<?> variation, String name, Integer width, Integer height ) {
     result.sContentNode( name )
       .property( "class", toVariationClass( variation ) )
-      .property( "width", width )
-      .property( "height", height )
-    .sEnd();
+      ;
+    if( width != null ) {
+      result.property( "width", width );
+    }
+    if( height != null ) {
+      result.property( "height", height );
+    }
+    result.sEnd();
   }
   
   private String toVariationClass( Class<?> variation ) {
