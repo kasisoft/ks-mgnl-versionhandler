@@ -10,6 +10,8 @@ import com.kasisoft.mgnl.versionhandler.*;
 
 import javax.annotation.*;
 
+import java.util.function.*;
+
 import java.util.*;
 
 import lombok.experimental.*;
@@ -35,6 +37,7 @@ public class InstallFilter implements TreeBuilderProvider {
   String                        bypassPrefix;
   boolean                       active;
   String                        afterNode;
+  Map<String, Object>           properties;
   
   public InstallFilter( @Nonnull Class<? extends MgnlFilter> filter ) {
     filterClass = filter;
@@ -42,8 +45,19 @@ public class InstallFilter implements TreeBuilderProvider {
     active      = true;
     bypasses    = new HashSet<>();
     afterNode   = null;
+    properties  = new HashMap<>();
   }
   
+  public InstallFilter property( @Nonnull String key, @Nonnull String value ) {
+    properties.put( key, value );
+    return this;
+  }
+
+  public <P> InstallFilter property( @Nonnull String key, @Nonnull Supplier<P> value ) {
+    properties.put( key, value );
+    return this;
+  }
+
   public InstallFilter afterNode( @Nonnull String name ) {
     afterNode = name;
     return this;
@@ -94,9 +108,12 @@ public class InstallFilter implements TreeBuilderProvider {
         .sContent( name )
           .clazz( filterClass )
           .property( "enabled", String.valueOf( active ) )
-        .sEnd()
-      .sEnd()
-      ;
+        ;
+    if( ! properties.isEmpty() ) {
+      properties.forEach( result::property );
+    }
+    result.sEnd().sEnd();
+
     if( bypassPrefix != null ) {
       result
         .sContent( "server/filters" )
