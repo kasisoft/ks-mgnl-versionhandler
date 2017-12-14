@@ -419,13 +419,13 @@ public class TreeBuilder<TB extends TreeBuilder> {
     if( nodename.indexOf('/') != -1 ) {
       String[] parts = nodename.split("/");
       for( int i = 0; i < parts.length - 1; i++ ) {
-        parent = producer.getChild( path.toString(), parent, parts[i], child.nodeType, fail );
-        path.appendF( "%s/", parts[i] );
+        parent = getChild( producer, path.toString(), parent, parts[i], child.nodeType, fail );
+        path.appendF( "%s/", extractName( parts[i] ) );
       }
       nodename = parts[ parts.length - 1 ];
     }
-    R childNode = producer.getChild( path.toString(), parent, nodename, child.nodeType, fail );
-    path.appendF( "%s/", nodename );
+    R childNode = getChild( producer, path.toString(), parent, nodename, child.nodeType, fail );
+    path.appendF( "%s/", extractName( nodename ) );
     // set the properties
     Map<String, Object> allProperties = allProperties( child );
     for( Map.Entry<String, Object> entry : allProperties.entrySet() ) {
@@ -456,7 +456,7 @@ public class TreeBuilder<TB extends TreeBuilder> {
 
   private <R> void setListProperty( Producer<R> producer, R node, String key, Object value, boolean fail, StringFBuilder path ) {
     List list      = (List) value;
-    R    childNode = producer.getChild( path.toString(), node, key, NodeTypes.ContentNode.NAME, fail );
+    R    childNode = getChild( producer, path.toString(), node, key, NodeTypes.ContentNode.NAME, fail );
     if( ! list.isEmpty() ) {
       boolean basictypes = !(list.get(0) instanceof Map);
       if( basictypes ) {
@@ -480,9 +480,35 @@ public class TreeBuilder<TB extends TreeBuilder> {
 
   private <R> void setMapProperty( Producer<R> producer, R node, String key, Object value, boolean fail, StringFBuilder path ) {
     Map<String, Object> map       = (Map<String, Object>) value;
-    R                   childNode = producer.getChild( path.toString(), node, key, NodeTypes.ContentNode.NAME, fail );
+    R                   childNode = getChild( producer, path.toString(), node, key, NodeTypes.ContentNode.NAME, fail );
     for( Map.Entry<String, Object> pair : map.entrySet() ) {
       setProperty( producer, childNode, pair.getKey(), pair.getValue(), fail, path );
+    }
+  }
+  
+  private <R> R getChild( Producer<R> producer, String path, R node, String name, String nodetype, boolean fail ) {
+    nodetype  = resolveNodeType( name, nodetype );
+    name      = extractName( name );
+    return producer.getChild( path, node, name, nodetype, fail );
+  }
+
+  private String extractName( String name ) {
+    int open  = name.indexOf('{');
+    int close = name.indexOf('}');
+    if( (open != -1) && (close > open) ) {
+      return name.substring( 0, open );
+    } else {
+      return name;
+    }
+  }
+  
+  private String resolveNodeType( String name, String nodetype ) {
+    int open  = name.indexOf('{');
+    int close = name.indexOf('}');
+    if( (open != -1) && (close > open) ) {
+      return name.substring( open + 1, close );
+    } else {
+      return nodetype;
     }
   }
   
