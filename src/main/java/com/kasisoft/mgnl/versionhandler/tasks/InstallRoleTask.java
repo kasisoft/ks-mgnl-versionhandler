@@ -6,6 +6,8 @@ import info.magnolia.module.delta.*;
 
 import info.magnolia.module.*;
 
+import com.kasisoft.mgnl.versionhandler.*;
+
 import javax.annotation.*;
 
 import java.util.*;
@@ -21,10 +23,11 @@ import info.magnolia.objectfactory.*;
  * @author daniel.kasmeroglu@kasisoft.net
  */
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class InstallRoleTask extends AbstractTask {
+public class InstallRoleTask extends AbstractTask implements IsInstanceSpecific {
 
   String           role;
   List<Object[]>   permissions;
+  Boolean          authorOnly;
   
   public InstallRoleTask( @Nonnull String newRole, @Nonnull String workspace, @Nonnull String path, boolean subnodes, long permission ) {
     super( "InstallRole", task_installing_role.format( newRole ) );
@@ -37,7 +40,22 @@ public class InstallRoleTask extends AbstractTask {
     permissions.add( new Object[] { workspace, path, subnodes, permission } );
     return this;
   }
+  
+  public InstallRoleTask authorOnly() {
+    authorOnly = Boolean.TRUE;
+    return this;
+  }
 
+  public InstallRoleTask publicOnly() {
+    authorOnly = Boolean.FALSE;
+    return this;
+  }
+
+  @Override
+  public Boolean isAuthorOnly() {
+    return authorOnly;
+  }
+  
   @Override
   public void execute( @Nonnull InstallContext ctx ) throws TaskExecutionException {
     try {
