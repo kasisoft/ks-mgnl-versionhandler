@@ -70,7 +70,7 @@ public class PublicOnlyTest {
     return new RegisterAppLauncher( "newgroup", "myapp" ) {
 
       @Override
-      public Boolean authorOnly() {
+      public Boolean isAuthorOnly() {
         return Boolean.FALSE;
       }
 

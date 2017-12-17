@@ -11,6 +11,7 @@ import info.magnolia.module.*;
 import info.magnolia.jcr.util.*;
 
 import com.kasisoft.mgnl.util.*;
+import com.kasisoft.mgnl.versionhandler.*;
 
 import javax.annotation.*;
 import javax.jcr.*;
@@ -27,13 +28,14 @@ import lombok.*;
  * @author daniel.kasmeroglu@kasisoft.net
  */
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class KsSetPropertyTask extends AbstractTask {
+public class KsSetPropertyTask extends AbstractTask implements IsInstanceSpecific {
   
   String              workspace;
   String              propertyPath;
   String              value;
   Supplier<String>    valueSupplier;
   boolean             createPath;
+  Boolean             authorOnly;
 
   public KsSetPropertyTask( @Nullable String moduleName, @Nonnull String path, @Nonnull String propValue ) {
     super( KsSetPropertyTask.class.getSimpleName(), task_set_property_desc.format( toFullPath( moduleName, path ), propValue ) );
@@ -41,6 +43,7 @@ public class KsSetPropertyTask extends AbstractTask {
     value         = propValue;
     valueSupplier = null;
     createPath    = false;
+    authorOnly    = null;
   }
 
   public KsSetPropertyTask( @Nullable String moduleName, @Nonnull String path, @Nonnull Supplier<String> propSupplier ) {
@@ -48,6 +51,7 @@ public class KsSetPropertyTask extends AbstractTask {
     propertyPath  = toFullPath( moduleName, path );
     value         = null;
     valueSupplier = propSupplier;
+    authorOnly    = null;
   }
   
   public KsSetPropertyTask( @Nonnull String path, @Nonnull String propValue ) {
@@ -56,6 +60,21 @@ public class KsSetPropertyTask extends AbstractTask {
 
   public KsSetPropertyTask( @Nonnull String path, @Nonnull Supplier<String> propSupplier ) {
     this( null, path, propSupplier );
+  }
+  
+  public KsSetPropertyTask authorOnly() {
+    authorOnly = Boolean.TRUE;
+    return this;
+  }
+
+  public KsSetPropertyTask publicOnly() {
+    authorOnly = Boolean.FALSE;
+    return this;
+  }
+
+  @Override
+  public Boolean isAuthorOnly() {
+    return authorOnly;
   }
 
   private static String toFullPath( String moduleName, String path ) {

@@ -11,7 +11,7 @@ import java.util.*;
 /**
  * @author daniel.kasmeroglu@kasisoft.net
  */
-public interface TreeBuilderProvider {
+public interface TreeBuilderProvider extends IsInstanceSpecific {
 
   /**
    * Returns the title to be used while generating the tree structure.
@@ -48,19 +48,6 @@ public interface TreeBuilderProvider {
   @Nonnull
   default String getWorkspace() {
     return RepositoryConstants.CONFIG;
-  }
-  
-  /**
-   * Returns <code>null</code> if this provider shall be used on author and public. <code>true</code> means
-   * that it's only supposed to be used on the author instance. <code>false</code> means that it's only
-   * supposed to be used on the public instance.
-   * 
-   * @return   <code>null</code>  <=> Install on both instances.
-   *           <code>true</code>  <=> Install on author instance only.
-   *           <code>false</code> <=> Install on public instance only.
-   */
-  default Boolean authorOnly() {
-    return null;
   }
   
   /**

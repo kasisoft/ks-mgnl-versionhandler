@@ -112,6 +112,9 @@ public class Messages {
   @I18N("got %d tree configurations to setup")
   public static I18NFormatter               msg_n_configurations;
   
+  @I18N("running task '%s' (discriminator=%s, update num=%d)")
+  public static I18NFormatter               msg_running_task;
+  
   @I18N("testing for the module version '%s'")
   public static I18NFormatter               msg_testing_version;
 

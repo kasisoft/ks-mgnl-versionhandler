@@ -50,9 +50,9 @@ public class JcrConfigurationTask extends AbstractRepositoryTask {
    */
   public JcrConfigurationTask( @Nonnull TreeBuilderProvider tbProvider ) {
     super( tbProvider.getTitle(), tbProvider.getDescription() );
-    register( tbProvider.getTitle(), tbProvider.getWorkspace(), tbProvider.create(), tbProvider.authorOnly() );
+    register( tbProvider.getTitle(), tbProvider.getWorkspace(), tbProvider.create(), tbProvider.isAuthorOnly() );
     tbProvider.postExecute().stream()
-      .map( $ -> protect( tbProvider.getTitle(), tbProvider.authorOnly(), $ ) )
+      .map( $ -> protect( tbProvider.getTitle(), tbProvider.isAuthorOnly(), $ ) )
       .forEach( this::register );
   }
   

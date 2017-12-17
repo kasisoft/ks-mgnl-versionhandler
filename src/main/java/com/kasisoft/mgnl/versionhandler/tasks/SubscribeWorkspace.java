@@ -17,7 +17,7 @@ public class SubscribeWorkspace extends  ConfigureWorkspaceMapping<SubscribeWork
   }
 
   @Override
-  public Boolean authorOnly() {
+  public Boolean isAuthorOnly() {
     return Boolean.TRUE;
   }
 

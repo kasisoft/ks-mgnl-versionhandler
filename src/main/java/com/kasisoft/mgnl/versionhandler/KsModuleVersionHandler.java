@@ -102,9 +102,26 @@ public class KsModuleVersionHandler implements ModuleVersionHandler {
       log.error( msg );
       throw new IllegalStateException( msg );
     }
+    if( task instanceof IsInstanceSpecific ) {
+      task = protect( msg_running_task.format( task.getClass().getSimpleName(), discriminator, running ), ((IsInstanceSpecific) task).isAuthorOnly(), task );
+    }
     map.put( key, task );
   }
   
+  @SuppressWarnings("deprecation")
+  private Task protect( String title, Boolean authorOnly, Task task ) {
+    // make sure that the post execution task is only executed when required 
+    Task result = task;
+    if( authorOnly != null ) {
+      if( authorOnly.booleanValue() ) {
+        result = new IsAuthorInstanceDelegateTask( title, result );
+      } else {
+        result = new IsAuthorInstanceDelegateTask( title, (Task) null, result );
+      }
+    }
+    return result;
+  }
+
   /**
    * Returns a list of tasks that will always be executed as part of the update process. The returned list
    * is mutable so it's not necessary to create new list instances.
