@@ -87,7 +87,13 @@ public class Messages {
   
   @I18N("the resource '%s' is not on the classpath.")
   public static I18NFormatter               error_missing_resource;
-  
+
+  @I18N("there's no role with the name '%s'.")
+  public static I18NFormatter               error_missing_role;
+
+  @I18N("there's no account with the user name '%s'.")
+  public static I18NFormatter               error_missing_user;
+
   @I18N("failed to determine version of module '%s'. cause: %s")
   public static I18NFormatter               error_missing_version;
   
@@ -124,6 +130,9 @@ public class Messages {
   @I18N("updating %s / [%s:%d]")
   public static I18NFormatter               msg_updating_task;
 
+  @I18N("")
+  public static I18NFormatter               task_adding_role;
+  
   @I18N("granting module configuration for module '%s'")
   public static I18NFormatter               task_grant_module_desc;
 
@@ -141,7 +150,7 @@ public class Messages {
   
   @I18N("setting property")
   public static String                      task_set_property_name;
-
+  
   static {
     I18NSupport.initialize( Messages.class );
   }
