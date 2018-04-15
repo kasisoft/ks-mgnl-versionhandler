@@ -17,7 +17,7 @@
   <version>0.6-SNAPSHOT</version>
 
   <name>MGNL :: JCR Version handling</name>
-  <url>https://kasisoft.com/bitbucket/projects/MGNL/repos/ks-mgnl-versionhandler</url>
+  <url>https://github.com/costamojan/ks-mgnl-versionhandler.git</url>
   <description>Collection of tasks/tools to manage the JCR configuration.</description>
   
   <licenses>
@@ -33,9 +33,9 @@
   </organization>
   
   <scm>
-    <url>https://kasisoft.com/bitbucket/projects/MGNL/repos/ks-mgnl-versionhandler</url>
-    <connection>scm:git:ssh://kasisoft.com:7999/mgnl/ks-mgnl-versionhandler.git</connection>
-    <developerConnection>scm:git:ssh://kasisoft.com:7999/mgnl/ks-mgnl-versionhandler.git</developerConnection>
+    <url>https://github.com/costamojan/ks-mgnl-versionhandler.git</url>
+    <connection>scm:git@github.com:costamojan/ks-mgnl-versionhandler.git</connection>
+    <developerConnection>scm:git@github.com:costamojan/ks-mgnl-versionhandler.git</developerConnection>
     <tag>HEAD</tag>
   </scm>
   
