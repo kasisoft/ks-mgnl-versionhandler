@@ -14,7 +14,7 @@
   
   <groupId>com.kasisoft.mgnl</groupId>
   <artifactId>ks-mgnl-versionhandler</artifactId>
-  <version>0.6</version>
+  <version>0.7-SNAPSHOT</version>
 
   <name>MGNL :: JCR Version handling</name>
   <url>https://github.com/costamojan/ks-mgnl-versionhandler.git</url>
