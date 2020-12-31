@@ -6,10 +6,9 @@ This project provides a bunch of helpful tools in order to manage JCR configurat
 
 # Infos
 
-* [eMail: daniel.kasmeroglu@kasisoft.net](mailto:daniel.kasmeroglu@kasisoft.net)
-* [Jira](https://kasisoft.com/jira/projects/MGNLVERS)
-* [Jenkins](https://kasisoft.com/jenkins/job/mgnl.ks-mgnl-versionhandler)
-* [GIT](https://kasisoft.com/bitbucket/projects/MGNL/repos/ks-mgnl-versionhandler)
+* [eMail: daniel.kasmeroglu@kasisoft.com](mailto:daniel.kasmeroglu@kasisoft.com)
+* [Issues](https://github.com/kasisoft/ks-mgnl-versionhandler/issues)
+* [GIT](https://github.com/kasisoft/ks-mgnl-versionhandler)
 
 
 # Development Setup
